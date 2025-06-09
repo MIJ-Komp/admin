@@ -1,0 +1,414 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #304156;
+
+    --red-50: #feedef;
+    --red-100: #fbc6cc;
+    --red-200: #f9abb4;
+    --red-300: #f68491;
+    --red-400: #f46d7c;
+    --red-500: #f1485b;
+    --red-600: #db4253;
+    --red-700: #ab3341;
+    --red-800: #852832;
+    --red-900: #651e26;
+    
+    --blue-50: #e7eeff;
+    --blue-100: #b6cbfe;
+    --blue-200: #92b1fe;
+    --blue-300: #608efe;
+    --blue-400: #4178fd;
+    --blue-500: #1256fd;
+    --blue-600: #104ee6;
+    --blue-700: #0d3db4;
+    --blue-800: #0a2f8b;
+    --blue-900: #08246a;
+
+    --light-blue-50: #f6faff;
+    --light-blue-100: #e2eeff;
+    --light-blue-200: #d4e6ff;
+    --light-blue-300: #c0daff;
+    --light-blue-400: #b4d3ff;
+    --light-blue-500: #a1c8ff;
+    --light-blue-600: #93b6e8;
+    --light-blue-700: #728eb5;
+    --light-blue-800: #596e8c;
+    --light-blue-900: #44546b;
+
+    --yellow-50: #fffbe6;
+    --yellow-100: #fff3b0;
+    --yellow-200: #ffed8a;
+    --yellow-300: #ffe454;
+    --yellow-400: #ffdf33;
+    --yellow-500: #ffd700;
+    --yellow-600: #e8c400;
+    --yellow-700: #b59900;
+    --yellow-800: #8c7600;
+    --yellow-900: #6b5a00;
+
+    --dark-blue-50: #e7ecf5;
+    --dark-blue-100: #b3c3df;
+    --dark-blue-200: #8ea6d0;
+    --dark-blue-300: #5b7dbb;
+    --dark-blue-400: #3b64ad;
+    --dark-blue-500: #0a3d99;
+    --dark-blue-600: #09388b;
+    --dark-blue-700: #072b6d;
+    --dark-blue-800: #062254;
+    --dark-blue-900: #041a40;
+
+    --grey-50: #fefefe;
+    --grey-100: #fafafa;
+    --grey-200: #f8f8f8;
+    --grey-300: #f5f5f5;
+    --grey-400: #f3f3f3;
+    --grey-500: #f0f0f0;
+    --grey-600: #dadada;
+    --grey-700: #aaaaaa;
+    --grey-800: #848484;
+    --grey-900: #656565;
+    --grey-1000: #606060;
+
+    --font-weight-thin: 100;
+    --font-weight-extra-light: 200;
+    --font-weight-light: 300;
+    --font-weight-medium: 500;
+    --font-weight-semi-bold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extra-bold: 800;
+    --font-weight-black: 900;
+
+    --p-checkbox-checked-background: var(--blue-500) !important;
+    --p-checkbox-checked-border-color: var(--blue-500) !important;
+    --p-checkbox-checked-hover-background: var(--blue-700) !important;
+    --p-checkbox-disabled-background: var(--grey-700) !important;
+    --p-checkbox-background: white !important;
+    --p-checkbox-icon-checked-color: white !important;
+    --p-checkbox-icon-checked-hover-color: white !important;
+    --p-checkbox-filled-background: white !important;
+
+    --p-multiselect-background: white !important;
+    --p-multiselect-overlay-background: white !important;
+    --p-multiselect-overlay-color: black !important;
+    --p-multiselect-overlay-color: black !important;
+    --p-multiselect-option-background: white !important;
+    --p-multiselect-option-color: black !important;
+    --p-multiselect-option-focus-background: var(--blue-200) !important;
+
+    --p-datepicker-date-hover-background: var(--grey-600) !important;
+    --p-datepicker-date-color: black !important;
+    --p-datepicker-select-month-hover-background: var(--grey-600) !important;
+    --p-datepicker-select-year-hover-background: var(--grey-600) !important;
+    --p-datepicker-panel-background: white !important;
+    --p-datepicker-header-background: white !important;
+    --p-select-color: black !important;
+    --p-inputtext-background: white !important;
+    --p-inputtext-color: black !important;
+    --p-inputtext-border-radius: 8px;
+    --p-dialog-background: white !important;
+    --p-dialog-color: var(--grey-900) !important;
+    --p-datepicker-date-selected-background: var(--blue-300) !important;
+    --p-datepicker-date-selected-color: white !important;
+
+    
+    --p-editor-content-color: black !important;
+    --p-multiselect-color: black !important;
+
+    --p-toggleswitch-background: white !important;
+    --p-toggleswitch-border-color : var(--grey-700) !important;
+    --p-toggleswitch-checked-background: white !important;
+    --p-toggleswitch-checked-border-color: var(--grey-700) !important;
+    --p-toggleswitch-checked-hover-background: var(--grey-200) !important;
+    --p-toggleswitch-checked-hover-border-color: var(--grey-700) !important;
+    --p-toggleswitch-hover-background: var(--grey-200) !important;
+    --p-toggleswitch-hover-border-color: var(--grey-700) !important;
+
+    --p-select-background: white !important;
+    --p-select-overlay-color: black !important;
+    --p-toast-error-detail-color: black !important;
+
+    --p-radiobutton-background: white !important;
+    --p-radiobutton-icon-checked-color: white !important;
+    /* .p-datepicker-panel {
+        width: auto;
+        padding: var(--p-datepicker-panel-padding);
+        background: var(--p-datepicker-panel-background);
+        color: var(--p-datepicker-panel-color);
+        border: 1px solid var(--p-datepicker-panel-border-color);
+        border-radius: var(--p-datepicker-panel-border-radius);
+        box-shadow: var(--p-datepicker-panel-shadow);
+    } */
+}
+/* .select-box label{
+    top: 20% !important;
+} */
+.select-box .p-placeholder{
+    font-size: 14px !important;
+    color: var(--grey-900) !important;
+    /* margin-top: 10px !important; */
+    /* margin-left: 10px; */
+}
+.p-dialog-header{
+    border-bottom: 1px solid var(--grey-600);
+    padding-bottom: 14px !important;
+    margin-bottom: 20px;
+}
+
+@keyframes slideRight {
+    from {transform: translateX(-100%);}
+    to {transform: translateX(0);}
+    0% {opacity: 0; }
+  100% {opacity: 1; }
+}
+@keyframes slideLeft {
+    from {transform: translateX(100%);}
+    to {transform: translateX(0);}
+    0% {opacity: 0; }
+  100% {opacity: 1; }
+}
+@keyframes slideTop {
+    from {transform: translateY(100%);}
+    to {transform: translateY(0);}
+    0% {opacity: 0; }
+  100% {opacity: 1; }
+}
+@keyframes slideBottom {
+    from {transform: translateY(-100%);}
+    to {transform: translateY(0);}
+    0% {opacity: 0; }
+  100% {opacity: 1; }
+}
+  
+.slide-right {
+    animation: slideRight 0.5s ease-out;
+}
+.slide-left {
+    animation: slideLeft 0.5s ease-out;
+}
+.slide-top {
+    animation: slideTop 0.5s ease-out;
+}
+.slide-bottom {
+    animation: slideBottom 0.5s ease-out;
+}
+
+
+@keyframes fadeIn {
+   0% {opacity: 0; }
+  100% {opacity: 1; }
+ }
+
+
+ .fadeIn{
+  animation: fadeIn 0.55s ease-in;
+ }
+input{
+    outline: none !important;
+}
+.p-inputtext::placeholder {
+    font-size: 12px;
+}
+.p-inputtext{
+    font-size: 14px !important;
+}
+label{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+label.font-small{
+    margin-bottom: 8px !important;
+    color: var(--blue-500) !important;
+}
+body {
+    /* transform: scale(0.8); */
+    /* transform-origin: top left; */
+    /* width: 125vw; */
+    /* height: 125vh; */
+    /* overflow: hidden; */
+}
+.mij-container{
+    /* height: 125vh; */
+    /* min-height: 125vh; */
+    /* max-height: 125vh; */
+}
+.p-multiselect.p-variant-filled{
+    background: white !important;
+}
+.mij-container{
+    display: flex;
+    width: 100%;
+    height: 99vh;
+    font-family: 'Inter', sans-serif;
+    background: #E1E1E1;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.jc-spaceBetween{
+    justify-content: space-between;
+    width: 100%;
+}
+.jc-center{
+    justify-content: center;
+}
+.align-i-center{
+    align-items: center !important;
+}
+.font-center{
+    text-align: center;
+}
+.font-disabled{
+    color: var(--grey-800) !important;
+}
+
+.fs-12{font-size: 12px;} .fs-14{font-size: 14px;} .fs-16{font-size: 16px;} .fs-18{font-size: 18px;} .fs-20{font-size: 20px;} .fs-22{font-size: 22px;} .fs-24{font-size: 24px;}
+
+
+.font-h1{
+    font-weight: var(--font-weight-medium) !important;
+    font-size: 32px !important;
+    line-height: 72px !important;
+}
+.font-h2{
+    font-weight: var(--font-weight-medium) !important;
+    font-size: 28px !important;
+    line-height: 48px !important;
+}
+.font-h3{
+    font-weight: var(--font-weight-semi-bold) !important;
+    font-size: 24px !important;
+    line-height: 30px !important;
+}
+.font-h4{
+    font-weight: var(--font-weight-semi-bold) !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+}
+.font-body{
+    font-weight: var(--font-weight-medium) !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+}
+.font-label{
+    font-weight: var(--font-weight-semi-bold) !important;
+    font-size: 12px !important;
+    line-height: 14px !important;
+}
+.font-small{
+    font-weight: var(--font-weight-medium) !important;
+    font-size: 12px !important;
+    line-height: 14px !important;
+}
+.font-button{
+    font-weight: var(--font-weight-medium) !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+}
+
+.text-right{
+    text-align: right !important;
+}
+
+.font-14{
+    font-size: 14px;
+}
+.font-12{
+    font-size: 12px;
+}
+
+.ag-watermark{
+    display: none !important;
+}
+
+.nav-tabs{
+    border-color: var(--blue-500);
+}
+.nav-tabs .nav-link{
+    color: var(--grey-900);
+}
+.nav-tabs .nav-link.active{
+    background: var(--blue-500) !important;
+    color: var(--grey-50) !important;
+    border-bottom: 1px solid var(--blue-500) !important;
+}
+
+.mobile-section{
+    display: none;
+}
+.p-floatlabel{
+    overflow-x: hidden;
+}
+@media screen and (max-width: 900px) {
+    .pc-section{
+        display: none !important;
+    }
+    .mobile-section{
+        display: block;
+    }
+}
+@media screen and (max-width: 800px) {
+    .filter-container{
+        padding: 12px !important;
+    }
+    .font-h1{
+        font-size: 50px !important;
+    }
+    .font-h2{
+        font-size: 30px !important;
+    }
+    .font-h3{
+        font-size: 20px !important;
+    }
+    .font-h4{
+        font-size: 14px !important;
+    }
+    .font-body{
+        font-size: 14px !important;
+    }
+    .font-label{
+        font-size: 14px !important;
+    }
+    
+    .font-button{
+        /* font-size: 14px !important; */
+    }
+
+    .ag-paging-panel{
+        display: flex;
+        flex-direction: column;
+        height: 112px !important;
+        justify-content: space-between !important;
+    }
+    .grid-container, .searmij-container{
+        padding: 10px !important;
+    }
+    
+
+    .list-container .content{
+        overflow: hidden !important;
+     }
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Untuk Firefox */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Untuk Chrome, Safari, dan Edge */
+    margin: 0;
+}
+:root{color-scheme:light}
+
+@media (prefers-color-scheme: dark) {
+    :root{color-scheme:light}
+}
