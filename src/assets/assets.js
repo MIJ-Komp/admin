@@ -35,18 +35,5 @@ const assets = {
 
       pencilEdit: () => import("./icons/icon-pencil-edit.webp"),
    },
-   iconPropertyFacility: {
-      icon1: () => import("./icons/propertyFacility/1.png"),
-      icon2: () => import("./icons/propertyFacility/1.png"),
-      icon3: () => import("./icons/propertyFacility/1.png"),
-      icon4: () => import("./icons/propertyFacility/1.png"),
-   },
-
-   iconRoomFacility: {
-      icon1: () => import("./icons/propertyFacility/1.png"),
-      icon2: () => import("./icons/propertyFacility/1.png"),
-      icon3: () => import("./icons/propertyFacility/1.png"),
-      icon4: () => import("./icons/propertyFacility/1.png"),
-   },
 };
 export default assets;

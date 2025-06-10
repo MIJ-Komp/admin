@@ -25,7 +25,7 @@ const columns = {
       },
       { headerName: "Description", field: "Description" },
    ],
-   charge: [
+   productVariant: [
       { headerName: "Name", field: "Name" },
       {
          headerName: "Amount",
@@ -135,12 +135,12 @@ const columns = {
       // { headerName: "Kota", field: "city" },
       // { headerName: "Created By", field: "CreatedByName" },
    ],
-   propertyFacility: [
+   product: [
       { headerName: "Name", field: "Name" },
       { headerName: "Description", field: "Description" },
    ],
    productCategory: [
-      { headerName: "Code", field: "Code" },
+      { headerName: "Id", field: "Id" },
       { headerName: "Name", field: "Name" },
    ],
    role: [
@@ -151,7 +151,7 @@ const columns = {
          cellStyle: { "text-align": "center" },
       },
    ],
-   roomFacility: [
+   productBundle: [
       { headerName: "Name", field: "Name" },
       { headerName: "Description", field: "Description" },
    ],

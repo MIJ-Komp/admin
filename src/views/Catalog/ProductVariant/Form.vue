@@ -54,7 +54,7 @@ export default {
       doUpdate() {
          return this.update(this.form);
       },
-      ...mapActions(module.charge.name, ["create", "update", "getById"]),
+      ...mapActions(module.productVariant.name, ["create", "update", "getById"]),
    },
    created() {},
    watch: {
@@ -68,7 +68,7 @@ export default {
    data() {
       return {
          formData: {
-            module: this.$module.charge,
+            module: this.$module.productVariant,
          },
          form: {
             Name: null,

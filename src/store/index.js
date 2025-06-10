@@ -8,7 +8,7 @@ import { createStore } from "vuex";
 import addOn from "./modules/addOn";
 import booking from "./modules/booking";
 import calendar from "./modules/calendar";
-import charge from "./modules/charge";
+import productVariant from "./modules/productVariant";
 import data from "./modules/data";
 import deviceGateway from "./modules/deviceGateway";
 import deviceLock from "./modules/deviceLock";
@@ -16,11 +16,11 @@ import paymentHistory from "./modules/paymentHistory";
 import paymentMethod from "./modules/paymentMethod";
 import paymentType from "./modules/paymentType";
 import property from "./modules/property";
-import propertyFacility from "./modules/propertyFacility";
+import product from "./modules/product";
 import productCategory from "./modules/productCategory";
 import role from "./modules/role";
 import roomAvailability from "./modules/roomAvailability";
-import roomFacility from "./modules/roomFacility";
+import productBundle from "./modules/productBundle";
 import roomLockHistory from "./modules/roomLockHistory";
 import roomNoPrice from "./modules/roomNoPrice";
 import roomPrice from "./modules/roomPrice";
@@ -44,18 +44,18 @@ export default createStore({
       addOn: addOn,
       booking: booking,
       calendar: calendar,
-      charge: charge,
+      productVariant: productVariant,
       data: data,
       deviceGateway: deviceGateway,
       deviceLock: deviceLock,
       paymentHistory: paymentHistory,
       paymentMethod: paymentMethod,
       property: property,
-      propertyFacility: propertyFacility,
+      product: product,
       productCategory: productCategory,
       role: role,
       roomAvailability: roomAvailability,
-      roomFacility: roomFacility,
+      productBundle: productBundle,
       roomLockHistory: roomLockHistory,
       roomNoPrice: roomNoPrice,
       roomPrice: roomPrice,

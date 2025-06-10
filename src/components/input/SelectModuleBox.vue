@@ -506,7 +506,7 @@ label.text-danger {
 .select-box {
    max-height: 200px;
    height: auto !important;
-   min-height: 80px !important;
+   min-height: 30px !important;
    position: relative;
 }
 .select-container .font-small {

@@ -307,7 +307,7 @@ export default {
       showClear:{type: Boolean, default: false},
       editable:{type: Boolean, default: false},
       showDeleteIcon: { type: Boolean, required: false, default: false },
-      height: { type: Number, default: 80 },
+      height: { type: Number, default: 70 },
       minLength: { type: Number, default: null },
       maxLength: { type: Number, default: null },
       dataSource: { type: Array, default: () => [] },

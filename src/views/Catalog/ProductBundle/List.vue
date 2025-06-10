@@ -1,5 +1,5 @@
 <template>
-   <ListPage :module="$module.charge" />
+   <ListPage :module="$module.productBundle" />
 </template>
 <script>
 import { provide, ref, onMounted } from "vue";

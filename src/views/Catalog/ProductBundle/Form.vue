@@ -54,7 +54,7 @@ export default {
    data() {
       return {
          formData: {
-            module: this.$module.roomFacility,
+            module: this.$module.productBundle,
          },
          form: {
             Name: null,
@@ -90,7 +90,7 @@ export default {
 
          return this.update(this.form);
       },
-      ...mapActions(module.roomFacility.name, ["create", "getById", "update"]),
+      ...mapActions(module.productBundle.name, ["create", "getById", "update"]),
    },
 };
 </script>

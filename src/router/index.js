@@ -61,17 +61,17 @@ import GatewayForm from "../views/Device/Gateway/Form.vue";
 import ProductCategory from "../views/Catalog/ProductCategory/List.vue";
 import ProductCategoryForm from "../views/Catalog/ProductCategory/Form.vue";
 
-import PropertyFacility from "../views/Catalog/PropertyFacility/List.vue";
-import PropertyFacilityForm from "../views/Catalog/PropertyFacility/Form.vue";
+import Product from "../views/Catalog/Product/List.vue";
+import PropertyFacilityForm from "../views/Catalog/Product/Form.vue";
 
-import RoomFacility from "../views/Catalog/RoomFacility/List.vue";
-import RoomFacilityForm from "../views/Catalog/RoomFacility/Form.vue";
+import ProductBundle from "../views/Catalog/ProductBundle/List.vue";
+import RoomFacilityForm from "../views/Catalog/ProductBundle/Form.vue";
 
-import Charge from "../views/Catalog/Charge/List.vue";
-import ChargeForm from "../views/Catalog/Charge/Form.vue";
+import ProductVariant from "../views/Catalog/ProductVariant/List.vue";
+import ChargeForm from "../views/Catalog/ProductVariant/Form.vue";
 
-import AddOn from "../views/Catalog/AddOn/List.vue";
-import AddOnForm from "../views/Catalog/AddOn/Form.vue";
+import Menu from "../views/Catalog/Menu/List.vue";
+import MenuForm from "../views/Catalog/Menu/Form.vue";
 
 import ManualBooking from "../views/ManualBooking/Form.vue";
 
@@ -179,11 +179,11 @@ const routes = [
    /* ========== Property Facility =========== */
    {
       //List
-      path: `/${constant.router.propertyFacility}`,
-      name: label.menu.propertyFacility,
-      component: PropertyFacility,
+      path: `/${constant.router.product}`,
+      name: label.menu.product,
+      component: Product,
       meta: {
-         module: module.propertyFacility,
+         module: module.product,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: null,
@@ -191,11 +191,11 @@ const routes = [
    },
    {
       // Create
-      path: `/${constant.router.propertyFacility}/add`,
-      name: `${label.action.create} ${label.menu.propertyFacility}`,
+      path: `/${constant.router.product}/add`,
+      name: `${label.action.create} ${label.menu.product}`,
       component: PropertyFacilityForm,
       meta: {
-         module: module.propertyFacility,
+         module: module.product,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.create,
@@ -203,11 +203,11 @@ const routes = [
    },
    {
       //Update
-      path: `/${constant.router.propertyFacility}/update/:id`,
-      name: `${label.action.update} ${label.menu.propertyFacility}`,
+      path: `/${constant.router.product}/update/:id`,
+      name: `${label.action.update} ${label.menu.product}`,
       component: PropertyFacilityForm,
       meta: {
-         module: module.propertyFacility,
+         module: module.product,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.update,
@@ -218,11 +218,11 @@ const routes = [
    /* ========== Room Facility =========== */
    {
       //List
-      path: `/${constant.router.roomFacility}`,
-      name: label.menu.roomFacility,
-      component: RoomFacility,
+      path: `/${constant.router.productBundle}`,
+      name: label.menu.productBundle,
+      component: ProductBundle,
       meta: {
-         module: module.roomFacility,
+         module: module.productBundle,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: null,
@@ -230,11 +230,11 @@ const routes = [
    },
    {
       // Create
-      path: `/${constant.router.roomFacility}/add`,
-      name: `${label.action.create} ${label.menu.roomFacility}`,
+      path: `/${constant.router.productBundle}/add`,
+      name: `${label.action.create} ${label.menu.productBundle}`,
       component: RoomFacilityForm,
       meta: {
-         module: module.roomFacility,
+         module: module.productBundle,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.create,
@@ -242,11 +242,11 @@ const routes = [
    },
    {
       //Update
-      path: `/${constant.router.roomFacility}/update/:id`,
-      name: `${label.action.update} ${label.menu.roomFacility}`,
+      path: `/${constant.router.productBundle}/update/:id`,
+      name: `${label.action.update} ${label.menu.productBundle}`,
       component: RoomFacilityForm,
       meta: {
-         module: module.roomFacility,
+         module: module.productBundle,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.update,
@@ -254,14 +254,14 @@ const routes = [
    },
    /*=====================================*/
 
-   /* ========== Charge =========== */
+   /* ========== ProductVariant =========== */
    {
       //List
-      path: `/${constant.router.charge}`,
-      name: label.menu.charge,
-      component: Charge,
+      path: `/${constant.router.productVariant}`,
+      name: label.menu.productVariant,
+      component: ProductVariant,
       meta: {
-         module: module.charge,
+         module: module.productVariant,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: null,
@@ -269,11 +269,11 @@ const routes = [
    },
    {
       // Create
-      path: `/${constant.router.charge}/add`,
-      name: `${label.action.create} ${label.menu.charge}`,
+      path: `/${constant.router.productVariant}/add`,
+      name: `${label.action.create} ${label.menu.productVariant}`,
       component: ChargeForm,
       meta: {
-         module: module.charge,
+         module: module.productVariant,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.create,
@@ -281,11 +281,11 @@ const routes = [
    },
    {
       //Update
-      path: `/${constant.router.charge}/update/:id`,
-      name: `${label.action.update} ${label.menu.charge}`,
+      path: `/${constant.router.productVariant}/update/:id`,
+      name: `${label.action.update} ${label.menu.productVariant}`,
       component: ChargeForm,
       meta: {
-         module: module.charge,
+         module: module.productVariant,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.update,
@@ -296,11 +296,11 @@ const routes = [
    /* ========== Add On =========== */
    {
       //List
-      path: `/${constant.router.addOn}`,
-      name: label.menu.addOn,
-      component: AddOn,
+      path: `/${constant.router.menu}`,
+      name: label.menu.menu,
+      component: Menu,
       meta: {
-         module: module.addOn,
+         module: module.menu,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: null,
@@ -308,11 +308,11 @@ const routes = [
    },
    {
       // Create
-      path: `/${constant.router.addOn}/add`,
-      name: `${label.action.create} ${label.menu.addOn}`,
-      component: AddOnForm,
+      path: `/${constant.router.menu}/add`,
+      name: `${label.action.create} ${label.menu.menu}`,
+      component: MenuForm,
       meta: {
-         module: module.addOn,
+         module: module.menu,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.create,
@@ -320,11 +320,11 @@ const routes = [
    },
    {
       //Update
-      path: `/${constant.router.addOn}/update/:id`,
-      name: `${label.action.update} ${label.menu.addOn}`,
-      component: AddOnForm,
+      path: `/${constant.router.menu}/update/:id`,
+      name: `${label.action.update} ${label.menu.menu}`,
+      component: MenuForm,
       meta: {
-         module: module.addOn,
+         module: module.menu,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.update,

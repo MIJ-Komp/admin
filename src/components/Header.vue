@@ -32,7 +32,7 @@
             <div class="item" @click="doLogout">Logout</div>
          </div> -->
       </div>
-      <img style="height: 60px;" :src="$assets.logo" class="mobile-section"/>
+      <img style="height: 40px;" :src="$assets.logo" class="mobile-section"/>
 
    </div>
    <b-row class="navigation-mobile">
@@ -254,7 +254,6 @@ export default {
       padding: 15px;
       align-items: center;
       padding-left: 65px;
-      height: 88px;
       border-radius: 0;
    }
    .navigation-container{

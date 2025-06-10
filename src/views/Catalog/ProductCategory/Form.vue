@@ -7,7 +7,7 @@
       @cancel="$emit('cancel')"
    >
       <b-row>
-         <b-col lg="4" cols="12">
+         <b-col cols="12">
             <TextBox
                label="Name"
                type="name"

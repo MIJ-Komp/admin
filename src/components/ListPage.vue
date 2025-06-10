@@ -129,7 +129,7 @@ export default {
         
     },
     async mounted() {
-        const roleId = this.module == module.propertyFacility || this.module == module.roomFacility ?
+        const roleId = this.module == module.product || this.module == module.productBundle ?
                         access.module.facility.Id :
 
                         this.module == module.roomTypePrice || this.module == module.roomTypeNoPrice || this.module == module.roomPrice || this.module == module.roomNoPrice ?

@@ -262,6 +262,9 @@ export default {
 </script>
 
 <style lang="scss">
+textarea{
+   font-size: 12px;
+}
 .p-textarea-overlay {
    background: white !important;
    color: #1e1e1e;

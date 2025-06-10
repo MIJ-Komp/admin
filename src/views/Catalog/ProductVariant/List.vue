@@ -1,5 +1,5 @@
 <template>
-   <ListPage :module="$module.roomFacility" />
+   <ListPage :module="$module.productVariant" />
 </template>
 <script>
 import { provide, ref, onMounted } from "vue";

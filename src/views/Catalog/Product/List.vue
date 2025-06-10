@@ -1,6 +1,6 @@
 <template>
    <ListPage
-      :module="$module.propertyFacility"
+      :module="$module.product"
    />
 </template>
 <script>

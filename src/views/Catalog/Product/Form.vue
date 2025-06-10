@@ -54,7 +54,7 @@ export default {
    data() {
       return {
          formData: {
-            module: this.$module.propertyFacility,
+            module: this.$module.product,
          },
          form: {
             Name: null,
@@ -90,7 +90,7 @@ export default {
 
          return this.update(this.form);
       },
-      ...mapActions(module.propertyFacility.name, [
+      ...mapActions(module.product.name, [
          "create",
          "getById",
          "update",

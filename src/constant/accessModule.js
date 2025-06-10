@@ -5,7 +5,7 @@ const module = {
     role:           { Id: 2, label: "Role"},
     productCategory:   { Id: 3, label: "Property Type"},
     facility:       { Id: 4, label: "Facility"},
-    charge:         { Id: 5, label: "Charge"},
+    productVariant:         { Id: 5, label: "ProductVariant"},
     addOn:          { Id: 6, label: "Add On"},
     property:       { Id: 7, label: "Property"},
     room:           { Id: 8, label: "Room"},
@@ -21,6 +21,8 @@ const module = {
 
     calendar :{ Id: 18, label: "Calendar"},
     setting :{ Id: 19, label: "Setting"},
+
+    report :{ Id: 20, label: "Report"},
 
 
    //  setting:{ Id: 17, label: "Setting"},

@@ -115,14 +115,14 @@
                                 <div>
                                     <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.PricePerNight) }} x {{ selectedRoom.TotalNights }} night</div>
                                     <div>Deposit</div>
-                                    <div v-for="charge in selectedRoom.BookDetailCharges" :key="charge">{{ charge.Name }}</div>
+                                    <div v-for="productVariant in selectedRoom.BookDetailCharges" :key="productVariant">{{ productVariant.Name }}</div>
                                     <div>Add-on</div>
                                     <div class="ps-3" v-for="addOn in selectedRoom.BookDetailAddOns" :key="addOn">{{ addOn.Name }}</div>
                                 </div>
                                 <div style="text-align: right;">
                                     <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.SubTotal) }}</div>
                                     <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.BookDetailDeposit.Total) }}</div>
-                                    <div v-for="charge in selectedRoom.BookDetailCharges" :key="charge">IDR {{ $helper.ConvertNumberFormat(charge.Total) }} </div>
+                                    <div v-for="productVariant in selectedRoom.BookDetailCharges" :key="productVariant">IDR {{ $helper.ConvertNumberFormat(productVariant.Total) }} </div>
                                     <div style="height: 26px"></div>
                                     <div v-for="addOn in selectedRoom.BookDetailAddOns" :key="addOn">IDR {{ $helper.ConvertNumberFormat(addOn.Total) }}</div>
                                 </div>
@@ -209,14 +209,14 @@
                                 <div>
                                     <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.PricePerNight) }} x {{ selectedRoom.TotalNights }} night</div>
                                     <div>Deposit</div>
-                                    <div v-for="charge in selectedRoom.BookDetailCharges" :key="charge">{{ charge.Name }}</div>
+                                    <div v-for="productVariant in selectedRoom.BookDetailCharges" :key="productVariant">{{ productVariant.Name }}</div>
                                     <div>Add-on</div>
                                     <div class="ps-3" v-for="addOn in selectedRoom.BookDetailAddOns" :key="addOn">{{ addOn.Name }}</div>
                                 </div>
                                 <div style="text-align: right;">
                                     <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.SubTotal) }}</div>
                                     <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.BookDetailDeposit.Total) }}</div>
-                                    <div v-for="charge in selectedRoom.BookDetailCharges" :key="charge">IDR {{ $helper.ConvertNumberFormat(charge.Total) }} </div>
+                                    <div v-for="productVariant in selectedRoom.BookDetailCharges" :key="productVariant">IDR {{ $helper.ConvertNumberFormat(productVariant.Total) }} </div>
                                     <div style="height: 26px"></div>
                                     <div v-for="addOn in selectedRoom.BookDetailAddOns" :key="addOn">IDR {{ $helper.ConvertNumberFormat(addOn.Total) }}</div>
                                 </div>
@@ -409,14 +409,14 @@
                                     <div>
                                         <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.PricePerNight) }} x {{ selectedRoom.TotalNights }} night</div>
                                         <div>Deposit</div>
-                                        <div v-for="charge in selectedRoom.BookDetailCharges" :key="charge">{{ charge.Name }}</div>
+                                        <div v-for="productVariant in selectedRoom.BookDetailCharges" :key="productVariant">{{ productVariant.Name }}</div>
                                         <div>Add-on</div>
                                         <div class="ps-3" v-for="addOn in selectedRoom.BookDetailAddOns" :key="addOn">{{ addOn.Name }}</div>
                                     </div>
                                     <div style="text-align: right;">
                                         <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.SubTotal) }}</div>
                                         <div>IDR {{ $helper.ConvertNumberFormat(selectedRoom.BookDetailDeposit.Total) }}</div>
-                                        <div v-for="charge in selectedRoom.BookDetailCharges" :key="charge">IDR {{ $helper.ConvertNumberFormat(charge.Total) }} </div>
+                                        <div v-for="productVariant in selectedRoom.BookDetailCharges" :key="productVariant">IDR {{ $helper.ConvertNumberFormat(productVariant.Total) }} </div>
                                         <div style="height: 26px"></div>
                                         <div v-for="addOn in selectedRoom.BookDetailAddOns" :key="addOn">IDR {{ $helper.ConvertNumberFormat(addOn.Total) }}</div>
                                     </div>

@@ -12,7 +12,7 @@
          >
             <img class="logo pc-section" :src="$assets.favicon" />
 
-            <div class="mobile-section profile">
+            <!-- <div class="mobile-section profile">
                <b-row>
                   <b-col cols="auto" style="align-content: center;">
                      <img :src="`${this.$constant.apiURL}/image/${user.ImageId}`" style="height: 40px; border-radius: 8px;"/>
@@ -22,7 +22,7 @@
                      <div style="font-size: 14px;">{{ user.Email }}</div>
                   </b-col>
                </b-row>
-            </div>
+            </div> -->
             <div class="menu">
                <div style="flex-grow: 1; overflow: auto; overflow-x: hidden">
                   <div
@@ -103,7 +103,7 @@ export default {
                visible: await this.hasViewRole(accessModule.module.productCategory.Id) ||
                         await this.hasViewRole(accessModule.module.facility.Id) ||
                         await this.hasViewRole(accessModule.module.addOn.Id) ||
-                        await this.hasViewRole(accessModule.module.charge.Id),
+                        await this.hasViewRole(accessModule.module.productVariant.Id),
                items: [
                   {
                      // icon: this.$assets.icons.plus,
@@ -113,31 +113,42 @@ export default {
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.propertyFacility,
-                     path: this.$constant.router.propertyFacility,
+                     label: this.$label.menu.product,
+                     path: this.$constant.router.product,
                      visible: await this.hasViewRole(accessModule.module.facility.Id)
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.roomFacility,
-                     path: this.$constant.router.roomFacility,
+                     label: this.$label.menu.productBundle,
+                     path: this.$constant.router.productBundle,
                      visible: await this.hasViewRole(accessModule.module.facility.Id)
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.charge,
-                     path: this.$constant.router.charge,
-                     visible: await this.hasViewRole(accessModule.module.charge.Id)
+                     label: this.$label.menu.productVariant,
+                     path: this.$constant.router.productVariant,
+                     visible: await this.hasViewRole(accessModule.module.productVariant.Id)
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.addOn,
-                     path: this.$constant.router.addOn,
-                     visible: await this.hasViewRole(accessModule.module.addOn.Id)
+                     label: this.$label.menu.menu,
+                     path: this.$constant.router.menu,
+                     visible: true //await this.hasViewRole(accessModule.module.addOn.Id)
                   },
                ],
             },
-
+            {
+               icon: this.$assets.icons.transaction,
+               label: this.$label.menu.transaction,
+               path: this.$constant.router.transaction,
+               visible: await this.hasViewRole(accessModule.module.transaction.Id)
+            },
+            {
+               icon: this.$assets.icons.report,
+               label: this.$label.menu.report,
+               path: this.$constant.router.report,
+               visible: await this.hasViewRole(accessModule.module.report.Id)
+            },
             {
                icon: this.$assets.icons.setting,
                label: this.$label.menu.setting,
@@ -207,6 +218,7 @@ export default {
          if (this.$route.meta.page == "404") {
             return false;
          }
+         console.log(this.path)
          if (this.path) {
             if(menu.path && 
                ((menu.path.split('/')[1] == 'property' && this.path.split('/')[0] == 'property') ||
@@ -471,8 +483,8 @@ export default {
       display: none;
    }
    .btn-menu {
-      height: 80px;
-      font-size: 45px;
+      height: 60px;
+      font-size: 28px;
       /* width: 100px; */
       animation: slideBottom 0.5s ease-out;
       position: absolute;
@@ -483,7 +495,7 @@ export default {
       align-items: center;
       border-radius: 8px;
       background: white;
-      color: var(--blue-400);
+      color: var(--primary-color);
       /* box-shadow: 0 0.8px 2px 0px var(--grey-800); */
    }
 }

@@ -222,7 +222,7 @@ export default {
 
    },
    async mounted() {
-      const accessId = this.formData.module.name == module.propertyFacility.name || this.formData.module.name == module.roomFacility.name ?
+      const accessId = this.formData.module.name == module.product.name || this.formData.module.name == module.productBundle.name ?
                         access.module.facility.Id :
                         
                         this.formData.module.name == module.deviceLock.name || this.formData.module.name == module.deviceGateway.name ?

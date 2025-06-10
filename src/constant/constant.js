@@ -18,11 +18,11 @@ const constant = {
             //catalog
             catalog: "Catalog",
             productCategory: "Product Category",
-            propertyFacility: "Property Facilities",
-            roomFacility: "Room Facilities",
+            product: "Product",
+            productBundle: "Product Bundle",
             propertyList: "Property List",
-            charge: "Charges",
-            addOn: "Add On",
+            productVariant: "Product Variant",
+            menu: "Menu",
 
             //property management
             room: "Room",
@@ -98,12 +98,12 @@ const constant = {
 
             //Catalog
             catalog: "Katalog",
-            productCategory: "Tipe Properti",
-            propertyFacility: "Fasilitas Properti",
-            roomFacility: "Fasilitas Ruangan",
+            productCategory: "Kategori Produk",
+            product: "Produk",
+            productBundle: "Paket Produk",
             propertyList: "Daftar Properti",
-            charge: "Charges",
-            addOn: "Add On",
+            productVariant: "Variasi Produk",
+            menu: "Menu",
 
             manualBooking: "Booking Manual",
 
@@ -164,10 +164,10 @@ const constant = {
       dashboard: "/dashboard",
 
       productCategory: "/catalog/product-category",
-      propertyFacility: "/catalog/property-facilities",
-      roomFacility: "/catalog/room-facilities",
-      charge: "/catalog/charges",
-      addOn: "/catalog/add-on",
+      product: "/catalog/product",
+      productBundle: "/catalog/product-bundle",
+      productVariant: "/catalog/product-variant",
+      menu: "/catalog/menu",
 
       property: "/property/property-list",
 

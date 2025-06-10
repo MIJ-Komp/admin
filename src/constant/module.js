@@ -20,21 +20,21 @@ const module = {
    },
 
    // facility:   { id: 4, name: "facility" },
-   propertyFacility: {
+   product: {
       id: 4,
-      name: "propertyFacility",
-      form: async () => import("../views/Catalog/PropertyFacility/Form.vue"),
+      name: "product",
+      form: async () => import("../views/Catalog/Product/Form.vue"),
    },
-   roomFacility: {
+   productBundle: {
       id: 4,
-      name: "roomFacility",
-      form: async () => import("../views/Catalog/RoomFacility/Form.vue"),
+      name: "productBundle",
+      form: async () => import("../views/Catalog/ProductBundle/Form.vue"),
    },
 
-   charge: {
+   productVariant: {
       id: 5,
-      name: "charge",
-      form: async () => import("../views/Catalog/Charge/Form.vue"),
+      name: "productVariant",
+      form: async () => import("../views/Catalog/ProductVariant/Form.vue"),
    },
    addOn: {
       id: 6,

@@ -116,7 +116,7 @@
          <b-col cols="12">
             <MultiSelectModuleBox
                label="Fasilitas Properti"
-               :module="$module.propertyFacility"
+               :module="$module.product"
                v-model="form.PropertyFacilities"
             />
          </b-col>

@@ -90,13 +90,13 @@
                }}</label>
             </div>
             <div
-               v-for="charge in bookData.BookDetailCharges"
-               :key="charge.Id"
+               v-for="productVariant in bookData.BookDetailCharges"
+               :key="productVariant.Id"
                class="d-flex justify-content-between"
             >
-               <label>{{ charge.RoomCharges.Charges.Name }}</label>
+               <label>{{ productVariant.RoomCharges.Charges.Name }}</label>
                <label>{{
-                  formatCurrency(charge.RoomCharges.Charges.Amount)
+                  formatCurrency(productVariant.RoomCharges.Charges.Amount)
                }}</label>
             </div>
 

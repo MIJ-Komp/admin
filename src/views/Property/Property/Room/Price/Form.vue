@@ -314,7 +314,7 @@
 
             <div class="d-flex align-items-center mt-2 p-3 border rounded">
                <Select
-                  class="charge-selector"
+                  class="productVariant-selector"
                   v-model="rCharge.Type"
                   :options="chargeTypeList"
                   optionLabel="Name"
@@ -636,9 +636,9 @@ export default {
          this.isAllWeekdays = !this.isAllWeekends
       },
       ...mapActions(module.roomPrice.name, ["create", "update", "getById"]),
-      ...mapActions(module.charge.name, { getChargeAll: "getAll" }),
+      ...mapActions(module.productVariant.name, { getChargeAll: "getAll" }),
       ...mapActions(module.addOn.name, { getAddOnAll: "getAll" }),
-      ...mapActions(module.roomFacility.name, {
+      ...mapActions(module.productBundle.name, {
          getRoomFacilityAll: "getAll",
       }),
       ...mapActions(module.property.name, { getLockAll: "getLocks" }),
@@ -754,7 +754,7 @@ export default {
 .row {
    margin-bottom: 16px;
 }
-.charge-selector {
+.productVariant-selector {
    width: 96px;
    margin-right: 16px;
 }
