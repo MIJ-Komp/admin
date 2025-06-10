@@ -1,6 +1,6 @@
 <template>
-   <ChForm :formData="formData" :showCancel="showCancel"
-   @cancel="$emit('cancel')"> </ChForm>
+   <MIJForm :formData="formData" :showCancel="showCancel"
+   @cancel="$emit('cancel')"> </MIJForm>
 </template>
 <script>
 export default {

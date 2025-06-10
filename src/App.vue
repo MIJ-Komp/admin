@@ -245,7 +245,6 @@ export default {
    height: 100%;
    flex-grow: 1;
    margin-top: 12px;
-   border-radius: 8px;
 }
 .login {
    padding: 0 !important;

@@ -3,7 +3,7 @@
 const module = {
     user:           { Id: 1, label: "User"},
     role:           { Id: 2, label: "Role"},
-    propertyType:   { Id: 3, label: "Property Type"},
+    productCategory:   { Id: 3, label: "Property Type"},
     facility:       { Id: 4, label: "Facility"},
     charge:         { Id: 5, label: "Charge"},
     addOn:          { Id: 6, label: "Add On"},

@@ -195,7 +195,7 @@ export default {
             // var tmp = ()=> import(/* @vite-ignore */`../constant/columns/${this.module.name}.js`);
             this.columns = columns[this.module.name];
             // console.log("Columns imported in Grid.vue:", this.columns); // Tambahkan log ini untuk memeriksa kolom
-            if (!this.columns.find((data) => data.headerName == "Created On") && this.showDefaultColumn) {
+            if ( false && !this.columns.find((data) => data.headerName == "Created On") && this.showDefaultColumn) {
                this.columns.push({
                   headerName: "Created On",
                   field: "CreatedOn",
@@ -778,6 +778,20 @@ export default {
    margin-right: 10px;
 }
 
+.ag-header{
+   min-height: 35px !important;
+   height: 35px !important;
+   font-size: 12px !important;
+}
+.ag-menu{
+   font-size: 12px !important;
+}
+
+.ag-column-drop{
+   height: 30px !important;
+   font-size: 12px;
+   margin-bottom: 4px;
+}
 .ag-header,
 .ag-advanced-filter-header,
 .ag-column-drop-horizontal {
@@ -799,7 +813,7 @@ export default {
 /* transform: scale(1.05) !important; */
 /* } */
 .grid-container {
-   padding: 24px;
+   padding: 8px;
    background: var(--grey-50);
    border-radius: 8px;
    height: 100%;
@@ -829,6 +843,7 @@ export default {
 .ag-column-last,
 .ag-header-cell {
    background: var(--grey-300) !important;
+   height: 35px !important;
 }
 .ag-body-viewport .ag-column-first,
 .ag-body-viewport .ag-column-last,

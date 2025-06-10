@@ -54,7 +54,7 @@
             <label
                ref="label"
                v-if="label"
-               :style="currentValue || modelValue? 'color: var(--blue-500) !important; margin-bottom: 8px;':''"
+               :style="currentValue || modelValue? 'color: var(--primary-color) !important;':''"
                :class="currentValue || modelValue? 'font-small' : errors[0]? 'text-danger': 'font-body'"
                >{{ label }}
                <span :class="disabled ? '' : 'text-danger'" v-if="required"
@@ -68,7 +68,7 @@
          <div v-else style="display: flex; flex-direction: column;" class="text-box-label-out">
             <label ref="label"
                v-if="label"
-               :style="currentValue || modelValue? 'color: var(--blue-500) !important; margin-bottom: 8px;':''"
+               :style="currentValue || modelValue? 'color: var(--primary-color) !important;':''"
                :class="currentValue || modelValue? 'font-small' : errors[0]? 'text-danger': 'font-body'"
             >{{ label }} <span :class="disabled? '' :'text-danger'" v-if="required">*</span></label>
 
@@ -143,11 +143,11 @@ export default {
                   case "focus":
                      this.$refs.label.classList.add("font-small");
                      this.$refs.label.style.color =
-                        "var(--blue-500) !important";
+                        "var(--primary-color) !important";
 
                      if (this.$refs.iconFa)
                         this.$refs.iconFa.style.color =
-                           "var(--blue-500) !important";
+                           "var(--primary-color) !important";
                      break;
                   default:
                      this.$refs.label.classList.add("font-body");
@@ -338,7 +338,7 @@ export default {
 }
 .p-floatlabel-in:has(input:focus) label,
 .p-floatlabel-in:has(input.p-filled) label {
-   color: var(--blue-500) !important;
+   color: var(--primary-color) !important;
 }
 
 .border-normal, .border-hover,.border-focus,
@@ -354,7 +354,7 @@ export default {
 }
 .border-focus,
 .p-filled {
-   border: 1px solid var(--blue-500) !important;
+   border: 1px solid var(--primary-color) !important;
 }
 label.text-danger {
    color: var(--red-500) !important;
@@ -382,10 +382,11 @@ label.text-danger {
    text-align: left;
 }
 .text-box-label-out .p-inputtext {
-   height: 42px !important;
+   height: 30px !important;
 }
 .text-box .font-small {
-   color: var(--blue-500);
+   color: var(--primary-color);
+   margin: 0 !important;
 }
 .text-box .font-body {
    color: var(--grey-800);

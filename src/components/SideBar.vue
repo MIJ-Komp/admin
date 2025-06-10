@@ -100,7 +100,7 @@ export default {
             {
                icon: this.$assets.icons.catalog,
                label: this.$label.menu.catalog,
-               visible: await this.hasViewRole(accessModule.module.propertyType.Id) ||
+               visible: await this.hasViewRole(accessModule.module.productCategory.Id) ||
                         await this.hasViewRole(accessModule.module.facility.Id) ||
                         await this.hasViewRole(accessModule.module.addOn.Id) ||
                         await this.hasViewRole(accessModule.module.charge.Id),

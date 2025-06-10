@@ -1,5 +1,5 @@
 <template>
-   <ChForm
+   <MIJForm
       :formData="formData"
       :createAction="doCreate"
       :updateAction="doUpdate"
@@ -9,27 +9,20 @@
       <b-row>
          <b-col lg="4" cols="12">
             <TextBox
-               label="Kode"
-               type="name"
-               v-model="form.Code"
-               style="margin-bottom: 24px"
-            />
-         </b-col>
-         <b-col lg="8" cols="12">
-            <TextBox
-               label="Nama Tipe Properti"
+               label="Name"
                type="name"
                v-model="form.Name"
                style="margin-bottom: 24px"
             />
          </b-col>
+         
          <!-- <b-col cols="12">
           <TextArea :required="false" label="Deskripsi">
 
           </TextArea>
         </b-col> -->
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template>
 <script>
 import module from "../../../constant/module";
@@ -45,14 +38,14 @@ export default {
       doUpdate() {
          return this.update(this.form);
       },
-      ...mapActions(module.propertyType.name, ["create", "getById", "update"]),
+      ...mapActions(module.productCategory.name, ["create", "getById", "update"]),
    },
    created() {},
    watch: {},
    data() {
       return {
          formData: {
-            module: this.$module.propertyType,
+            module: this.$module.productCategory,
          },
          form: {
             Code: null,

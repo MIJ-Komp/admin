@@ -15,7 +15,7 @@
       >
          <div class="w-100 header-form">
             <b-col>
-               <span class="font-h3">
+               <span class="font-h5">
                   {{ mode }}
                </span>
             </b-col>
@@ -262,6 +262,9 @@ export default {
    flex-direction: column;
    height: 100%;
 }
+.bg-form button{
+   height: 36px !important;
+}
 .form-content {
    overflow: auto;
    flex-grow: 1;
@@ -269,7 +272,7 @@ export default {
 .form-page {
    border-radius: 8px;
    background: var(--grey-50);
-   padding: 24px;
+   padding: 12px;
    height: 100%;
 }
 .header-form {

@@ -26,7 +26,7 @@ import LinkRenderer from './utils/LinkRenderer.vue';
 
 import AGrid from './AGrid.vue';
 import ChChart from './ChChart.vue'
-import ChForm from './ChForm.vue'
+import MIJForm from './MIJForm.vue'
 import Grid from './Grid.vue';
 import Header from './Header.vue'
 import ListPage from './ListPage.vue'
@@ -45,7 +45,7 @@ export default {
 
   LinkRenderer, AGrid,
 
-  ChChart, ChForm, Grid, Header, ListPage, SearchBar, SideBar,
+  ChChart, MIJForm, Grid, Header, ListPage, SearchBar, SideBar,
 
   Camera
 }

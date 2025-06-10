@@ -1,5 +1,5 @@
 <template>
-   <ChForm
+   <MIJForm
       :formData="formData"
       :createAction="doCreate"
       :updateAction="doUpdate"
@@ -34,7 +34,7 @@
             <TextBox label="Posisi" v-model="form.Position" type="number"/>
          </b-col>
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template>
 <script>
 import { mapActions } from 'vuex';

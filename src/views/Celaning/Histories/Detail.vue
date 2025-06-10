@@ -1,5 +1,5 @@
 <template>
-   <ChForm
+   <MIJForm
       :formData="formData"
       :createAction="doCreate"
       :updateAction="doUpdate"
@@ -40,7 +40,7 @@
             </TextArea>
          </b-col>
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template>
 <script>
 import module from "../../../constant/module";

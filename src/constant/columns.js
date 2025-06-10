@@ -139,7 +139,7 @@ const columns = {
       { headerName: "Name", field: "Name" },
       { headerName: "Description", field: "Description" },
    ],
-   propertyType: [
+   productCategory: [
       { headerName: "Code", field: "Code" },
       { headerName: "Name", field: "Name" },
    ],

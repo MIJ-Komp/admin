@@ -1,5 +1,5 @@
 <template>
-   <ChForm
+   <MIJForm
       :formData="formData"
       :createAction="doCreate"
       :updateAction="doUpdate"
@@ -62,7 +62,7 @@
             <Button label="+ Add Other Room" buttonType="secondary" @click.prevent="addRoom()" v-if="form.RoleId"/>
          </b-col>
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template>
 <script>
 import module from "../../../constant/module";

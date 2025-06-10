@@ -13,10 +13,10 @@ const module = {
       name: "role",
       form: async () => import("../views/User/Role/Form.vue"),
    },
-   propertyType: {
+   productCategory: {
       id: 3,
-      name: "propertyType",
-      form: () => import("../views/Catalog/PropertyType/Form.vue"),
+      name: "productCategory",
+      form: () => import("../views/Catalog/ProductCategory/Form.vue"),
    },
 
    // facility:   { id: 4, name: "facility" },

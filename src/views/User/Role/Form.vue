@@ -1,5 +1,5 @@
 <template>
-    <ChForm
+    <MIJForm
       :formData="formData"
       :createAction="doCreate"
       :updateAction="doUpdate"
@@ -171,7 +171,7 @@
             
             
         </b-row>
-    </ChForm>
+    </MIJForm>
 </template>
 <script>
 import Access from '../../../constant/accessModule'

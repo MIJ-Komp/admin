@@ -2,7 +2,8 @@
    <div class="searmij-container w-100">
       <b-row class="w-100 m-0">
          <b-col cols="12" 
-            :lg="6 + (!showRefresh ? 2:0) + (!showDelete ? 2:0) + (!showCreate ? 2:0)">
+            :lg="6 + (!showRefresh ? 2:0) + (!showDelete ? 2:0) + (!showCreate ? 2:0)"
+            :md="6 + (!showRefresh ? 2:0) + (!showDelete ? 2:0) + (!showCreate ? 2:0)">
             <div >
                <span class="font-body">{{ $label.searchBar.label }}</span>
                <div class="input-container">
@@ -18,7 +19,7 @@
             </div>
          </b-col>
          <b-col class="mt-2" 
-               :cols="!showDelete || !showCreate? 6 : 4" lg="2" style="align-content: end;" v-if="showRefresh">
+               :cols="!showDelete || !showCreate? 6 : 4" lg="2" md="2" style="align-content: end;" v-if="showRefresh">
                <!-- <Button label="View" buttonType="secondary" @click="updateValue"/> -->
                <Button
                   buttonType="secondary"
@@ -27,7 +28,7 @@
                   @click="refresh"
                />
          </b-col>
-         <b-col class="mt-2" :cols="!showRefresh || !showCreate? 6 : 4" lg="2" style="align-content: end;" v-if="showDelete">
+         <b-col class="mt-2" :cols="!showRefresh || !showCreate? 6 : 4" lg="2" md="2" style="align-content: end;" v-if="showDelete">
                <Button
                   :label="`${$label.action.delete} ${selectedItems && selectedItems.length > 0 ? '('+selectedItems.length+')':'' }`"
                   :buttonType="'danger'"
@@ -35,7 +36,7 @@
                   :iconFa="'fa fa-trash'"
                />
          </b-col>
-         <b-col class="mt-2" :cols="!showDelete || !showRefresh? 6 : 4" lg="2" style="align-content: end;" v-if="showCreate">
+         <b-col class="mt-2" :cols="!showDelete || !showRefresh? 6 : 4" lg="2" md="2" style="align-content: end;" v-if="showCreate">
                <Button
                   :label="$label.searchBar.addButton"
                   @click="openCreateModule"
@@ -134,32 +135,38 @@ export default {
 </script>
 
 <style scoped>
+.searmij-container button{
+   height: 32px !important;
+   font-size: 12px !important;
+}
+.font-button{
+   font-size: 12px !important;
+}
+
 .input-container {
    margin-top: 12px;
    border-radius: 8px;
    background: var(--grey-50);
    border: 1px solid var(--grey-900);
    display: flex;
-   height: 56px;
+   height: 32px;
 }
 .input-container input {
    height: auto;
    width: 100%;
-   padding-left: 10px;
    border-radius: 8px;
    background: white;
 }
 
 .input-container i {
    color: var(--blue-500);
-   font-size: 20px;
-   padding: 16px;
-   margin-right: 10px;
+   font-size: 14px;
+   padding: 8px;
+   margin-right: 8px;
 }
 .searmij-container {
-   padding: 20px;
+   padding: 8px 0;
    background: var(--grey-50);
-   border-radius: 8px;
    display: flex;
    align-items: end;
    justify-content: space-between;

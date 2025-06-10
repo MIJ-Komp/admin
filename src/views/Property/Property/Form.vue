@@ -1,5 +1,5 @@
 <template>
-   <ChForm :formData="formData"
+   <MIJForm :formData="formData"
    :createAction="doCreate"
    :updateAction="doUpdate"
    :showCancel="showCancel"
@@ -12,14 +12,14 @@
       </b-row>
       <b-row class="mt-4">
          <b-col cols="12">
-            <TextBox label="Nama Properti" v-model="form.Name" :minLength="8"/>
+            <TextBox label="Nama Properti" v-model="form.Name" placeholder="input nama" :minLength="8"/>
          </b-col>
       </b-row>
       <b-row class="mt-4">
          <b-col cols="12">
             <SelectModuleBox
                label="Tipe Properti"
-               :module="$module.propertyType"
+               :module="$module.productCategory"
                v-model="form.PropertyTypeId"
             />
          </b-col>
@@ -180,7 +180,7 @@
             </div>
          </b-col>
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template><script>
 import { mapActions } from "vuex";
 import module from "../../../constant/module";

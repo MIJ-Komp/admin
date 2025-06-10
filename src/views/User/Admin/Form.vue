@@ -1,5 +1,5 @@
 <template>
-   <ChForm 
+   <MIJForm 
    :formData="formData"
    :createAction="doCreate"
    :updateAction="doUpdate"
@@ -36,7 +36,7 @@
                v-model="form.RoleId"
          /></b-col>
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template>
 <script>
 import { mapActions } from "vuex";

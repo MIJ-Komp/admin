@@ -1,5 +1,5 @@
 <template>
-   <ChForm
+   <MIJForm
       :formData="formData"
       :createAction="doCreate"
       :updateAction="doUpdate"
@@ -377,7 +377,7 @@
             </div>
          </b-col>
       </b-row>
-   </ChForm>
+   </MIJForm>
 </template>
 <script>
 import Select from "primevue/select";

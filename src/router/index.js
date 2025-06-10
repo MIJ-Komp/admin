@@ -58,8 +58,8 @@ import Gateway from "../views/Device/Gateway/List.vue";
 import GatewayForm from "../views/Device/Gateway/Form.vue";
 
 //Catalog
-import PropertyType from "../views/Catalog/PropertyType/List.vue";
-import PropertyTypeForm from "../views/Catalog/PropertyType/Form.vue";
+import ProductCategory from "../views/Catalog/ProductCategory/List.vue";
+import ProductCategoryForm from "../views/Catalog/ProductCategory/Form.vue";
 
 import PropertyFacility from "../views/Catalog/PropertyFacility/List.vue";
 import PropertyFacilityForm from "../views/Catalog/PropertyFacility/Form.vue";
@@ -142,7 +142,7 @@ const routes = [
       //List
       path: `/${constant.router.productCategory}`,
       name: label.menu.productCategory,
-      component: PropertyType,
+      component: ProductCategory,
       meta: {
          module: module.productCategory,
          description: ``,
@@ -152,11 +152,11 @@ const routes = [
    },
    {
       // Create
-      path: `/${constant.router.propertyType}/add`,
-      name: `${label.action.create} ${label.menu.propertyType}`,
-      component: PropertyTypeForm,
+      path: `/${constant.router.productCategory}/add`,
+      name: `${label.action.create} ${label.menu.productCategory}`,
+      component: ProductCategoryForm,
       meta: {
-         module: module.propertyType,
+         module: module.productCategory,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.create,
@@ -164,11 +164,11 @@ const routes = [
    },
    {
       //Update
-      path: `/${constant.router.propertyType}/update/:id`,
-      name: `${label.action.update} ${label.menu.propertyType}`,
-      component: PropertyTypeForm,
+      path: `/${constant.router.productCategory}/update/:id`,
+      name: `${label.action.update} ${label.menu.productCategory}`,
+      component: ProductCategoryForm,
       meta: {
-         module: module.propertyType,
+         module: module.productCategory,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.update,

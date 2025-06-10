@@ -17,7 +17,7 @@ import paymentMethod from "./modules/paymentMethod";
 import paymentType from "./modules/paymentType";
 import property from "./modules/property";
 import propertyFacility from "./modules/propertyFacility";
-import propertyType from "./modules/propertyType";
+import productCategory from "./modules/productCategory";
 import role from "./modules/role";
 import roomAvailability from "./modules/roomAvailability";
 import roomFacility from "./modules/roomFacility";
@@ -52,7 +52,7 @@ export default createStore({
       paymentMethod: paymentMethod,
       property: property,
       propertyFacility: propertyFacility,
-      propertyType: propertyType,
+      productCategory: productCategory,
       role: role,
       roomAvailability: roomAvailability,
       roomFacility: roomFacility,
