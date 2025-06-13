@@ -14,7 +14,7 @@ const actions = {
         return await axios.post('/addOn', data)
     },
     async update({commit}, data){
-        return await axios.put(`/addOn/${data.Id}`, data)
+        return await axios.put(`/addOn/${data.id}`, data)
     },
     async delete({commit}, id){
         return await axios.delete(`/addOn/${id}`)

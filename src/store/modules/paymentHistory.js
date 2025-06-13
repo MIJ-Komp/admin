@@ -242,7 +242,7 @@ const actions = {
       return await axios.delete(`/payment-method/${id}`);
    },
    async update({ commit }, data) {
-      return await axios.patch(`/payment-method/${data.Id}`, data);
+      return await axios.put(`/payment-method/${data.id}`, data);
    },
    async getById({ commit }, id) {
       return await axios.get(`/payment-method/${id}`);

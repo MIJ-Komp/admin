@@ -15,7 +15,7 @@ const actions = {
       return await axios.delete(`/roomType/${id}`);
    },
    async update({}, data) {
-      return await axios.put(`/roomType/${data.Id}`, data);
+      return await axios.put(`/roomType/${data.id}`, data);
    },
    async getById({}, id) {
       return await axios.get(`/roomType/${id}`);

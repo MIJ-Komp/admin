@@ -1,6 +1,7 @@
+
 const constant = {
-   apiURL: "https://devapich.pasifiksgroup.com:8443",
-   // apiURL: "http://192.168.110.114:5008/",
+   // apiURL: "https://devapich.pasifiksgroup.com:8443",
+   apiURL: "http://localhost:5000/api",
    // apiURL: "http://localhost:5008",
    baseURL: "https://admin.cloudhomes.id",
    Label: {

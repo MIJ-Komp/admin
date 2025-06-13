@@ -21,7 +21,7 @@ const actions = {
    },
 
    async update({}, data) {
-      return await axios.put(`/room/editRoomByPriceType/${data.Id}`, data);
+      return await axios.put(`/room/editRoomByPriceType/${data.id}`, data);
    },
 
    async updateStatus({}, data) {
@@ -29,7 +29,7 @@ const actions = {
    },
 
    async setRoomLock({}, data) {
-      return await axios.put(`/room/setLock/${data.Id}`, data);
+      return await axios.put(`/room/setLock/${data.id}`, data);
    },
 
    async getLockRecords({}, roomId) {

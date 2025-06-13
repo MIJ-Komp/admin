@@ -91,38 +91,19 @@ apiClient.interceptors.request.use(
 //set sesuai response backend
 apiClient.interceptors.response.use(
    (response) => {
-      // var return null
-
       // Proses respons jika berhasil
-      if (response && response.data && response.data.code != 0) {
-         if (response.data.msg) {
-            return Promise.reject(response.data.msg);
+      if (response && response.data && response.data.code != 200) {
+         if (response.data.message) {
+            return Promise.reject(response.data.message);
          }
          else
-            return Promise.reject(response.data);
+            return Promise.reject(response.data.content);
       }
-      else if (response.data && (response.data.data || response.data.code == 0)) {
-         return response.data.data || response.data.msg;
+      else if (response.data && (response.data.content || response.data.code == 200)) {
+         return response.data.content || response.data.message;
       }
       else
          return response.data; // Mengembalikan data langsung
-
-      
-      // const requestIndex = processing.findIndex((data) =>
-      //    data.url === response.config.url &&
-      //    data.data === JSON.stringify(response.config.data) &&
-      //    data.headers === JSON.stringify(response.config.headers) &&
-      //    data.params === JSON.stringify(response.config.params) &&
-      //    data.method === response.config.method
-      // );
-
-      // if (requestIndex !== -1 && returnData) {
-      //    cache.set(getKey(processing[requestIndex]), returnData)
-      //    processing[requestIndex].resolve(returnData);
-      //    // processing.splice(requestIndex, 1); // Hapus dari processing
-      // }
-
-      return returnData;
    },
    (error) => {
       console.log(error)
@@ -134,33 +115,28 @@ apiClient.interceptors.response.use(
       }
       
       // Tangani error di sini
-      if (error.response) {
-         if (error.response.status === 401 && !import.meta.env.VITE_IS_DEVELOPMENT) {
+      if (error.response && error.response.data.code === 401) {
             window.location.href = "/login";
             localStorage.removeItem("authorization");
             localStorage.removeItem("user");
-         }
       } else {
          console.log("Network error:", error);
       }
       // console.log(error);
+      console.log(error.response.data)
       if (
          error.response &&
          error.response.data &&
-         error.response.data.code != 0
+         error.response.data.code != 200
       ) {
-         if (error.response.data.data && Array.isArray(error.response.data.data) && error.response.data.data.length > 0) {
-            const firstError = Object.keys(
-               error.response.data.data[0].error
-            )[0];
-            const msg = error.response.data.data[0].error[firstError];
+         if (error.response.data.message && Array.isArray(error.response.data.message) && error.response.data.message.length > 0) {
+            // const firstError = Object.keys(
+               // error.response.data.message[0]
+            // )[0];
+            const msg = error.response.data.message[0];
             return Promise.reject(msg);
-         } else if (error.response.data.msg) {
-            if(error.response.data.msg.name && error.response.data.msg?.original?.sqlMessage){
-               return Promise.reject(`${error.response.data.msg.name}\n${error.response.data.msg?.original?.sqlMessage}`);
-            }
-            else
-               return Promise.reject(error.response.data.msg);
+         } else if (error.response.message) {
+            return Promise.reject(error.response.message)
          }
          else
             return Promise.reject(error.response.data);

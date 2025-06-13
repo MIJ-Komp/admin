@@ -67,7 +67,7 @@ export default {
                            .replace(":id", route.params.id)
                            .replace(
                               ":roomTypeId",route.params.roomTypeId
-                           ) + `/${data.Id}/history-status`,
+                           ) + `/${data.id}/history-status`,
                   });
                },
             },
@@ -80,7 +80,7 @@ export default {
                            .replace(":id", route.params.id)
                            .replace(
                               ":roomTypeId", route.params.roomTypeId
-                           ) + `/${data.Id}/history-lock`,
+                           ) + `/${data.id}/history-lock`,
                   });
                },
             },

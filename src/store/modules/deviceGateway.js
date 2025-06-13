@@ -17,7 +17,7 @@ const actions = {
         return await axios.delete(`/productVariant/${id}`)
     },
     async update({commit}, data){
-        return await axios.patch(`/productVariant/${data.Id}`, data)
+        return await axios.put(`/productVariant/${data.id}`, data)
     },
     async getById({commit}, id){
         return await axios.get(`/productVariant/${id}`)

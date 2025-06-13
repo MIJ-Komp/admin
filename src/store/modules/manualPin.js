@@ -14,7 +14,7 @@ const actions = {
         return await axios.post('/pinRoom', data)
     },
     async update({commit}, data){
-        return await axios.put(`/pinRoom/${data.Id}`, data)
+        return await axios.put(`/pinRoom/${data.id}`, data)
     },
     async delete({commit}, id){
         return await axios.delete(`/pinRoom/${id}`)

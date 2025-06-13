@@ -23,7 +23,7 @@ const actions = {
     },
     async update({commit}, data){
         if(data) data.Type = 1
-        return await axios.put(`/facilities/${data.Id}`, data)
+        return await axios.put(`/facilities/${data.id}`, data)
     },
     async getById({commit}, id){
         return await axios.get(`/facilities/${id}`)

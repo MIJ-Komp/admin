@@ -39,7 +39,7 @@ const module = {
    addOn: {
       id: 6,
       name: "addOn",
-      form: async () => import("../views/Catalog/AddOn/Form.vue"),
+      // form: async () => import("../views/Catalog/AddOn/Form.vue"),
    },
    property: {
       id: 7,

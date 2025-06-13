@@ -16,7 +16,7 @@ const actions = {
       return await axios.delete(`/property/${id}`);
    },
    async update({ commit }, data) {
-      return await axios.put(`/property/${data.Id}`, data);
+      return await axios.put(`/property/${data.id}`, data);
    },
    async getById({ commit }, id) {
       return await axios.get(`/property/${id}`);

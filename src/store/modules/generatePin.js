@@ -14,7 +14,7 @@ const actions = {
         return await axios.post('/generatePinSetting', data)
     },
     async update({commit}, data){
-        return await axios.put(`/generatePinSetting/${data.Id}`, data)
+        return await axios.put(`/generatePinSetting/${data.id}`, data)
     },
     async delete({commit}, id){
         return await axios.delete(`/generatePinSetting/${id}`)

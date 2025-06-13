@@ -52,7 +52,7 @@ const actions = {
    },
    async update({ commit, dispatch }, data) {
       const user = await dispatch("getCurrentUser");
-      const response = await axios.put(`/admin/${data.Id}`, data);
+      const response = await axios.put(`/admin/${data.id}`, data);
 
       if (user.Id == data.Id) {
          commit("setUser", (await dispatch("getMe")));
@@ -67,10 +67,10 @@ const actions = {
       localStorage.removeItem("user");
 
       commit("setUser", null);
-      await axios.post("/admin/logout");
+      // await axios.post("/admin/logout");
    },
    async login({ commit }, data) {
-      return await axios.post("/admin/login", data);
+      return await axios.post("/auth/login", data);
    },
    async getRoleById({ commit }, id) {
       try{
@@ -109,6 +109,7 @@ const actions = {
       }
    },
    async hasRole({ commit, dispatch }, accessId) {
+      return true
       if(import.meta.env.VITE_IS_DEVELOPMENT){
          return true
       }
@@ -126,6 +127,7 @@ const actions = {
       return true;
    },
    async hasViewRole({ commit, dispatch }, accessId) {
+      return true
       if(import.meta.env.VITE_IS_DEVELOPMENT){
          return true
       }
@@ -142,6 +144,7 @@ const actions = {
       return true;
    },
    async hasCreateRole({ commit, dispatch }, accessId) {
+      return true
       if(import.meta.env.VITE_IS_DEVELOPMENT){
          return true
       }
@@ -157,6 +160,7 @@ const actions = {
       return true;
    },
    async hasUpdateRole({ commit, dispatch }, accessId) {
+      return true
       if(import.meta.env.VITE_IS_DEVELOPMENT){
          return true
       }
@@ -173,6 +177,7 @@ const actions = {
       return true;
    },
    async hasDeleteRole({ commit, dispatch }, accessId) {
+      return true
       if(import.meta.env.VITE_IS_DEVELOPMENT){
          return true
       }
@@ -188,6 +193,7 @@ const actions = {
       return true;
    },
    async hasOtherRole({ commit, dispatch }, otherAccessId) {
+      return true
       if(import.meta.env.VITE_IS_DEVELOPMENT){
          return true
       }
@@ -204,16 +210,16 @@ const actions = {
       return true;
    },
    async getMe(){
-      return await axios.get("/admin/me");
+      return await axios.get("/user/me");
    },
    async getCurrentUser({ commit, state }) {
 
-      if(import.meta.env.VITE_IS_DEVELOPMENT){
-         var userDev={ email: 'admin@mail.com', name: 'Admin'}
-         commit("setUser", userDev);
+      // if(import.meta.env.VITE_IS_DEVELOPMENT){
+      //    var userDev={ email: 'admin@mail.com', name: 'Admin'}
+      //    commit("setUser", userDev);
 
-         return userDev;
-      }
+      //    return userDev;
+      // }
       if (!state.user) {
          const token = localStorage.getItem("authorization");
 
@@ -224,7 +230,7 @@ const actions = {
             return null;
          } else {
             try {
-               var currentUser = await axios.get("/admin/me");
+               var currentUser = await axios.get("/user/me");
 
                localStorage.setItem("user", JSON.stringify(currentUser));
                // var userTmp = await axios.get('/admin/me');

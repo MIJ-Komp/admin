@@ -140,8 +140,9 @@ const columns = {
       { headerName: "Description", field: "Description" },
    ],
    productCategory: [
-      { headerName: "Id", field: "Id" },
-      { headerName: "Name", field: "Name" },
+      { headerName: "Id", field: "id" },
+      { headerName: "Name", field: "name" },
+      { headerName: "ParentId", field: "parentId" },
    ],
    role: [
       { headerName: "Role Name", field: "Name" },

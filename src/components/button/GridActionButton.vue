@@ -174,7 +174,7 @@ export default {
             this.$store
                .dispatch(
                   `${this.params.module.name}/delete`,
-                  this.params.data.Id
+                  this.params.data.id
                )
                .then((response) => {
                   this.$showToast.success(
@@ -205,7 +205,7 @@ export default {
             return;
          }
 
-         if (this.params.openEditModal(this.params.data.Id)) {
+         if (this.params.openEditModal(this.params.data.id)) {
             return;
          }
          let address = this.$constant.router[this.params.module.name]
@@ -218,7 +218,7 @@ export default {
          });
          this.$router.push({
             path: `${address}/update/${
-               this.params.data.Id
+               this.params.data.id
             }`,
          });
       },

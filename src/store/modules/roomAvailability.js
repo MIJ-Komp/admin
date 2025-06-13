@@ -21,7 +21,7 @@ const actions = {
     },
     // async update({commit}, data){
     //     if(data) data.Type = 1
-    //     return await axios.put(`/roomAvailability/${data.Id}`, data)
+    //     return await axios.put(`/roomAvailability/${data.id}`, data)
     // },
     async getById({commit}, id){
         return await axios.get(`/roomAvailability/${id}`)

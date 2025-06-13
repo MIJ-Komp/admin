@@ -21,7 +21,7 @@ const actions = {
       return await axios.delete(`/payment-method-type/${id}`);
    },
    async update({ commit }, data) {
-      return await axios.patch(`/payment-method-type/${data.Id}`, data);
+      return await axios.put(`/payment-method-type/${data.id}`, data);
    },
    async getById({ commit }, id) {
       return await axios.getById(`/payment-method-type/${id}`);

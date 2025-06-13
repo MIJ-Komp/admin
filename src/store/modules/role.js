@@ -22,7 +22,7 @@ const actions = {
     },
     async update({commit, dispatch}, data){
         if(data) data.Type = 1
-        var response = await axios.patch(`/role/${data.Id}`, data)
+        var response = await axios.put(`/role/${data.id}`, data)
 
         const user = await dispatch('user/getCurrentUser', null, { root: true });
 

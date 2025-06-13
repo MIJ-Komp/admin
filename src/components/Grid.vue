@@ -195,13 +195,13 @@ export default {
             // var tmp = ()=> import(/* @vite-ignore */`../constant/columns/${this.module.name}.js`);
             this.columns = columns[this.module.name];
             // console.log("Columns imported in Grid.vue:", this.columns); // Tambahkan log ini untuk memeriksa kolom
-            if ( false && !this.columns.find((data) => data.headerName == "Created On") && this.showDefaultColumn) {
+            if ( !this.columns.find((data) => data.headerName == "Created On") && this.showDefaultColumn) {
                this.columns.push({
                   headerName: "Created On",
-                  field: "CreatedOn",
+                  field: "createdAt",
                   valueFormatter: (params) => {
                      if (params.data) {
-                        return this.$moment(params.data.CreatedOn).format(
+                        return this.$moment(params.data.createdAt).format(
                            "DD MMM yyyy HH:mm:ss"
                         );
                      }
@@ -209,20 +209,20 @@ export default {
                });
                this.columns.push({
                   headerName: "Created By",
-                  field: "CreatedByName",
+                  field: "createdById.username",
                   valueFormatter: (params) => {
                      if (params.data) {
-                        return params.data.CreatedByName || "-";
+                        return params.data.createdById.username || "-";
                      }
                   },
                });
                this.columns.push({
                   headerName: "Updated On",
-                  field: "UpdatedOn",
+                  field: "updatedAt",
                   valueFormatter: (params) => {
                      if (params.data) {
                         return params.data.UpdatedOn
-                           ? this.$moment(params.data.UpdatedOn).format(
+                           ? this.$moment(params.data.updatedAt).format(
                                 "DD MMM yyyy HH:mm:ss"
                              )
                            : "-";
@@ -231,10 +231,10 @@ export default {
                });
                this.columns.push({
                   headerName: "Updated By",
-                  field: "UpdatedByName",
+                  field: "updatedById.username",
                   valueFormatter: (params) => {
                      if (params.data) {
-                        return params.data.UpdatedByName || "-";
+                        return params.data.updatedById.username || "-";
                      }
                   },
                });

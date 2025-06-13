@@ -11,7 +11,7 @@
             <TextBox
                label="Name"
                type="name"
-               v-model="form.Name"
+               v-model="form.name"
                style="margin-bottom: 24px"
             />
          </b-col>

@@ -64,15 +64,6 @@ export default {
    methods: {
       async doLogin() {
          const isError = await this.$refs.form.validate();
-         // console.log(import.meta.env)
-         // // console.log(isError)
-         if(import.meta.env.VITE_IS_DEVELOPMENT){
-               this.$showToast.success("Login Success", "");
-               setTimeout(() => {
-                  window.location.href =`/dashboard`;
-               }, 1000);
-         }
-         else{
          await this.login(this.form)
             .then((res) => {
                // const user = { email: this.form.Email };
@@ -89,7 +80,6 @@ export default {
                // console.log(err)
                this.$showToast.error("Login Failed", err);
             });
-         }
       },
       goto(url) {
          var content = document.getElementById("mij-content");
