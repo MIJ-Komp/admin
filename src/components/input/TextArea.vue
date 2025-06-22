@@ -224,7 +224,7 @@ export default {
       minLength: { type: Number, required: false, default: null },
       maxLength: { type: Number, required: false, default: null },
       rules: { type: String, required: false, default: null },
-      labelType: { type: String, required: false, default: "in" },
+      labelType: { type: String, required: false, default: "out" },
       modelValue: {
          type: String,
          required: false,
@@ -281,7 +281,7 @@ textarea{
 .p-textarea.p-variant-filled:enabled:hover {
    background: white !important;
    color: #1e1e1e;
-   border: 0 !important;
+   // border: 0 !important;
 }
 .p-textarea.p-variant-filled {
    background: white !important;
@@ -301,22 +301,22 @@ textarea{
 }
 .border-normal, .border-disabled {
    border: 1px solid var(--grey-700) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 .border-hover {
    border: 1px solid var(--grey-900) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 .border-focus {
    border: 1px solid var(--blue-500) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 label.text-danger {
    color: var(--red-500) !important;
 }
 .border-danger {
    border: 1px solid var(--red-500) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 .iconFa {
    font-size: 24px;
@@ -344,6 +344,7 @@ label.text-danger {
    border: 0 !important;
 }
 .textarea-out .p-textarea {
-   border: 1pc solid var(--grey-500);
+   border: 1px solid var(--grey-700) !important;
+   margin-top: 0px;
 }
 </style>

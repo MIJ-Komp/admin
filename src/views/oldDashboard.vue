@@ -1,5 +1,212 @@
 <template>
-   <div>Ini adalah halaman dashboard</div>
+   <div class="h-100 dashboard-container fadeIn">
+      <div class="filter-container">
+         <b-row>
+            <b-col class="mt-2">
+              
+            </b-col>
+            <!-- <b-col class="mt-2">
+               <DateBox
+                  label="Date"
+                  selectionMode="range"
+                  :required="false"
+                  labelType="out"
+                  v-model="dataFilter.Date"
+               />
+            </b-col> -->
+            <b-col
+               cols="auto"
+               style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: end;
+               "
+            >
+               <Button @click="openManualBooking" label="Create New Booking " />
+            </b-col>
+         </b-row>
+      </div>
+      <div class="body-container">
+         
+         <div>
+            <b-row>
+               <b-col lg="3" cols="6" class="mt-3 slide-right">
+                  <div class="card p-3">
+                     <div class="font-body">Total Revenue (IDR)</div>
+                     <div class="font-h3">
+                        {{ formatCurrency(totalRevenue) }}
+                     </div>
+                  </div>
+               </b-col>
+               <b-col lg="3" cols="6" class="mt-3 slide-right">
+                  <div class="card p-3">
+                     <div class="font-body">Today's Check In</div>
+                     <div class="font-h3">{{ CheckInCount }}</div>
+                  </div>
+               </b-col>
+               <b-col lg="3" cols="6" class="mt-3 slide-left">
+                  <div class="card p-3">
+                     <div class="font-body">Today's Check Out</div>
+                     <div class="font-h3">{{ CheckOutCount }}</div>
+                  </div>
+               </b-col>
+               <b-col lg="3" cols="6" class="mt-3 slide-left">
+                  <div class="card p-3">
+                     <div class="font-body">Available Rooms</div>
+                     <div class="font-h3">
+                        {{ roomAvailabilityData.Available }}
+                     </div>
+                  </div>
+               </b-col>
+            </b-row>
+            <b-row>
+               <b-col  cols="12" lg="6" class="slide-right mt-4">
+                  <div class="card">
+                     <label>Booking State</label>
+                     <ChChart
+                        style="height: 328px"
+                        v-model="bookingStateChart"
+                        :chartOptions="setStackedVerticalChartoption()"
+                     />
+                  </div>
+               </b-col>
+               <b-col cols="12" lg="3" class="slide-left mt-4">
+                  <div class="card">
+                     <label>Room Availability</label>
+                     <ChChart
+                        style="height: 328px"
+                        v-model="roomAvailabilityChart"
+                        :chartOptions="setStackedHorizontalChartOption()"
+                     />
+                  </div>
+               </b-col>
+               <b-col cols="12" lg="3" class="slide-left mt-4" style="min-height: 328px" >
+                  <div class="card">
+                     <div>Top 10 Booked Properties</div>
+                     <div v-if="topProperties.length < 1" class="text-center mt-4">No Data</div>
+                     <div
+                        class="d-flex align-items-center mt-3"
+                        v-for="property in topProperties"
+                        :key="property.Rank"
+                     >
+                        <div class="property-font">{{ property.Rank }}</div>
+                        <img
+                           class="property-image"
+                           :src="getPropertyImage(property.Image)"
+                        />
+                        <div class="property-font">{{ property.Property }}</div>
+                     </div>
+                  </div>
+               </b-col>
+               <b-col cols="12" lg="6" class="slide-right mt-4">
+                  <div class="card">
+                     <div class="d-flex justify-content-between">
+                        <div>Revenue State</div>
+                        <div class="d-flex">
+                           <select
+                              v-model="revenueFilterYear"
+                              @change="changeRevenueFilterData"
+                           >
+                              <option
+                                 v-for="year in getAvailableYear()"
+                                 :key="year"
+                              >
+                                 {{ year }}
+                              </option>
+                           </select>
+                           <select
+                              v-model="revenueFilterProperty"
+                              @change="changeRevenueFilterData"
+                           >
+                              <option :value="``">All Property</option>
+                              <option
+                                 v-for="prop in propertyList"
+                                 :key="prop.Id"
+                                 :value="prop.Id"
+                              >
+                                 {{ prop.Name }}
+                              </option>
+                           </select>
+                        </div>
+                     </div>
+                     <ChChart
+                        :chartOptions="setSideBySideBarOption()"
+                        v-model="revenueChart"
+                     />
+                  </div>
+               </b-col>
+               <b-col lg="6" cols="12" class="slide-left mt-4">
+                  <div class="card">
+                     <div>Top 5 Add-ons by Revenue</div>
+                     <ChChart
+                        chartType="doughnut"
+                        v-model="topAddOnChart"
+                        :chartOptions="setDoughnutChartOption()"
+                     />
+                  </div>
+               </b-col>
+            </b-row>
+            <div class="card scrollable p-3 mt-3 slide-top">
+               <div class="d-flex justify-content-between">
+                  <small class="mb-4 w-100"><strong>Booking List</strong></small>
+                  <Button
+                     style="width: 80px !important"
+                     buttonType="text"
+                     @click="
+                        $router.push({ path: $constant.router.paymentHistory })
+                     "
+                     label="See all"
+                  />
+               </div>
+               <ag-grid-vue
+                  :ref="ref"
+                  :id="`grid-booking-list`"
+                  class="ag-theme-quartz"
+                  :columnDefs="computedColumns"
+                  :rowData="[...bookingHistoryList]"
+                  :defaultColDef="defaultColDef"
+                  :autoGroupColumnDef="autoGroupColumnDef"
+                  :suppressAutoSize="true"
+                  :suppressDragLeaveHidesColumns="true"
+                  :suppressMakeColumnVisibleAfterUnGroup="true"
+                  :suppressRowGroupHidesColumns="true"
+                  :suppressHeaderMenuButton="false"
+                  :pagination="false"
+                  :rowSelection="false"
+                  style="height: 100%;"
+               />
+            </div>
+            <div class="card scrollable p-3 mt-3 slide-top">
+               <div class="">
+                  <small class="mb-4"><strong>Recent Activities</strong></small>
+                  <div
+                     v-for="(activity, i) in recentActivityList"
+                     :key="activity.Id"
+                     class="d-flex mb-4 position-relative"
+                  >
+                     <span class="circle-indicator" />
+                     <span
+                        v-if="i + 1 != recentActivityList.length"
+                        class="line-indicator"
+                     />
+                     <div class="d-flex-column">
+                        <div class="d-flex">
+                           <label class="recent-activity-header">
+                              {{ activity.Admin.Name }} -
+                              {{ activity.Admin.Role.Name }}
+                           </label>
+                           <label class="recent-activity-time">
+                              &nbsp;- {{ getTime(activity.CreatedOn) }}</label
+                           >
+                        </div>
+                        <small>{{ activity.Description }}</small>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </template>
 <script>
 import { onBeforeMount, ref } from "vue";

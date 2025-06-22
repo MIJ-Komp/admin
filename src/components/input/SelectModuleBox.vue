@@ -109,6 +109,13 @@
                :type="type"
                :showClear="!this.required && !this.disabled"
             >
+               <template #footer>
+                  <!-- <div v-if="!sourceData || sourceData.length <= 0" style="padding: 14px;">Tidak Ada Data</div> -->
+                  <div class="addButton" @click="createForm">
+                     <i class="fa fa-plus" />
+                     <div>{{ $label.action.create }}</div>
+                  </div>
+               </template>
             </Select>
          </div>
 
@@ -119,7 +126,7 @@
          >
             <i
                class="fa fa-exclamation-circle pr-2"
-               style="font-size: 18px; margin-right: 5px"
+               style="font-size: 13px; margin-right: 5px"
             />
             <div class="font-small">{{ errors[0] }}</div>
          </div>
@@ -233,11 +240,11 @@ export default {
                   case "focus":
                      this.$refs.label.classList.add("font-small");
                      this.$refs.label.style.color =
-                        "var(--blue-500) !important";
+                        "var(--primary-color) !important";
 
                      if (this.$refs.iconFa)
                         this.$refs.iconFa.style.color =
-                           "var(--blue-500) !important";
+                           "var(--primary-color) !important";
                      break;
                   default:
                      this.$refs.label.classList.add("font-body");
@@ -301,8 +308,8 @@ export default {
                      );
                      if (this.haveAllOption) {
                         this.sourceData.unshift({
-                           Id: null,
-                           Name: `All ${this.capitalizeWords(this.module.name)}`,
+                           id: null,
+                           name: `All ${this.capitalizeWords(this.module.name)}`,
                         });
                      }
                   }
@@ -362,12 +369,12 @@ export default {
    },
    props: {
       module: { type: Object, required: false, default: () => {} },
-      height: { type: Number, required: false, default: 80 },
-      labelType: { type: String, required: false, default: "in" },
+      height: { type: Number, required: false, default: 30 },
+      labelType: { type: String, required: false, default: "out" },
       minLength: { type: Number, required: false, default: null },
       maxLength: { type: Number, required: false, default: null },
-      optionLabel: { type: String, required: false, default: "Name" },
-      optionValue: { type: String, required: false, default: "Id" },
+      optionLabel: { type: String, required: false, default: "name" },
+      optionValue: { type: String, required: false, default: "id" },
       haveAllOption: { type: Boolean, required: false, default: false },
       placeholder: { type: String, required: false, default: "" },
       rules: {
@@ -431,14 +438,14 @@ export default {
    background: var(--blue-100);
 }
 .addButton i {
-   font-size: 20px;
+   font-size: 12px;
    margin-right: 10px;
 }
 .addButton {
    border-top: 1px solid var(--grey-800) !important;
    padding: 14px 12px;
    display: flex;
-   color: var(--blue-500) !important;
+   color: var(--primary-color) !important;
    align-items: center;
    cursor: pointer;
 }
@@ -448,6 +455,7 @@ export default {
 }
 .p-select {
    width: 100%;
+   height: 30px !important;
 }
 .p-select.p-variant-filled:enabled:focus,
 .p-select.p-variant-filled:enabled:hover {
@@ -469,27 +477,27 @@ export default {
 }
 .p-floatlabel-in:has(input:focus) label,
 .p-floatlabel-in:has(input.p-filled) label {
-   color: var(--blue-500) !important;
+   color: var(--primary-color) !important;
 }
 .border-normal {
    border: 1px solid var(--grey-700) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 .border-hover {
    border: 1px solid var(--grey-900) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 .border-focus,
 .p-filled {
-   border: 1px solid var(--blue-500) !important;
-   border-radius: 8px;
+   border: 1px solid var(--primary-color) !important;
+   border-radius: 4px;
 }
 label.text-danger {
    color: var(--red-500) !important;
 }
 .border-danger {
    border: 1px solid var(--red-500) !important;
-   border-radius: 8px;
+   border-radius: 4px;
 }
 .iconFa {
    font-size: 24px;
@@ -510,7 +518,7 @@ label.text-danger {
    position: relative;
 }
 .select-container .font-small {
-   color: var(--blue-500);
+   color: var(--primary-color);
 }
 .select-container .font-body {
    color: var(--grey-800);

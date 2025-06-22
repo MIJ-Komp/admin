@@ -1,15 +1,7 @@
 <template>
    <div class="fadeIn" style="display: flex; flex-direction: column; height: 100%;">
-      <div class="header" v-if="userHasRole">
-         <SearchBar
-            :showDelete="false"
-            :showCreate="false"
-            :showRefresh="false"
-         ></SearchBar>
-      </div>
       <div class="content" v-if="userHasRole">
          <div
-            @click="openReport(rep.Id)"
             class="d-flex justify-content-between align-items-center p-3 rounded bg-white mb-3 border"
             style="cursor: pointer"
             v-for="rep in reportList"
@@ -42,11 +34,11 @@ export default {
             },
             {
                Id: 2,
-               Name: "Top Property",
+               Name: "Top Product",
             },
             {
                Id: 3,
-               Name: "Employee Cleaning History",
+               Name: "Top Category",
             },
          ],
       };

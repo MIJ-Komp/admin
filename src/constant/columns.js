@@ -26,17 +26,8 @@ const columns = {
       { headerName: "Description", field: "Description" },
    ],
    productVariant: [
-      { headerName: "Name", field: "Name" },
-      {
-         headerName: "Amount",
-         field: "Amount",
-         valueFormatter: (params) => {
-            if(params.data){
-               var amount = helper.ConvertNumberFormat(params.data.Amount);
-               return `${params.data.Type == 1 ? amount + " %" : "Rp " + amount}`;
-            }
-         },
-      },
+      { headerName: "Id", field: "id" },
+      { headerName: "Name", field: "name" },
    ],
    deviceGateway: [
       { headerName: "Nama", field: "name" },
@@ -136,8 +127,8 @@ const columns = {
       // { headerName: "Created By", field: "CreatedByName" },
    ],
    product: [
-      { headerName: "Name", field: "Name" },
-      { headerName: "Description", field: "Description" },
+      { headerName: "Name", field: "name" },
+      { headerName: "Description", field: "description" },
    ],
    productCategory: [
       { headerName: "Id", field: "id" },

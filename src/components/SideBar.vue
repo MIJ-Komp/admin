@@ -125,12 +125,6 @@ export default {
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.productVariant,
-                     path: this.$constant.router.productVariant,
-                     visible: await this.hasViewRole(accessModule.module.productVariant.Id)
-                  },
-                  {
-                     // icon: this.$assets.icons.plus,
                      label: this.$label.menu.menu,
                      path: this.$constant.router.menu,
                      visible: true //await this.hasViewRole(accessModule.module.addOn.Id)
@@ -148,12 +142,6 @@ export default {
                label: this.$label.menu.report,
                path: this.$constant.router.report,
                visible: await this.hasViewRole(accessModule.module.report.Id)
-            },
-            {
-               icon: this.$assets.icons.setting,
-               label: this.$label.menu.setting,
-               path: this.$constant.router.setting,
-               visible: await this.hasViewRole(accessModule.module.setting.Id)
             },
          ]
   },
@@ -221,8 +209,7 @@ export default {
          console.log(this.path)
          if (this.path) {
             if(menu.path && 
-               ((menu.path.split('/')[1] == 'property' && this.path.split('/')[0] == 'property') ||
-               this.path?.includes(menu.path.replace("/", "").trim().toLocaleLowerCase()))
+               this.path?.includes(menu.path.replace("/", "").trim().toLocaleLowerCase())
             ){
                return "active";
             }

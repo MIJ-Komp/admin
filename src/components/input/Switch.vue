@@ -56,29 +56,31 @@ export default {
     height: 30px;
 }
 .switmij-container{
+    font-size: 12px;
     display: flex;
     flex-direction: row;
     align-items: center !important;
     justify-content: space-between;
 }
 .switmij-container .p-toggleswitch{
-  width: 76px !important;
-    height: 32px !important;
+    width: 76px !important;
+    height: 30px !important;
 }
 .switmij-container .p-toggleswitch .p-toggleswitch-handle{
-  border: 0.5px solid black !important;
+  /* border: 0.5px solid black !important; */
   background: var(--grey-700) !important;
-  font-size: 14px;
+  font-size: 12px !important;
 }
 .switmij-container .p-toggleswitch .p-toggleswitch-handle{
   inset-inline-start: 8px !important;
-  font-size: 14px;
+  font-size: 12px !important;
 }
 
 .switmij-container .p-toggleswitch-checked .p-toggleswitch-handle{
   inset-inline-start: calc(100% - 26px) !important;
-  background: var(--blue-500) !important;
-  font-size: 14px;
+  background: var(--primary-color) !important;
+  font-size: 12px !important;
+  border: 0.5px solid black !important;
 }
 .switmij-container .p-toggleswitch-checked .p-toggleswitch-handle{
   margin-right: 0;

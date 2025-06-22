@@ -8,11 +8,7 @@ const mutations = {
 import axios from '../axios'
 const actions = {
     async getAll({ commit }) {
-        const facilities = await axios.get('/facilities/getAll')
-        if(facilities && facilities.length > 0){
-            return facilities.filter(data=> data.Type == 1) // 1 adalah tipe fasilitas kamar
-        }
-        return []
+        return (await axios.get('/admin/products'))?.items
     },
     async create({commit}, data){
         if(data) data.Type = 1

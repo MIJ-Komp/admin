@@ -7,6 +7,21 @@ const GetLabel = () => {
    }
    return constant.Label[language];
 };
+
+function GenerateUUID(exist) {
+   var returnData = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+   if(!exist || !Array.isArray(exist) || exist.length <= 0){
+       return returnData;
+   }
+   while(exist.filter(data=> data == returnData).length > 1){
+      returnData = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+   }
+   return returnData;
+}
 function IsEmpty(str) {
    if(!str) return true
    return !str.trim();
@@ -48,5 +63,6 @@ export default {
    UpperCaseFirstChar,
    GenerateRandomUUID,
    ConvertNumberFormat,
-   IsEmpty
+   IsEmpty,
+   GenerateUUID
 };

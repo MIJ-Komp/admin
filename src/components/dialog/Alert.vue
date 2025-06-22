@@ -1,6 +1,6 @@
 <template>
   <Dialog class="dialog" v-model:visible="visible" modal :header="title" :style="{ width: '50vw' }" 
-  :closable="false" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+  :closable="false" :breakpoints="{ '1199px': '60vw', '575px': '90vw' }">
       <div ref="label" class="mb-3">
       </div>
       <div class="actionButton mt-5">

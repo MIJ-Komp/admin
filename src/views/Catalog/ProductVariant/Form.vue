@@ -9,35 +9,19 @@
       <b-row>
          <b-col cols="12">
             <TextBox
-               label="Nama Biaya Tambahan"
+               label="Name"
                type="name"
-               v-model="form.Name"
+               v-model="form.name"
                style="margin-bottom: 24px"
             />
          </b-col>
+         
+         <!-- <b-col cols="12">
+          <TextArea :required="false" label="Deskripsi">
+
+          </TextArea>
+        </b-col> -->
       </b-row>
-      <b-row class="align-i-center">
-         <b-col cols="auto">
-            <SelectBox
-               :dataSource="chargeTypes"
-               v-model="form.Type"
-               :required="false"
-            />
-         </b-col>
-         <b-col>
-            <TextBox
-               type="number"
-               :required="false"
-               label="Nilai"
-               v-model="form.Amount"
-            />
-         </b-col>
-      </b-row>
-      <!-- <b-row class="mt-4">
-      <b-col cols="12">
-        <TextArea :required="false" label="Deskripsi" v-model="form.description"/>
-      </b-col>
-    </b-row> -->
    </MIJForm>
 </template>
 <script>
@@ -54,35 +38,23 @@ export default {
       doUpdate() {
          return this.update(this.form);
       },
-      ...mapActions(module.productVariant.name, ["create", "update", "getById"]),
+      ...mapActions(module.productVariant.name, ["create", "getById", "update"]),
    },
    created() {},
-   watch: {
-      "form.Type": {
-         immediate: true,
-         async handler(newVal) {
-            // console.log(newVal)
-         },
-      },
-   },
+   watch: {},
    data() {
       return {
          formData: {
             module: this.$module.productVariant,
          },
          form: {
+            Code: null,
             Name: null,
-            Type: 1,
-            Amount: null,
-            // description: null
          },
-         chargeTypes: [
-            { Id: 1, Name: "%" },
-            { Id: 2, Name: "Rp" },
-         ],
       };
    },
    async mounted() {
+      // // console.log(this.$route)
       if (this.$route.meta.formMode == this.$constant.formMode.update) {
          const tmpForm = await this.getById(this.$route.params.id);
          this.form = Object.assign(this.form, tmpForm);

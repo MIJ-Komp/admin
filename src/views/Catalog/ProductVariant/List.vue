@@ -1,5 +1,5 @@
 <template>
-   <ListPage :module="$module.productVariant" />
+   <ListPage :module="$module.productVariant" :showDefaultColumn="false" />
 </template>
 <script>
 import { provide, ref, onMounted } from "vue";

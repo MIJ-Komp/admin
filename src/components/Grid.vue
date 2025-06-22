@@ -188,7 +188,7 @@ ModuleRegistry.registerModules([
 export default {
    inject: ['openModal'],
 
-   async beforeMount() {
+   async mounted() {
       try {
          if (this.module && this.module.name) {
             this.columns = [];
@@ -209,10 +209,10 @@ export default {
                });
                this.columns.push({
                   headerName: "Created By",
-                  field: "createdById.username",
+                  field: "createdById?.username",
                   valueFormatter: (params) => {
                      if (params.data) {
-                        return params.data.createdById.username || "-";
+                        return params.data.createdById?.username || "-";
                      }
                   },
                });
@@ -231,10 +231,10 @@ export default {
                });
                this.columns.push({
                   headerName: "Updated By",
-                  field: "updatedById.username",
+                  field: "updatedById?.username",
                   valueFormatter: (params) => {
                      if (params.data) {
-                        return params.data.updatedById.username || "-";
+                        return params.data.updatedById?.username || "-";
                      }
                   },
                });
@@ -364,15 +364,21 @@ export default {
          } else {
             this.columns = [];
          }
+         this.refreshData()
+      
+         this.windowWidth = window.outerWidth
+         window.addEventListener("resize", (data)=>{
+            this.windowWidth = window.outerWidth
+         });
       } catch (err) {
          console.error(err);
          this.columns = [];
       }
       // this.$forceUpdate();
    },
-   mounted() {
+   // mounted() {
 
-   },
+   // },
    computed: {
       getRowData() {
          return this.currentValue;
@@ -464,7 +470,7 @@ export default {
    },
    props: {
       showSearchBar:{default: false},
-      optionId:{type: String, default: 'Id'},
+      optionId:{type: String, default: 'id'},
       showDefaultColumn:{type:Boolean, default: true},
       autoSizeStrategy:{type: String, default: null}, //fitCellContents //fitGridWidth
       module: {
@@ -564,15 +570,7 @@ export default {
          },
       },
    },
-   async mounted() {
-      // this.setLoading(true)
-      this.refreshData()
-      
-      this.windowWidth = window.outerWidth
-      window.addEventListener("resize", (data)=>{
-         this.windowWidth = window.outerWidth
-      });
-   },
+
    methods: {
       checkSelectedItems(){
          this.selectedItems = this.getRowData.filter(data=> data.selected)
@@ -740,7 +738,6 @@ export default {
    padding-right: 8px;
 }
 .grid-card{
-   border-radius: 8px;
    background: white;
    border: 2px solid var(--grey-500);
    padding: 10px;
@@ -815,7 +812,6 @@ export default {
 .grid-container {
    padding: 8px;
    background: var(--grey-50);
-   border-radius: 8px;
    height: 100%;
 }
 .grid-container .ag-theme-quartz,

@@ -165,7 +165,7 @@ const constant = {
       dashboard: "/dashboard",
 
       productCategory: "/catalog/product-category",
-      product: "/catalog/product",
+      product: "/catalog/products",
       productBundle: "/catalog/product-bundle",
       productVariant: "/catalog/product-variant",
       menu: "/catalog/menu",

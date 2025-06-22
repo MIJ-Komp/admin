@@ -62,13 +62,10 @@ import ProductCategory from "../views/Catalog/ProductCategory/List.vue";
 import ProductCategoryForm from "../views/Catalog/ProductCategory/Form.vue";
 
 import Product from "../views/Catalog/Product/List.vue";
-import PropertyFacilityForm from "../views/Catalog/Product/Form.vue";
-
-import ProductBundle from "../views/Catalog/ProductBundle/List.vue";
-import RoomFacilityForm from "../views/Catalog/ProductBundle/Form.vue";
+import ProductForm from "../views/Catalog/Product/Form.vue";
 
 import ProductVariant from "../views/Catalog/ProductVariant/List.vue";
-import ChargeForm from "../views/Catalog/ProductVariant/Form.vue";
+import ProductVariantForm from "../views/Catalog/ProductVariant/Form.vue";
 
 import Menu from "../views/Catalog/Menu/List.vue";
 import MenuForm from "../views/Catalog/Menu/Form.vue";
@@ -193,7 +190,7 @@ const routes = [
       // Create
       path: `/${constant.router.product}/add`,
       name: `${label.action.create} ${label.menu.product}`,
-      component: PropertyFacilityForm,
+      component: ProductForm,
       meta: {
          module: module.product,
          description: ``,
@@ -205,7 +202,7 @@ const routes = [
       //Update
       path: `/${constant.router.product}/update/:id`,
       name: `${label.action.update} ${label.menu.product}`,
-      component: PropertyFacilityForm,
+      component: ProductForm,
       meta: {
          module: module.product,
          description: ``,
@@ -220,7 +217,7 @@ const routes = [
       //List
       path: `/${constant.router.productBundle}`,
       name: label.menu.productBundle,
-      component: ProductBundle,
+      component: Product,
       meta: {
          module: module.productBundle,
          description: ``,
@@ -232,7 +229,7 @@ const routes = [
       // Create
       path: `/${constant.router.productBundle}/add`,
       name: `${label.action.create} ${label.menu.productBundle}`,
-      component: RoomFacilityForm,
+      component: ProductForm,
       meta: {
          module: module.productBundle,
          description: ``,
@@ -244,7 +241,7 @@ const routes = [
       //Update
       path: `/${constant.router.productBundle}/update/:id`,
       name: `${label.action.update} ${label.menu.productBundle}`,
-      component: RoomFacilityForm,
+      component: ProductForm,
       meta: {
          module: module.productBundle,
          description: ``,
@@ -271,7 +268,7 @@ const routes = [
       // Create
       path: `/${constant.router.productVariant}/add`,
       name: `${label.action.create} ${label.menu.productVariant}`,
-      component: ChargeForm,
+      component: ProductVariantForm,
       meta: {
          module: module.productVariant,
          description: ``,
@@ -283,7 +280,7 @@ const routes = [
       //Update
       path: `/${constant.router.productVariant}/update/:id`,
       name: `${label.action.update} ${label.menu.productVariant}`,
-      component: ChargeForm,
+      component: ProductVariantForm,
       meta: {
          module: module.productVariant,
          description: ``,
