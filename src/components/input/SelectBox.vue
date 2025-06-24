@@ -267,9 +267,12 @@ export default {
                if(newVal){
                   this.onStatus('focus')
                }
-               if (this.$refs["select-box"]) {
-                  this.$refs["select-box"].$emit("input", newVal);
-               }
+               setTimeout(() => {
+                  if (this.$refs["select-box"]) {
+                     this.$refs["select-box"].$emit("input", newVal);
+                  }
+               }, 100)
+               this.$emit('change', newVal);
                this.$emit("update:modelValue", this.currentValue);
             }
          },
@@ -287,6 +290,7 @@ export default {
             
             setTimeout(() => {
                if (this.$refs["select-box"] && newVal) {
+                  this.$emit('change', newVal);
                   this.$refs["select-box"].$emit("input", newVal);
                }
             }, 100);

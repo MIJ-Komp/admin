@@ -238,7 +238,7 @@ export default {
    display: flex;
    flex-direction: column;
    /* height: 100vh; */
-   width: 100%;
+   width: calc(100% - 220px);
 }
 .mij-content {
    overflow: auto;
@@ -260,6 +260,7 @@ export default {
 @media screen and (max-width: 900px) {
    .mij-content-container {
       margin-left: 0;
+      width: 100%;
    }
    .mij-container{
         background: var(--grey-400) !important;

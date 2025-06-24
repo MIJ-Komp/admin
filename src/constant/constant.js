@@ -1,8 +1,8 @@
 
 const constant = {
    // apiURL: "https://devapich.pasifiksgroup.com:8443",
-   apiURL: "https://12ab882d-51ca-45eb-8fc0-a6c7b2e215c3-00-1f1m8yy73c66d.sisko.replit.dev/api",
-   // apiURL: "http://localhost:5008",
+   // apiURL: "https://12ab882d-51ca-45eb-8fc0-a6c7b2e215c3-00-1f1m8yy73c66d.sisko.replit.dev/api",
+   apiURL: "http://localhost:5000/api",
    baseURL: "https://admin.cloudhomes.id",
    Label: {
       EN: {
@@ -249,5 +249,10 @@ const constant = {
          Name: "Minggu",
       },
    ],
+   specKeys:[
+      {label: 'System Memory Type', value:'System Memory Type'},
+      {label: 'Memory Channels', value:'Memory Channels'},
+      {label: 'Processors', value:'Processors'},
+   ]
 };
 export default constant;

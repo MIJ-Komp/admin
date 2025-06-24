@@ -24,7 +24,7 @@
             <SelectModuleBox :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId"/>
          </b-col>
          <b-col cols="12" class="mt-3">
-            <TextArea
+            <TextEditor
                :required="false"
                label="Deskripsi"
                v-model="form.description"
@@ -33,12 +33,12 @@
       </b-row>
       <div class="mt-3">
          <div style="display: flex; justify-content: space-between;">
-            <div>Variant :</div>
-            <Button @click.prevent="" label="Duplicate from other Product" style="width: 200px !important;"/>
+            <div>Variants :</div>
+            <Button @click.prevent="" class="p-2" label="Import variant" style="width: 200px !important;"/>
          </div>
          <div class="ms-3 mt-3 variant-container" v-for="(variant, i) in form.productVariantOptions" key="varian" style="position: relative;">
-            <TextBox @change="getVariantData()" :label="`variant ${i+1}`" placeholder="Color, Size, etc.." v-model="variant.name"/>
-            <i v-if="i != 0 || form.productVariantOptions.length > 1" @click="removeVariant(variant.id)" class="fa fa-times del-variant"/>
+            <TextBox style="width:300px" @change="getVariantData()" :label="`variant ${i+1}`" placeholder="Color, Size, etc.." v-model="variant.name"/>
+            <i @click="removeVariant(variant.id)" class="fa fa-times del-variant"/>
             
             <div>
                <div class="mt-3">Option :</div>
@@ -53,18 +53,58 @@
                </b-row>
             </div>
          </div>
-          <b-col cols="12" lg="4" md="4" @click="createForm" class="flex-row addVariantButton mt-3">
-            <Button class="ps-4 pe-4" @click.prevent="addMoreVariant()" iconFa="fa fa-plus"  buttonType="secondary" label="Add more variant" style="margin-right: 20px;"/>
+          <b-col cols="12" lg="3" md="3" @click="createForm" class="flex-row addVariantButton mt-3 ms-2">
+            <Button class="ps-4 pe-4" @click.prevent="addMoreVariant()" iconFa="fa fa-plus"  buttonType="secondary" label="variant" style="margin-right: 20px;"/>
          </b-col>
       </div>
-      <div class="mt-4" v-if="form.productVariantOptions.find(variant=> variant.name && variant.name.trim() != ' ' && variant.name.length>0)">
+      <div style="border-top: 1px solid #dedede;" class="mt-3 mb-3 pt-3 pb-3">
+         <div>Specs : </div>
+         <b-row class="ms-2">
+            <b-col cols="12" lg="3" md="4" sm="4" class="mt-3" v-for="spec in form.specs" style="position: relative;">
+               <SelectBox @change="getVariantData()" v-model="spec.specKey" :dataSource="$constant.specKeys.filter(a=> !form.specs.map(data=> data.specKey).includes(a.value) || a.value == spec.specKey)" optionLabel="label" optionValue="value" labelType="out"/>
 
-         <div>Variant List :</div>
-         <table class="custom-table mt-3">
+               <i @click="removeSpecs(spec.id)" class="fa fa-times del-variant-values" style="top: -6px; right: 6px;"/>
+            </b-col>
+            <b-col cols="6" lg="3" md="4" sm="4" class="flex-row addVariantButton mt-3" v-if="form.specs.length == 0 || (form.specs[form.specs.length -1]?.specKey && $constant.specKeys.filter(a=> !form.specs.map(data=> data.specKey).includes(a.value)).length > 0)">
+               <Button class="ps-4 pe-4" @click.prevent="addMoreSpecs()" iconFa="fa fa-plus"  buttonType="secondary" label="Spec" style="margin-right: 20px;"/>
+            </b-col>
+         </b-row>
+      </div>
+      <div class="mt-4">
+         <div>Sku :</div>
+         <div class="table-container">
+         <div class="mt-2 pb-3" style="width: fit-content; border-bottom: 1px solid #dedede;">
+            <table class="custom-table mt-3" id="skuModel">
+               <tbody>
+                  <tr>
+                     <template v-for="variant in form.productVariantOptions">
+                        <td v-if="variant.name && variant.name.trim() != ' ' && variant.name.length>0">{{ variant.name }}</td>
+                     </template>
+                     <template v-for="spec in form.specs">
+                        <td v-if="spec.specKey && spec.specKey.trim() != ' ' && spec.specKey.length>0">
+                           <input @focus="HighlightColumn" @onblur="clearHighlight()" type="text" placeholder="input..."></td>
+                     </template>
+                     <td><input @focus="HighlightColumn" type="text" @blur="clearHighlight()" placeholder="input..."></td>
+                     <td><input @focus="HighlightColumn" type="text" @blur="clearHighlight()" placeholder="input..."></td>
+                     <td><input @focus="HighlightColumn" type="text" @blur="clearHighlight()" placeholder="input..."></td>
+                     <td><input @focus="HighlightColumn" type="text" @blur="clearHighlight()" placeholder="input..."></td>
+                     <td><input @focus="HighlightColumn" type="text" @blur="clearHighlight()" placeholder="input..."></td>
+                  </tr>
+               </tbody>
+
+            </table>
+            
+            <Button class="mt-2 pt-1 pb-1 ps-4 pe-4" @click.prevent="applyToAllSku" buttonType="secondary" label="👇 Apply to All 👇" style="width: 170px !important;"/>
+         </div>
+
+         <table class="custom-table mt-3" id="table-sku">
             <thead>
                <tr>
                   <template v-for="variant in form.productVariantOptions">
-                     <td v-if="variant.name && variant.name.trim() != ' ' && variant.name.length>0">{{ variant.name }}</td>
+                     <td v-if="variant.name && variant.name.trim() != ' ' && variant.name.length>0"><b>{{ variant.name }}</b></td>
+                  </template>
+                  <template v-for="spec in form.specs">
+                     <td v-if="spec.specKey && spec.specKey.trim() != ' ' && spec.specKey.length>0"><b>{{ spec.specKey }}</b></td>
                   </template>
                   <td>Price</td>
                   <td>Quantity</td>
@@ -75,6 +115,7 @@
             </thead>
             <tbody id="variantTableBody"></tbody>
          </table>
+         </div>
       </div>
    </MIJForm>
 </template>
@@ -102,9 +143,10 @@ export default {
             productVariantOptions:[],
             productVariantOptionValues: [],
             productSkus: [],
-            productSkuVariants: []
+            productSkuVariants: [],
+            specs:[]
          },
-         customData:null
+         customHighlighIndex:null
       };
    },
 
@@ -115,10 +157,57 @@ export default {
          this.form = Object.assign(this.form, tmpForm);
       }
       else{
-         this.addMoreVariant()
+         // this.addMoreVariant()
       }
+
+      this.getVariantData()
+
+      console.log(this.form)
    },
    methods: {
+      applyToAllSku(){
+
+      },
+      clearHighlight() {
+         return
+         const rows = document.querySelectorAll('#table-sku tr');
+         rows.forEach(row => {
+            const cells = row.children;
+            console.log(cells)
+            if (cells[this.customHighlighIndex]) {
+               cells[this.customHighlighIndex].classList.remove('highlight-col');
+            }
+         });
+         this.customHighlighIndex = null
+      },
+      HighlightColumn(event){
+         return
+         const td = event.target.closest('td');
+         if (!td) return;
+
+         // this.clearHighlight();
+
+         const tr = td.parentElement;
+         const tdList = Array.from(tr.children);
+         const columnIndex = tdList.indexOf(td);
+         this.customHighlighIndex = columnIndex
+         const rows = document.querySelectorAll('#table-sku tr');
+         rows.forEach(row => {
+            const cells = row.children;
+            console.log(cells)
+            if (cells[columnIndex]) {
+               cells[columnIndex].classList.add('highlight-col');
+            }
+         });
+      },
+      addMoreSpecs(){
+         this.form.specs.push({
+            id: this.$helper.GenerateUUID(this.form.specs.map(data=> data.id)),
+            specKey: null,
+            specValue: null,
+         })
+         this.getVariantData()
+      },
       mergeTableColumn(columnIndex) {
          const table = document.getElementById("variantTableBody");
          let prevText = null;
@@ -142,7 +231,6 @@ export default {
       },
       getVariantData(){
          this.form.productVariantOptions.forEach((variant) => {
-
             var values = this.getVariantOptionValues(variant.id)
             
             values = values.map(option => {
@@ -157,49 +245,59 @@ export default {
          
          // Render tabel
          const tableBody = document.getElementById("variantTableBody");
+         if(!tableBody)
+            return
+      
+         tableBody.innerHTML = ''
          
-         tableBody.innerHTML = null
-         
-         this.customData.forEach((combination, i) => {
-            const row = document.createElement("tr");
+         if(this.customData.length > 0){
+            this.customData.forEach((combination, i) => {
+               var row = document.createElement("tr");
+               // Tambahkan kolom untuk varian
+               combination.forEach((value, j) => {
+                  const cell = document.createElement("td");
+                  cell.dataset.variantId = value.id;
+                  cell.textContent = value.name;
+                  // cell.rowSpan = combination.filter(data=> data.name == value.name).length
+                  
+                  row.appendChild(cell);
+               });
+               this.form.specs.filter(spec => spec.specKey).forEach(label => {
+                  const cell = document.createElement("td");
+                  cell.innerHTML = `<input type="text" placeholder="input...">`;
+                  row.appendChild(cell);
+               });
 
-            // Tambahkan kolom untuk varian
-            combination.forEach((value, j) => {
+               row = this.addDefaultSkuColumn(row);
+               tableBody.appendChild(row);
+            });
+         }
+         else{
+            var row = document.createElement("tr");
+            this.form.specs.filter(spec => spec.specKey).forEach(label => {
                const cell = document.createElement("td");
-               cell.textContent = value.name;
-               // cell.rowSpan = combination.filter(data=> data.name == value.name).length
-               
+               cell.innerHTML = `<input type="text" placeholder="input...">`;
                row.appendChild(cell);
             });
-
-            // Tambahkan kolom harga dan stok
-            const priceCell = document.createElement("td");
-            priceCell.innerHTML = '<input type="text" placeholder="Rp">';
-            row.appendChild(priceCell);
-
-            const stockCell = document.createElement("td");
-            stockCell.innerHTML = '<input type="number" value="0">';
-            row.appendChild(stockCell);
-
-            const stockAlert = document.createElement("td");
-            stockAlert.innerHTML = '<input type="number" value="0">';
-            row.appendChild(stockAlert);
-
-            const code = document.createElement("td");
-            code.innerHTML = '<input type="number" value="0">';
-            row.appendChild(code);
-
-            const skuName = document.createElement("td");
-            skuName.innerHTML = '<input type="number" value="0">';
-            row.appendChild(skuName);
-
+            row = this.addDefaultSkuColumn(row);
             tableBody.appendChild(row);
-            });
+         }
+         
+         
         
          for (let index = this.form.productVariantOptions.length -1; index >= 0; index--) {
+            console.log("hadeh")
             this.mergeTableColumn(index)
          }
          return this.customData
+      },
+      addDefaultSkuColumn(row){
+         for (let index = 0; index < 5; index++) {
+            const tmpCell = document.createElement("td");
+            tmpCell.innerHTML = `<input type="text" placeholder="${index == 0 ?'Rp ...' :'input ...'}">`;
+            row.appendChild(tmpCell)
+         }
+         return row
       },
       cekData(){
          console.log(this.getVariantData())
@@ -219,6 +317,11 @@ export default {
       removeVariant(variantId){
          const index = this.form.productVariantOptions.findIndex(data=> data.id == variantId)
          this.form.productVariantOptions.splice(index, 1)
+         this.getVariantData()
+      },
+      removeSpecs(id){
+         const index = this.form.specs.findIndex(data=> data.id == id)
+         this.form.specs.splice(index, 1)
          this.getVariantData()
       },
       removeOption(optionId){
@@ -297,6 +400,15 @@ export default {
 };
 </script>
 <style>
+th.highlight-col,
+td.highlight-col {
+  border-left: 3px solid red !important;
+  border-right: 3px solid red !important;
+}
+.table-container{
+   width: 100%;
+   overflow: auto;
+}
 .addVariantButton button{
  height: 30px;
 }
@@ -321,6 +433,14 @@ export default {
    border-radius: 4px;
    border: 0.5px solid var(--grey-600);
    padding: 8px;
+}
+thead tr{
+   background: var(--primary-color);
+   color: white;
+}
+thead tr:hover{
+   background: var(--primary-color) !important;
+   color: white !important;
 }
 .del-variant-values, .del-variant{
    background: red;
@@ -354,6 +474,12 @@ table.custom-table {
     padding: 12px 16px;
     border: 1px solid #ddd;
     text-align: left;
+
+    overflow-wrap: break-word;
+    overflow: hidden;
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: auto !important;
   }
 
   table.custom-table th {
