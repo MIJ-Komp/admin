@@ -2,7 +2,13 @@
     <div class="menu-item">
   <li>
     <div>
-      <TextBox v-model="item.name"/>
+      <div>
+        <TextBox v-model="item.name"/>
+        <div class="mt-2" style="font-size: 12px" v-if="item?.menuItems?.length > 0">
+            <div >Product Categories :</div>
+            <SelectModuleBox class="ms-2" v-for="category in item.menuItems" :required="false" :module="$module.productCategory" v-model="category.productCategoryId" />
+        </div>
+      </div>
       <div class="flex-row">
         <Button @click="addChild" class="me-3" label="+ Child" style="width:fit-content !important; padding: 4px 8px;"></Button>
         <Button @click="$emit('delete')" buttonType="danger" label="delete" style="width:fit-content !important; padding: 4px 8px;"></Button>
@@ -76,7 +82,7 @@ export default {
   border: 1px solid #dee2e6;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   transition: background-color 0.2s ease;
 }
 

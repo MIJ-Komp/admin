@@ -74,7 +74,6 @@
                ref="label"
                class="font-body"
                style="display: flex"
-               :style="currentValue ? 'margin-bottom: 8px' : ''"
                :class="errors[0] ? 'text-danger' : ''"
                >{{ label }}
                <span

@@ -222,30 +222,29 @@ export default {
 
    },
    async mounted() {
-      const accessId = this.formData.module.name == module.product.name || this.formData.module.name == module.productBundle.name ?
-                        access.module.facility.Id :
+
+      // const accessId = this.formData.module.name == module.product.name || this.formData.module.name == module.productBundle.name ?
                         
-                        this.formData.module.name == module.deviceLock.name || this.formData.module.name == module.deviceGateway.name ?
-                        access.module.device.Id :
+      //                   this.formData.module.name == module.deviceLock.name || this.formData.module.name == module.deviceGateway.name :
+      //                   access.module.device.Id :
 
-                        this.formData.module.name == module.roomNoPrice.name || this.formData.module.name == module.roomPrice.name ||
-                        this.formData.module.name == module.roomTypeNoPrice.name || this.formData.module.name == module.roomTypePrice.name?
-                        access.module.room.Id :
+      //                   this.formData.module.name == module.roomNoPrice.name || this.formData.module.name == module.roomPrice.name ||
+      //                   this.formData.module.name == module.roomTypeNoPrice.name || this.formData.module.name == module.roomTypePrice.name?
+      //                   access.module.room.Id :
 
-                        access.module[this.formData.module.name].Id
-      console.log(accessId)
+      //                   access.module[this.formData.module.name].Id
 
-      if(this.$route.meta.formMode === this.$constant.formMode.update){
-         this.hasAccess = await this.hasUpdateRole(accessId)
-         if(!this.hasAccess){
-            this.accessMessage= `You don't have access to Update <b>${this.$label.menu[this.formData.module.name]}</b>`
-         }
-      }else{
-         this.hasAccess = await this.hasCreateRole(accessId)
-         if(!this.hasAccess){
-            this.accessMessage= `You don't have access to Create <b>${this.$label.menu[this.formData.module.name]}</b>`
-         }
-      }
+      // if(this.$route.meta.formMode === this.$constant.formMode.update){
+      //    this.hasAccess = await this.hasUpdateRole(accessId)
+      //    if(!this.hasAccess){
+      //       this.accessMessage= `You don't have access to Update <b>${this.$label.menu[this.formData.module.name]}</b>`
+      //    }
+      // }else{
+      //    this.hasAccess = await this.hasCreateRole(accessId)
+      //    if(!this.hasAccess){
+      //       this.accessMessage= `You don't have access to Create <b>${this.$label.menu[this.formData.module.name]}</b>`
+      //    }
+      // }
    },
 };
 </script>

@@ -7,6 +7,8 @@
 <script>
 import { provide, ref, onMounted } from "vue";
 import MenuItem from "./MenuItem.vue";
+import { mapActions } from "vuex";
+import module from "../../../constant/module";
 export default {
    components: {
       MenuItem
@@ -39,16 +41,35 @@ export default {
                }
             ]
          }
-         ]
+         ], 
+         baseMenu:[]
       };
    },
+   async created(){
+     this.baseMenu = await this.getAll()
+     this.baseMenu = this.baseMenu.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+     this.menus = this.baseMenu.filter(data=> !data.parentId)
+     this.menus.forEach(menu => {
+        menu.children = this.getChild(menu.id)
+     });
+   },
    methods:{
+      getChild(parentId){
+        return this.baseMenu.filter(data=> data.parentId == parentId).map(data=>{
+            var hasChild = this.baseMenu.find(data=> data.parentId == data.id)
+            if(hasChild){
+                data.children = this.getChild(data.id)
+            }
+            return data
+        })
+      },
       addMenu() {
          this.menus.push({ name: 'Menu Baru', children: [] });
       },
       deleteMenu(index) {
          this.menus.splice(index, 1);
-      }
+      },
+      ...mapActions(module.menu.name, ["getAll","create", "getById", "update"]),
    }
 };
 </script>

@@ -9,36 +9,21 @@
       <b-row>
          <b-col cols="12">
             <TextBox
-               label="Nama Add On"
+               label="Name"
                type="name"
-               v-model="form.Name"
-               style="margin-bottom: 24px"
-            />
-         </b-col>
-         <b-col cols="6">
-            <TextBox
-               label="Harga (Rp)"
-               type="number"
-               v-model="form.Price"
-               style="margin-bottom: 24px"
-            />
-         </b-col>
-         <b-col cols="6">
-            <TextBox
-               label="Jumlah"
-               type="number"
-               v-model="form.Quantity"
+               v-model="form.name"
                style="margin-bottom: 24px"
             />
          </b-col>
          <b-col cols="12">
-            <TextArea
-               :required="false"
-               label="Deskripsi"
-               v-model="form.Description"
-            >
-            </TextArea>
+            <TextBox
+               label="Code"
+               type="name"
+               v-model="form.code"
+               style="margin-bottom: 24px"
+            />
          </b-col>
+        
       </b-row>
    </MIJForm>
 </template>
@@ -56,20 +41,18 @@ export default {
       doUpdate() {
          return this.update(this.form);
       },
-      ...mapActions(module.addOn.name, ["create", "update", "getById"]),
+      ...mapActions(module.componentType.name, ["create", "getById", "update"]),
    },
    created() {},
    watch: {},
    data() {
       return {
          formData: {
-            module: this.$module.addOn,
+            module: this.$module.componentType,
          },
          form: {
+            Code: null,
             Name: null,
-            Price: null,
-            Quantity: null,
-            Description: null,
          },
       };
    },
@@ -77,7 +60,7 @@ export default {
       // // console.log(this.$route)
       if (this.$route.meta.formMode == this.$constant.formMode.update) {
          const tmpForm = await this.getById(this.$route.params.id);
-         this.form = { ...tmpForm };
+         this.form = Object.assign(this.form, tmpForm);
       }
    },
 };

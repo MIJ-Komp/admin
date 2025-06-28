@@ -5,14 +5,28 @@
       <b-col cols="12">
         <FileInput label="Photo" v-model="form.pictureId" :multiple="true" />
       </b-col>
-      <b-col cols="9" class="mt-3">
+      <b-col lg="8" md="8" cols="12" class="mt-3">
         <TextBox label="Nama Produk" type="name" v-model="form.name" />
       </b-col>
-      <b-col cols="3" class="mt-3">
-        <Switch label="Active?" v-model="form.isActive" />
+      <b-col lg="4" md="4" cols="12" style="align-self: center;" class="mt-3">
+        <Switch label="show Only in Marketplace?" v-model="form.isShowOnlyInMarketPlace" />
       </b-col>
-      <b-col cols="12" class="mt-3">
+
+      <b-col lg="4" md="6" cols="12" class="mt-3">
+        <SelectModuleBox :module="$module.brand" label="Brand" v-model="form.brandId" />
+      </b-col>
+      <b-col lg="4" md="6" cols="12" class="mt-3">
+        <SelectModuleBox :module="$module.componentType" label="Component Type" v-model="form.componentTypeId" />
+      </b-col>
+      <b-col lg="4" md="6" cols="12" class="mt-3">
         <SelectModuleBox :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId" />
+      </b-col>
+
+       <b-col lg="6" md="6" cols="12" class="mt-3">
+        <TextBox label="Youtube Url" type="name" v-model="form.videoUrl" />
+      </b-col>
+      <b-col lg="6" md="6" cols="12" class="mt-3">
+        <TextBox label="Tags" type="name" v-model="form.tag" />
       </b-col>
       <b-col cols="12" class="mt-3">
         <TextEditor :required="false" label="Deskripsi" v-model="form.description" />
@@ -102,6 +116,22 @@
       <div class="table-container">
          <div class="mt-2 pb-3" style="width: fit-content; border-bottom: 1px solid #dedede;">
             <table class="custom-table mt-3" id="skuModel">
+              <thead>
+              <tr>
+                <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
+                  <td v-if="variant.name?.trim() && getVariantOptionValues(variant.id).filter(data=> data.name?.trim()).length > 0" style="place-items: center;">
+                    <div>{{ variant.name }}</div>
+                    <div style="font-size: 10px;">(variant {{ i+1 }})</div>
+                    </td>
+                </template>
+                <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
+                <td>Price</td>
+                <td>Stock</td>
+                <td>Stock Alert</td>
+                <td>Kode</td>
+                <td>SKU Name</td>
+              </tr>
+            </thead>
                <tbody>
                   <tr>
                      <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
@@ -110,19 +140,22 @@
                            <div style="font-size: 10px;">(variant {{ i+1 }})</div>
                            </td>
                      </template>
-                     <template v-for="spec in form.specs" :key="spec.id">
-                        <td v-if="spec.specKey?.trim()"><input type="text" :placeholder="`input ${spec.specKey}`" :value="getDefaultSpec(spec.specKey)?.specValue" @change="updateDefaultSpec(spec.specKey, $event.target.value)"/></td>
-                     </template>
-                     <td><input placeholder="Input Price" v-model="defaultSku.price"></td>
-                     <td><input placeholder="Input Quantity" v-model="defaultSku.quantity"></td>
-                     <td><input placeholder="Input Alert" v-model="defaultSku.quantityAlert"></td>
+                     <td style="width: auto;" v-if="form.specs.filter(data=> data).length > 0">
+                        <template v-for="(spec, specIndex) in form.specs" :key="spec.id">
+                        <div class="flex-row mb-2" v-if="spec.specKey?.trim()">
+                          <div style="text-wrap-mode: nowrap; min-width: 50%;">{{ spec.specKey }}</div> 
+                          <input type="text" :placeholder="`input..`" :value="getDefaultSpec(spec.specKey)?.specValue" @change="updateDefaultSpec(spec.specKey, $event.target.value)"/>                        </div>
+                        </template>
+                      </td>
+                     <td><input placeholder="Input Price" type="number" v-model="defaultSku.price"></td>
+                     <td><input placeholder="Input Stock" v-model="defaultSku.stock"></td>
+                     <td><input placeholder="Input Stock Alert" v-model="defaultSku.stockAlert"></td>
                      <td><input placeholder="Input Kode" v-model="defaultSku.code"></td>
                      <td><input placeholder="Input SKU Name" v-model="defaultSku.name"></td>
                   </tr>
                </tbody>
 
             </table>
-            
             <Button class="mt-2 pt-1 pb-1 ps-4 pe-4" @click.prevent="applyToAllSku" buttonType="secondary" label="👇 Apply to All 👇" style="width: 170px !important;"/>
          </div>
         <table class="custom-table mt-3">
@@ -134,12 +167,10 @@
                   <div style="font-size: 10px;">(variant {{ i+1 }})</div>
                   </td>
               </template>
-              <template v-for="spec in form.specs" :key="spec.id">
-                <td v-if="spec.specKey?.trim()">{{ spec.specKey }}</td>
-              </template>
+              <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
               <td>Price</td>
-              <td>Quantity</td>
-              <td>Alert</td>
+              <td>Stock</td>
+              <td>Stock Alert</td>
               <td>Kode</td>
               <td>SKU Name</td>
             </tr>
@@ -152,20 +183,23 @@
                      {{ item.name }}
                   </td>
                </template>
-               <template v-for="(spec, specIndex) in form.specs" :key="spec.id">
-                <td v-if="spec.specKey?.trim()">
-                  <input type="text" placeholder="input..."
-                     :value="getProductSpec(combo, spec.specKey)?.specValue"
-                     @change="updateProductSpec(combo, spec.specKey, $event.target.value)"/>
+                <td style="width: auto;" v-if="form.specs.filter(data=> data).length > 0">
+                  <template v-for="(spec, specIndex) in form.specs" :key="spec.id">
+                  <div class="flex-row mb-2" v-if="spec.specKey?.trim()">
+                    <div style="text-wrap-mode: nowrap; min-width: 50%;">{{ spec.specKey }}</div> 
+                    <input type="text" placeholder="input..." class="ms-2"
+                      :value="getProductSpec(combo, spec.specKey)?.specValue"
+                      @change="updateProductSpec(combo, spec.specKey, $event.target.value)"/>
+                  </div>
+                  </template>
                 </td>
-              </template>
                <!-- tambahkan kolom input lainnya di sini -->
-                <td><input placeholder="Input Price" :value="getSku(combo)?.price"
+                <td><input type="number" placeholder="Input Price" :value="getSku(combo)?.price"
                      @change="updateSku(combo, 'price', $event.target.value)"></td>
-               <td><input placeholder="Input Quantity" :value="getSku(combo)?.quantity"
-                     @change="updateSku(combo, 'quantity', $event.target.value)"></td>
-               <td><input placeholder="Input Quantity Alert" :value="getSku(combo)?.quantityAlert"
-                     @change="updateSku(combo, 'quantityAlert', $event.target.value)"></td>
+               <td><input placeholder="Input Stock" :value="getSku(combo)?.stock"
+                     @change="updateSku(combo, 'stock', $event.target.value)"></td>
+               <td><input placeholder="Input Stock Alert" :value="getSku(combo)?.stockAlert"
+                     @change="updateSku(combo, 'stockAlert', $event.target.value)"></td>
                <td><input placeholder="Input Kode" :value="getSku(combo)?.code"
                      @change="updateSku(combo, 'code', $event.target.value)"></td>
                <td><input placeholder="Input SKU Name" :value="getSku(combo)?.name"
@@ -193,22 +227,49 @@ export default {
         name: null,
         description: null,
         pictureId: [],
+        isActive: true,
+        isShowOnlyInMarketPlace: false,
         productVariantOptions: [],
         productVariantOptionValues: [],
         productSkus: [],
         productSkuVariants: [],
         specs: [],
+        productType: this.$constant.productType.single
       },
       defaultSku:{
          price: null,
-         quantity: null,
-         quantityAlert: null,
+         stock: null,
+         stockAlert: null,
          code: null,
          name: null,
          productSpecs:[]
       },
-      combinationData:[]
+      combinationData:[],
+      allProducts: []
     };
+  },
+  async mounted(){
+    this.allProducts = await this.getAll()
+
+    if (this.$route.meta.formMode == this.$constant.formMode.create) {
+      this.form.id =  this.$helper.GenerateUUID(this.allProducts.map(p => p.id))
+    }
+    else if (this.$route.meta.formMode == this.$constant.formMode.update) {
+      const tmpForm = await this.getById(this.$route.params.id);
+      this.form = Object.assign(this.form, tmpForm);
+      this.form.productCategoryId = this.form.productCategory?.id
+      this.form.productType = this.form.productType?.name
+
+      if(this.form.productSkus.length > 0 && this.form.productSkus[0].productSpecs.length > 0)
+        this.form.specs = this.form.productSkus[0].productSpecs
+    }
+    if(this.$route.meta.module.name == module.productBundle.name){
+      this.form.productType = this.$constant.productType.group
+    }
+    else if(this.$route.meta.module.name == module.product.name){
+      this.form.productType = this.$constant.productType.single
+    }
+    console.log(this.form)
   },
   computed: {
     variantCombinations() {
@@ -236,9 +297,10 @@ export default {
             (data) => JSON.stringify(data.skuCom) === JSON.stringify(combo)
          );
          return {
+            id: exist?.id ?? this.$helper.GenerateUUID(this.combinationData.map(cm => cm.id)),
             price: exist?.price ?? null,
-            quantity: exist?.quantity ?? null,
-            quantityAlert: exist?.quantityAlert ?? null,
+            stock: exist?.stock ?? null,
+            stockAlert: exist?.stockAlert ?? null,
             code: exist?.code ?? null,
             name: exist?.name ?? null,
             skuCom: combo,
@@ -258,16 +320,41 @@ export default {
    }
   },
   methods: {
+    generateModelRequest(){
+      var params = JSON.parse(JSON.stringify(this.form))
+      params.productSkus = JSON.parse(JSON.stringify(this.combinationData))
+
+      params.productSkuVariants= []
+      params.productSkus.forEach(sku => {
+          sku.price = parseInt(sku?.price??0)
+          sku.stock = parseInt(sku?.stock??0)
+          sku.stockAlert = parseInt(sku?.stockAlert??0)
+
+          sku.skuCom.forEach(skuCom => {
+            params.productSkuVariants.push({
+              id : this.$helper.GenerateUUID(params.productSkuVariants.map(psv=> psv.id)),
+              productSkuId : sku.id,
+              productVariantOptionId: skuCom.productVariantOptionId,
+              productVariantOptionValueId: skuCom.id,
+            })
+          });
+      });
+
+      return params
+    },
    doCreate(){
-      console.log(this.form)
-      console.log(this.combinationData)
-      return Promise.reject("Please Choose Icon");
+      var params = this.generateModelRequest()
+      return this.create(params);
+   },
+   doUpdate(){
+      var params = this.generateModelRequest()
+      return this.update(params);
    },
    applyToAllSku(){
       this.combinationData.forEach(data=>{
          data.price =  this.defaultSku.price || data.price
-         data.quantity =  this.defaultSku.quantity || data.quantity
-         data.quantityAlert =  this.defaultSku.quantityAlert || data.quantityAlert
+         data.stock =  this.defaultSku.stock || data.stock
+         data.stockAlert =  this.defaultSku.stockAlert || data.stockAlert
          data.code =  this.defaultSku.code || data.code
          data.name =  this.defaultSku.name || data.name
          data.productSpecs= this.form.specs.map(formSpec=> {
@@ -387,7 +474,7 @@ export default {
     removeSpecs(id) {
       this.form.specs = this.form.specs.filter((d) => d.id !== id);
     },
-    ...mapActions(module.product.name, ['create', 'getById', 'update']),
+    ...mapActions(module.product.name, ['create', 'getById', 'update', 'getAll']),
   },
 };
 </script>
@@ -430,9 +517,8 @@ thead tr{
    background: var(--primary-color);
    color: white;
 }
-thead tr:hover{
-   background: var(--primary-color) !important;
-   color: white !important;
+tr input{
+  padding: 2px;
 }
 .del-variant-values, .del-variant{
    background: red;
@@ -484,7 +570,7 @@ table.custom-table {
     background-color: #fafafa;
   }
 
-  table.custom-table tr:hover {
+  table.custom-table tbody tr{
     background-color: #f1f1f1;
   }
 

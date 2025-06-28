@@ -18,125 +18,34 @@ const module = {
       name: "productCategory",
       form: () => import("../views/Catalog/ProductCategory/Form.vue"),
    },
+   componentType: {
+      id: 4,
+      name: "componentType",
+      form: () => import("../views/Catalog/ComponentType/Form.vue"),
+   },
+   compatibleRule: {
+      id: 4,
+      name: "compatibleRule",
+      form: () => import("../views/Catalog/CompatibleRule/Form.vue"),
+   },
 
    // facility:   { id: 4, name: "facility" },
    product: {
-      id: 4,
+      id: 5,
       name: "product",
       form: async () => import("../views/Catalog/Product/Form.vue"),
    },
    productBundle: {
-      id: 4,
+      id: 6,
       name: "productBundle",
-      form: async () => import("../views/Catalog/ProductBundle/Form.vue"),
+      form: async () => import("../views/Catalog/Product/Form.vue"),
    },
 
-   productVariant: {
-      id: 5,
-      name: "productVariant",
-      form: async () => import("../views/Catalog/ProductVariant/Form.vue"),
-   },
-   addOn: {
-      id: 6,
-      name: "addOn",
-      // form: async () => import("../views/Catalog/AddOn/Form.vue"),
-   },
-   property: {
+   menu: {
       id: 7,
-      name: "property",
-      form: async () => import("../views/Property/Property/Form.vue"),
+      name: "menu",
    },
-   room: {
-      id: 8,
-      name: "room",
-   },
-   paymentType: {
-      id: 9,
-      name: "paymentType",
-      form: () => import("../views/Transaction/PaymentType/Form.vue"),
-   },
-   paymentMethod: {
-      id: 10,
-      name: "paymentMethod",
-      form: () => import("../views/Transaction/PaymentMethod/Form.vue"),
-   },
-   // device: { id: 11, name: "device" }, `
-   deviceLock: {
-      id: 11,
-      name: "deviceLock",
-      form: async () => import("../views/Device/Lock/Form.vue"),
-   },
-   deviceGateway: {
-      id: 11,
-      name: "deviceGateway",
-      form: async () => import("../views/Device/Gateway/Form.vue"),
-   },
-
-   booking: { id: 12, name: "booking" },
-
-   calendar: {
-      id: 6,
-      name: "calendar",
-      form: async () => import("../views/Calendar/index.vue"),
-   },
-
-   roomNoPrice: {
-      id: 14,
-      name: "roomNoPrice",
-      form: null,
-   },
-   roomPrice: {
-      id: 15,
-      name: "roomPrice",
-      form: () => import("../views/Property/Property/Room/Price/Form.vue"),
-   },
-   roomTypePrice: {
-      id: 16,
-      name: "roomTypePrice",
-      form: () => import("../views/Property/Property/RoomType/Price/Form.vue"),
-   },
-   roomTypeNoPrice: {
-      id: 17,
-      name: "roomTypeNoPrice",
-   },
-   roomStatusHistory: {
-      id: 18,
-      name: "roomStatusHistory",
-   },
-   roomLockHistory: {
-      id: 19,
-      name: "roomLockHistory",
-   },
-   roomAvailability: {
-      id: 20,
-      name: "roomAvailability",
-   },
-   transaction: {
-      id: 21,
-      name: "transaction",
-   },
-   paymentHistory: {
-      id: 22,
-      name: "paymentHistory",
-   },
-   booking: {
-      id: 23,
-      name: "booking",
-   },
-   report: {
-      id: 24,
-      name: "report",
-   },
-   cleaningSession :{id: 25, name:'cleaningSession'},
-   cleaningHistories :{id: 26, name:'cleaningHistories'},
-   setting: {id: 27, name: "setting",},
-   generatePin: {id: 28, name: "generatePin",},
-   member: {id: 29, name: "member",},
-   manualPin: {id: 28, name: "manualPin",},
-   referral: {Id: 29, name: "referral",},
-
    data: { id: 99, name: "data" },
-   
    dashboard: {
       id: 100,
       name: "dashboard",

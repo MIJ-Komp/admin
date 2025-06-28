@@ -119,39 +119,39 @@ export default {
     data() {
         return {
             searchKeyword: null,
-            userHasRole: false,
-            canDelete: false,
-            canUpdate: false,
-            canCreate: false
+            userHasRole: true,
+            canDelete: true,
+            canUpdate: true,
+            canCreate: true
         }
     },
     computed: {
         
     },
     async mounted() {
-        const roleId = this.module == module.product || this.module == module.productBundle ?
-                        access.module.facility.Id :
+        // const roleId = this.module == module.product || this.module == module.productBundle ?
+        //                 access.module.facility.Id :
 
-                        this.module == module.roomTypePrice || this.module == module.roomTypeNoPrice || this.module == module.roomPrice || this.module == module.roomNoPrice ?
-                        access.module.room.Id :
+        //                 this.module == module.roomTypePrice || this.module == module.roomTypeNoPrice || this.module == module.roomPrice || this.module == module.roomNoPrice ?
+        //                 access.module.room.Id :
                         
-                        this.module == module.deviceLock || this.module == module.deviceGateway ?
-                        access.module.device.Id :
+        //                 this.module == module.deviceLock || this.module == module.deviceGateway ?
+        //                 access.module.device.Id :
 
-                        this.module == module.member ? access.module.user.Id :
+        //                 this.module == module.member ? access.module.user.Id :
 
-                        this.module == module.manualPin ? access.module.generatePin.Id :
+        //                 this.module == module.manualPin ? access.module.generatePin.Id :
 
-                        this.module == module.paymentHistory ?
-                        access.module.transaction.Id :
+        //                 this.module == module.paymentHistory ?
+        //                 access.module.transaction.Id :
 
-                        access.module[this.module.name].Id
+        //                 access.module[this.module.name].Id
 
-        this.userHasRole = await this.hasViewRole(roleId)
+        // this.userHasRole = await this.hasViewRole(roleId)
 
-        this.canCreate = await this.hasCreateRole(roleId)
-        this.canDelete = await this.hasDeleteRole(roleId)
-        this.canUpdate = await this.hasUpdateRole(roleId)
+        // this.canCreate = await this.hasCreateRole(roleId)
+        // this.canDelete = await this.hasDeleteRole(roleId)
+        // this.canUpdate = await this.hasUpdateRole(roleId)
 
     }
 }

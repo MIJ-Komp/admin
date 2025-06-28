@@ -250,18 +250,18 @@ export default {
       },
    },
    methods: {
-      ...mapActions(module.data.name, ["getImage"]),
-      ...mapActions(module.property.name, ["getAll"]),
-      ...mapActions(module.dashboard.name, [
-         "getRecentActivities",
-         "getBookingHistory",
-         "getNowData",
-         "getRoomAvailability",
-         "getTotalRevenue",
-         "getTopProperty",
-         "getRevenueState",
-         "getTopAddOns",
-      ]),
+      // ...mapActions(module.data.name, ["getImage"]),
+      // ...mapActions(module.property.name, ["getAll"]),
+      // ...mapActions(module.dashboard.name, [
+      //    "getRecentActivities",
+      //    "getBookingHistory",
+      //    "getNowData",
+      //    "getRoomAvailability",
+      //    "getTotalRevenue",
+      //    "getTopProperty",
+      //    "getRevenueState",
+      //    "getTopAddOns",
+      // ]),
       formatCurrency(money) {
          if (!money) {
             return "0";

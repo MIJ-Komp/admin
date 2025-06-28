@@ -23,7 +23,6 @@
             :showEdit="false"
             :showDelete="false"/>
     </div>
-    <PayModal ref="paymentModal" @updatePopUp="updateBookModalVisibility"/>
 
     <div v-if="!userHasRole" style="height: 100%;">
         <div class="notHaveAccess text-center">You don't have access to view this page</div>
@@ -34,12 +33,10 @@ import access from '../../../constant/accessModule'
 import module from '../../../constant/module'
 import {mapActions, useStore} from 'vuex'
 import { provide, ref, onMounted, inject } from "vue";
-import PayModal from './PayModal.vue'
 
 
 export default {
    components: {
-      PayModal,
    },
    setup() {
       const paymentModal = ref(null);

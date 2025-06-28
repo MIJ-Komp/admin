@@ -1,109 +1,27 @@
 import { createStore } from "vuex";
 
-// const modules = {};
-// import module from "../constant/module";
-
-// const moduleNames = Object.keys(module);
-
-import addOn from "./modules/addOn";
-import booking from "./modules/booking";
-import calendar from "./modules/calendar";
-import productVariant from "./modules/productVariant";
 import data from "./modules/data";
-import deviceGateway from "./modules/deviceGateway";
-import deviceLock from "./modules/deviceLock";
 import paymentHistory from "./modules/paymentHistory";
-import paymentMethod from "./modules/paymentMethod";
-import paymentType from "./modules/paymentType";
-import property from "./modules/property";
 import product from "./modules/product";
 import productCategory from "./modules/productCategory";
-import role from "./modules/role";
-import roomAvailability from "./modules/roomAvailability";
 import productBundle from "./modules/productBundle";
-import roomLockHistory from "./modules/roomLockHistory";
-import roomNoPrice from "./modules/roomNoPrice";
-import roomPrice from "./modules/roomPrice";
-import roomStatusHistory from "./modules/roomStatusHistory";
-import roomTypeNoPrice from "./modules/roomTypeNoPrice";
-import roomTypePrice from "./modules/roomTypePrice";
 import transaction from "./modules/transaction";
+import menu from "./modules/menu";
 import user from "./modules/user";
-import dashboard from "./modules/dashboard";
-import report from "./modules/report";
-import cleaningSession from './modules/cleaningSession';
-import cleaningHistories from './modules/cleaningHistories';
-import setting from './modules/setting';
-import generatePin from './modules/generatePin';
-import manualPin from './modules/manualPin';
-import member from './modules/member';
-import referral from "./modules/referral";
+import componentType from "./modules/componentType";
+import compatibleRule from "./modules/compatibleRule";
 
 export default createStore({
    modules: {
-      addOn: addOn,
-      booking: booking,
-      calendar: calendar,
-      productVariant: productVariant,
-      data: data,
-      deviceGateway: deviceGateway,
-      deviceLock: deviceLock,
-      paymentHistory: paymentHistory,
-      paymentMethod: paymentMethod,
-      property: property,
-      product: product,
-      productCategory: productCategory,
-      role: role,
-      roomAvailability: roomAvailability,
-      productBundle: productBundle,
-      roomLockHistory: roomLockHistory,
-      roomNoPrice: roomNoPrice,
-      roomPrice: roomPrice,
-      roomStatusHistory: roomStatusHistory,
-      roomTypeNoPrice: roomTypeNoPrice,
-      roomTypePrice: roomTypePrice,
-      transaction: transaction,
-      user: user,
-      dashboard: dashboard,
-      report: report,
-      paymentType,
-      cleaningSession,
-      cleaningHistories,
-      setting,
-      generatePin,
-      manualPin,
-      member,
-      referral,
+      data,
+      paymentHistory,
+      product,
+      productCategory,
+      productBundle,
+      transaction,
+      menu,
+      user,
+      componentType,
+      compatibleRule
    },
 });
-
-// const loadModules = async () => {
-//     await Promise.all(moduleNames.map(async (moduleName) => {
-//       const module = ()=> import(/* @vite-ignore */`./modules/${moduleName}.js`);
-//       modules[moduleName] = (await module()).default; // Menyimpan modul
-//     }));
-
-//     return createStore({
-//       modules,
-//     });
-//   };
-
-// const loadModules = async () => {
-//    await Promise.all(
-//       moduleNames.map(async (name) => {
-//          if(name != "facility" && name != "device"){
-//          const tempModule = await import(`./modules/${name}.js`);
-//          modules[name] = tempModule.default;}
-//       })
-//    );
-
-//    return createStore({
-//       modules,
-//    });
-// };
-
-// const store = await loadModules(); // Membuat store setelah modul dimuat
-
-// // // console.log(store)
-
-// export default store;

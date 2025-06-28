@@ -91,7 +91,7 @@
                ref="label"
                class="font-body"
                style="display: flex;"
-               :style="currentValue || modelValue? 'color: var(--blue-500) !important; margin-bottom: 8px;':''"
+               :style="currentValue || modelValue? 'color: var(--blue-500) !important;':''"
                :class="currentValue || modelValue? 'font-small' : errors[0]? 'text-danger': 'font-body'"
                >{{ label }} <span style="margin-left: 4px;" :class="disabled ? '' : 'text-danger'" v-if="required">*</span> 
                <div style="font-size: 10px; margin-left: 4px;" v-if="hasNew">(new)</div>

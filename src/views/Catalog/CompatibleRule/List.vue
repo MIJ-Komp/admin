@@ -1,7 +1,5 @@
 <template>
-   <ListPage :module="$module.deviceGateway"
-   :showCreate="false"
-   :showDelete="false" />
+   <ListPage :module="$module.compatibleRule" />
 </template>
 <script>
 import { provide, ref, onMounted } from "vue";

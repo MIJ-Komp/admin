@@ -33,7 +33,8 @@
                   >
                      <div v-if="menu.visible" class="label-container w-100" @click="openMenu(menu)">
                         <div class="d-flex align-i-center">
-                           <img class="ic-menu" :src="menu.icon" />
+                           <img v-if="menu.icon" class ="ic-menu" :src="menu.icon" />
+                           <div v-else class ="ic-menu" />
                            <span class="menu-label font-label">{{
                               menu.label
                            }}</span>
@@ -100,10 +101,7 @@ export default {
             {
                icon: this.$assets.icons.catalog,
                label: this.$label.menu.catalog,
-               visible: await this.hasViewRole(accessModule.module.productCategory.Id) ||
-                        await this.hasViewRole(accessModule.module.facility.Id) ||
-                        await this.hasViewRole(accessModule.module.addOn.Id) ||
-                        await this.hasViewRole(accessModule.module.productVariant.Id),
+               visible: true,
                items: [
                   {
                      // icon: this.$assets.icons.plus,
@@ -113,29 +111,41 @@ export default {
                   },
                   {
                      // icon: this.$assets.icons.plus,
+                     label: this.$label.menu.componentType,
+                     path: this.$constant.router.componentType,
+                     visible: await this.hasViewRole(accessModule.module.productCategory?.Id)
+                  },
+                  {
+                     // icon: this.$assets.icons.plus,
                      label: this.$label.menu.product,
                      path: this.$constant.router.product,
-                     visible: await this.hasViewRole(accessModule.module.facility.Id)
+                     visible: true
                   },
                   {
                      // icon: this.$assets.icons.plus,
                      label: this.$label.menu.productBundle,
                      path: this.$constant.router.productBundle,
-                     visible: await this.hasViewRole(accessModule.module.facility.Id)
+                     visible: true
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.menu,
-                     path: this.$constant.router.menu,
-                     visible: true //await this.hasViewRole(accessModule.module.addOn.Id)
+                     label: this.$label.menu.compatibleRule,
+                     path: this.$constant.router.compatibleRule,
+                     visible: true
                   },
                ],
             },
             {
-               icon: this.$assets.icons.transaction,
-               label: this.$label.menu.transaction,
-               path: this.$constant.router.transaction,
-               visible: await this.hasViewRole(accessModule.module.transaction.Id)
+                     icon: this.$assets.icons.chevron_right,
+                     label: this.$label.menu.menu,
+                     path: this.$constant.router.menu,
+                     visible: true //await this.hasViewRole(accessModule.module.addOn.Id)
+            },
+            {
+               icon: this.$assets.icons.payment,
+               label: this.$label.menu.payment,
+               path: this.$constant.router.payment,
+               visible: true
             },
             {
                icon: this.$assets.icons.report,

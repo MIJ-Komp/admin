@@ -1,5 +1,5 @@
 <template>
-   <ListPage :module="$module.manualPin" :showEdit="false"/>
+   <ListPage :module="$module.componentType" />
 </template>
 <script>
 import { provide, ref, onMounted } from "vue";

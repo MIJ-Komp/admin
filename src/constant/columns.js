@@ -135,6 +135,15 @@ const columns = {
       { headerName: "Name", field: "name" },
       { headerName: "ParentId", field: "parentId" },
    ],
+   componentType: [
+      { headerName: "Id", field: "id" },
+      { headerName: "Name", field: "name" },
+      { headerName: "Code", field: "code" },
+   ],
+   compatibleRule: [
+      { headerName: "Id", field: "id" },
+      { headerName: "Name", field: "name" },
+   ],
    role: [
       { headerName: "Role Name", field: "Name" },
       {
