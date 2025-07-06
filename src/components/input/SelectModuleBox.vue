@@ -40,7 +40,7 @@
                :optionValue="optionValue"
                @input="field.validate"
                :type="type"
-               :showClear="!this.required && !this.disabled"
+               :showClear="!required && !disabled && showClear"
             >
                <template #footer>
                   <!-- <div v-if="!sourceData || sourceData.length <= 0" style="padding: 14px;">Tidak Ada Data</div> -->
@@ -60,7 +60,7 @@
                <span
                   style="margin-left: 4px"
                   :class="disabled ? '' : 'text-danger'"
-                  v-if="required"
+                  v-if="required && label"
                   >*</span
                >
                <div style="font-size: 10px; margin-left: 4px" v-if="hasNew">
@@ -79,7 +79,7 @@
                <span
                   style="margin-left: 4px"
                   :class="disabled ? '' : 'text-danger'"
-                  v-if="required"
+                  v-if="required && label"
                   >*</span
                >
                <div style="font-size: 10px; margin-left: 4px" v-if="hasNew">
@@ -106,7 +106,7 @@
                :optionValue="optionValue"
                @change="field.validate"
                :type="type"
-               :showClear="!this.required && !this.disabled"
+               :showClear="!required && !disabled"
             >
                <template #footer>
                   <!-- <div v-if="!sourceData || sourceData.length <= 0" style="padding: 14px;">Tidak Ada Data</div> -->
@@ -372,6 +372,7 @@ export default {
       labelType: { type: String, required: false, default: "out" },
       minLength: { type: Number, required: false, default: null },
       maxLength: { type: Number, required: false, default: null },
+      showClear: { type: Boolean, required: false, default: true },
       optionLabel: { type: String, required: false, default: "name" },
       optionValue: { type: String, required: false, default: "id" },
       haveAllOption: { type: Boolean, required: false, default: false },

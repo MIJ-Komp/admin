@@ -199,7 +199,7 @@ export default {
 
       // Process files to generate previews
       async processFiles(files) {
-         console.log(files)
+         try{
          const imageId = await this.uploadImage(files);
          if (this.multiple) {
             if (!this.currentId) {
@@ -221,6 +221,13 @@ export default {
                });
             }
          });
+      }
+      catch(err){
+         this.$showToast.error(
+                     `Upload Failed`,
+                     err
+                  );
+      }
       },
       dragOver(event) {
          event.preventDefault();

@@ -128,8 +128,11 @@ export default {
          const validator = this.$refs.observer;
          // this.$refs.observer.validate().then((isValid) => {
          // })
+            // console.log(validator)
+
          if(validator){
             const result = await validator.validate();
+            // console.log(result)
             if (!result) {
                // setTimeout(() => {
                //    const childObservers = validator.observers;

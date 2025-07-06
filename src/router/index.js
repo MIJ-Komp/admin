@@ -15,7 +15,11 @@ import ComponentTypeForm from "../views/Catalog/ComponentType/Form.vue";
 import CompatibleRule from "../views/Catalog/CompatibleRule/List.vue";
 import CompatibleRuleForm from "../views/Catalog/CompatibleRule/Form.vue";
 
+import Brand from "../views/Catalog/Brand/List.vue";
+import BrandForm from "../views/Catalog/Brand/Form.vue";
+
 import Product from "../views/Catalog/Product/List.vue";
+import ProductBundle from "../views/Catalog/ProductBundle/List.vue";
 import ProductForm from "../views/Catalog/Product/Form.vue";
 
 import Transaction from "../views/Transaction/paymentHistory/List.vue";
@@ -162,7 +166,7 @@ const routes = [
       //List
       path: `/${constant.router.productBundle}`,
       name: label.menu.productBundle,
-      component: Product,
+      component: ProductBundle,
       meta: {
          module: module.productBundle,
          description: ``,
@@ -228,6 +232,45 @@ const routes = [
       component: CompatibleRuleForm,
       meta: {
          module: module.compatibleRule,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: constant.formMode.update,
+      },
+   },
+   /*=====================================*/
+
+      /* ========== Brand =========== */
+   {
+      //List
+      path: `/${constant.router.brand}`,
+      name: label.menu.brand,
+      component: Brand,
+      meta: {
+         module: module.brand,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: null,
+      },
+   },
+   {
+      // Create
+      path: `/${constant.router.brand}/add`,
+      name: `${label.action.create} ${label.menu.brand}`,
+      component: BrandForm,
+      meta: {
+         module: module.brand,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: constant.formMode.create,
+      },
+   },
+   {
+      //Update
+      path: `/${constant.router.brand}/update/:id`,
+      name: `${label.action.update} ${label.menu.brand}`,
+      component: BrandForm,
+      meta: {
+         module: module.brand,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: constant.formMode.update,

@@ -28,6 +28,11 @@ const module = {
       name: "compatibleRule",
       form: () => import("../views/Catalog/CompatibleRule/Form.vue"),
    },
+   brand: {
+      id: 4,
+      name: "brand",
+      form: () => import("../views/Catalog/Brand/Form.vue"),
+   },
 
    // facility:   { id: 4, name: "facility" },
    product: {

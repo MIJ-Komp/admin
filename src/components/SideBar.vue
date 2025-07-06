@@ -129,14 +129,14 @@ export default {
                   },
                   {
                      // icon: this.$assets.icons.plus,
-                     label: this.$label.menu.compatibleRule,
-                     path: this.$constant.router.compatibleRule,
+                     label: this.$label.menu.brand,
+                     path: this.$constant.router.brand,
                      visible: true
                   },
                ],
             },
             {
-                     icon: this.$assets.icons.chevron_right,
+                     icon: this.$assets.icons.catalog,
                      label: this.$label.menu.menu,
                      path: this.$constant.router.menu,
                      visible: true //await this.hasViewRole(accessModule.module.addOn.Id)

@@ -144,6 +144,10 @@ const columns = {
       { headerName: "Id", field: "id" },
       { headerName: "Name", field: "name" },
    ],
+   brand: [
+      { headerName: "Id", field: "id" },
+      { headerName: "Name", field: "name" },
+   ],
    role: [
       { headerName: "Role Name", field: "Name" },
       {
@@ -153,8 +157,8 @@ const columns = {
       },
    ],
    productBundle: [
-      { headerName: "Name", field: "Name" },
-      { headerName: "Description", field: "Description" },
+      { headerName: "Name", field: "name" },
+      { headerName: "Description", field: "description" },
    ],
    user: [
       { headerName: "Name", field: "Name" },

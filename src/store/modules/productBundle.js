@@ -5,10 +5,13 @@ const state = {
 const mutations = {
 };
 
+import constant from '../../constant/constant';
 import axios from '../axios'
+
 const actions = {
     async getAll({ commit }) {
-        return (await axios.get('/admin/products'))?.items
+        const products = (await axios.get('/admin/products'))?.items
+        return products.filter(data=> data.productType.code == constant.productType.group)
     },
     async create({commit}, data){
         if(data) data.Type = 1

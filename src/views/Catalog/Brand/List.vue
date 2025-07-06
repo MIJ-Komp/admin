@@ -1,7 +1,5 @@
 <template>
-   <ListPage
-      :module="$module.productBundle"
-   />
+   <ListPage :module="$module.brand" />
 </template>
 <script>
 import { provide, ref, onMounted } from "vue";

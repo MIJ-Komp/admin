@@ -7,16 +7,16 @@ const mutations = {};
 import axios from "../axios";
 const actions = {
    getImage({ commit }, id) {
-      return axios.get(`image/${id}`)
+      return axios.get(`admin/files/${id}`)
    },
    uploadImage({ commit }, image) {
       const data = new FormData();
       for (let i = 0; i < image.length; i++) {
-         data.append("images", image[i]);
+         data.append("photos", image[i]);
       }
       // data.append("images", image);
 
-      return axios.post("/image", data, {
+      return axios.post("/admin/files", data, {
          headers: {
             "Content-Type": "multipart/form-data",
          },

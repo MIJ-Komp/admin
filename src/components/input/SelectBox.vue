@@ -39,6 +39,8 @@
                   :required="required"
                   :options="dataSource"
                   :optionLabel="optionLabel"
+                  :optionGroupLabel="optionGroupLabel" 
+                  :optionGroupChildren="optionGroupChildren"
                   :optionValue="optionValue"
                   :editable="editable"
                   :showClear="showClear ? true : false"
@@ -63,6 +65,8 @@
                   :options="dataSource"
                   :optionLabel="optionLabel"
                   :optionValue="optionValue"
+                  :optionGroupLabel="optionGroupLabel" 
+                  :optionGroupChildren="optionGroupChildren"
                   :editable="editable"
                   :maxSelectedLabels="3"
                   showClear
@@ -119,9 +123,16 @@
                :options="dataSource"
                :optionLabel="optionLabel"
                :optionValue="optionValue"
+               :optionGroupLabel="optionGroupLabel" 
+               :optionGroupChildren="optionGroupChildren"
                :editable="editable"
                :showClear="showClear ? true : false"
-            />
+            >
+                <template #optiongroup="slotProps" v-if="optionGroupChildren">
+                <div class="flex items-center group-label" :alt="slotProps.option[optionGroupLabel]">{{ slotProps.option[optionGroupLabel] }}
+                </div>
+            </template>
+            </Select>
             <MultiSelect
                v-else
                filter
@@ -143,6 +154,8 @@
                :options="dataSource"
                :optionLabel="optionLabel"
                :optionValue="optionValue"
+               :optionGroupLabel="optionGroupLabel" 
+               :optionGroupChildren="optionGroupChildren"
                :editable="editable"
                :maxSelectedLabels="3"
                showClear
@@ -315,8 +328,10 @@ export default {
       minLength: { type: Number, default: null },
       maxLength: { type: Number, default: null },
       dataSource: { type: Array, default: () => [] },
-      optionLabel: { type: String, default: "Name" },
-      optionValue: { type: String, default: "Id" },
+      optionLabel: { type: String, default: "name" },
+      optionValue: { type: String, default: "id" },
+      optionGroupLabel: { type: String, default: null },
+      optionGroupChildren: { type: String, default: null },
       rules: { type: String, default: null },
       modelValue: { type: [Number, Array, String], default: null },
       label: { type: String, default: "" },
@@ -333,6 +348,13 @@ export default {
 </script>
 
 <style lang="scss">
+.group-label{
+   border-top: 2px solid #dedede;
+   border-bottom: 2px solid #dedede;
+   color: black;
+   padding: 8px;
+   margin: 0 -12px;
+}
 .select-box .deleteButton {
    position: absolute;
    width: 40px;

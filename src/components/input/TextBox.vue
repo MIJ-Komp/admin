@@ -130,29 +130,37 @@ export default {
          if (this.currentValue || this.modelValue) return;
          setTimeout(() => {
             if (this.$refs.inputText) {
-               this.$refs.label.classList.remove("font-body");
-               this.$refs.label.classList.remove("font-small");
+               if(this.$refs.label){
+                  this.$refs.label.classList.remove("font-body");
+                  this.$refs.label.classList.remove("font-small");
+               }
                switch (this.status) {
                   case "hover":
-                     this.$refs.label.classList.add("font-body");
+                     if(this.$refs.label){
+                        this.$refs.label.classList.add("font-body");
+                     }
 
                      if (this.$refs.iconFa)
                         this.$refs.iconFa.style.color =
                            "var(--grey-900) !important";
                      break;
                   case "focus":
-                     this.$refs.label.classList.add("font-small");
-                     this.$refs.label.style.color =
-                        "var(--primary-color) !important";
+                     if(this.$refs.label){
+                        this.$refs.label.classList.add("font-small");
+                        this.$refs.label.style.color =
+                           "var(--primary-color) !important";
+                     }
 
                      if (this.$refs.iconFa)
                         this.$refs.iconFa.style.color =
                            "var(--primary-color) !important";
                      break;
                   default:
-                     this.$refs.label.classList.add("font-body");
-                     this.$refs.label.style.color =
-                        "var(--grey-700) !important";
+                     if(this.$refs.label){
+                        this.$refs.label.classList.add("font-body");
+                        this.$refs.label.style.color =
+                           "var(--grey-700) !important";
+                     }
 
                      if (this.$refs.iconFa)
                         this.$refs.iconFa.style.color =

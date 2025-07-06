@@ -18,13 +18,16 @@
       <div class="p-2 rule-container">
          <b-row class="mt-3 rule-item" v-for="rule in form.rules">
            <i @click="removeRule(rule)" class="fa fa-trash del-rule"/>
-            <b-col lg="4" md="6" cols="12" class="mt-2">
+            <b-col lg="3" md="6" cols="12" class="mt-2">
+               <SelectBox ref="mainSpecKey" label="Main Component Spec" v-model="rule.mainSpecKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
+            </b-col>
+           <b-col lg="3" md="6" cols="12" class="mt-2">
                <SelectModuleBox v-model="rule.componentTypeCode" optionValue="code" :module="$module.componentType" label="Compare With Component" />
             </b-col>
-            <b-col lg="4" md="6" cols="12" class="mt-2">
-               <SelectBox v-model="rule.specKey" label="Compare Spec" :dataSource="$constant.specKeys" optionLabel="label" optionValue="value" labelType="out" />
+            <b-col lg="3" md="6" cols="12" class="mt-2">
+               <SelectBox ref="ruleSpecKey" label="Compare Spec" v-model="rule.specKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
             </b-col>
-            <b-col lg="4" md="6" cols="12" class="mt-2">
+            <b-col lg="3" md="6" cols="12" class="mt-2">
                <SelectBox v-model="rule.condition" label="Comparison Rule" :dataSource="Object.keys($constant.conditionRule).map(condition=>{ return {label:$constant.conditionRule[condition], value: condition}})" optionLabel="label" optionValue="value" labelType="out" />
             </b-col>
          </b-row>
@@ -37,6 +40,19 @@ import { mapActions } from "vuex";
 export default {
    props: {
       showCancel: { type: Boolean, default: false },
+   },
+   created() {
+      const groupedSpecKeys = this.$constant.specKeys.reduce((acc, curr) => {
+         if (!acc[curr.groupId]) {
+         acc[curr.groupId] = [];
+         }
+         acc[curr.groupId].push(curr);
+         return acc;
+      }, {});
+      this.groupSpecs = Object.entries(groupedSpecKeys).map(([groupId, items]) => ({
+         groupId,
+         items
+      }));
    },
    methods: {
       addRule(){
@@ -59,7 +75,7 @@ export default {
       },
       ...mapActions(module.compatibleRule.name, ["create", "getById", "update"]),
    },
-   created() {},
+   
    watch: {},
    data() {
       return {
@@ -71,7 +87,8 @@ export default {
             rules: [
                { 
                   componentTypeCode: "CPU", 
-                  specKey: "socket", 
+                  mainSpecKey: "processor_socket", 
+                  specKey: "processor_socket", 
                   condition: "equals" 
                },
                { 
@@ -114,7 +131,8 @@ export default {
                   condition: "one_of" 
                }
             ]
-         }
+         },
+         groupSpecs:[]
       };
    },
    async mounted() {

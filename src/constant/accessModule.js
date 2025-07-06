@@ -6,6 +6,7 @@ const module = {
     componentType:       { Id: 4, label: "Component Type"},
     product:       { Id: 7, label: "Product"},
     compatibleRule:       { Id: 8, label: "Compatible Rule"},
+    brand:       { Id: 9, label: "Brand"},
     transaction:{ Id: 16, label: "Transaction"},
     report :{ Id: 20, label: "Report"},
  }

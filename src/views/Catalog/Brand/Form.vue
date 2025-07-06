@@ -16,15 +16,6 @@
             />
          </b-col>
 
-         <b-col cols="12">
-            <SelectModuleBox :required="false" :module="$module.productCategory" label="Parent Category" v-model="form.parentId"/>
-         </b-col>
-         
-         <!-- <b-col cols="12">
-          <TextArea :required="false" label="Deskripsi">
-
-          </TextArea>
-        </b-col> -->
       </b-row>
    </MIJForm>
 </template>
@@ -42,14 +33,14 @@ export default {
       doUpdate() {
          return this.update(this.form);
       },
-      ...mapActions(module.productCategory.name, ["create", "getById", "update"]),
+      ...mapActions(module.brand.name, ["create", "getById", "update"]),
    },
    created() {},
    watch: {},
    data() {
       return {
          formData: {
-            module: this.$module.productCategory,
+            module: this.$module.brand,
          },
          form: {
             code: null,

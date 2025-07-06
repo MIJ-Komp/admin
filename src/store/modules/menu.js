@@ -17,7 +17,7 @@ const actions = {
         return await axios.delete(`/admin/menus/delete-item/${id}`)
     },
     async delete({commit}, id){
-        return await axios.delete(`/admin/menus/delete/${id}`)
+        return await axios.delete(`/admin/menus/${id}`)
     },
     async update({commit}, data){
         return await axios.put(`/admin/products/${data.id}`, data)
