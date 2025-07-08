@@ -129,6 +129,12 @@ export default {
                   },
                   {
                      // icon: this.$assets.icons.plus,
+                     label: this.$label.menu.compatibleRule,
+                     path: this.$constant.router.compatibleRule,
+                     visible: true
+                  },
+                  {
+                     // icon: this.$assets.icons.plus,
                      label: this.$label.menu.brand,
                      path: this.$constant.router.brand,
                      visible: true

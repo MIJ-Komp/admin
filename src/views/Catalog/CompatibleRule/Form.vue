@@ -1,38 +1,47 @@
 <template>
-   <MIJForm
-      :formData="formData"
-      :createAction="doCreate"
-      :updateAction="doUpdate"
-      :showCancel="showCancel"
-      @cancel="$emit('cancel')"
-   >
+   <div class="p-3 compatible-rule-container">
       <b-row>
-         <b-col cols="12">
-            <SelectModuleBox v-model="form.componentTypeCode" :module="$module.componentType" optionValue="code" label="Main Component Type" />
+         <b-col>
+            <SelectModuleBox class="mb-2" :required="false" v-model="filter.sourceComponentTypeCode" placeholder="filter component type" :module="$module.componentType" optionValue="code" label="Filter Source Component Type" />
+         </b-col>
+          <b-col>
+            <SelectModuleBox class="mb-2" :required="false" v-model="filter.targetComponentTypeCode" placeholder="filter component type" :module="$module.componentType" optionValue="code" label="Filter Target Component Type" />
          </b-col>
       </b-row>
-      <div class="flex-row mt-3 pb-3" style="border-bottom: 1px solid #dedede;">
-         <b-col>Compatible Rules:</b-col>
-         <Button @click.prevent="addRule()" label="Add Compatibility Rule" style="height: 30px; width: 200px !important;"/>
-      </div>
-      <div class="p-2 rule-container">
-         <b-row class="mt-3 rule-item" v-for="rule in form.rules">
-           <i @click="removeRule(rule)" class="fa fa-trash del-rule"/>
-            <b-col lg="3" md="6" cols="12" class="mt-2">
-               <SelectBox ref="mainSpecKey" label="Main Component Spec" v-model="rule.mainSpecKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
-            </b-col>
-           <b-col lg="3" md="6" cols="12" class="mt-2">
-               <SelectModuleBox v-model="rule.componentTypeCode" optionValue="code" :module="$module.componentType" label="Compare With Component" />
-            </b-col>
-            <b-col lg="3" md="6" cols="12" class="mt-2">
-               <SelectBox ref="ruleSpecKey" label="Compare Spec" v-model="rule.specKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
-            </b-col>
-            <b-col lg="3" md="6" cols="12" class="mt-2">
-               <SelectBox v-model="rule.condition" label="Comparison Rule" :dataSource="Object.keys($constant.conditionRule).map(condition=>{ return {label:$constant.conditionRule[condition], value: condition}})" optionLabel="label" optionValue="value" labelType="out" />
-            </b-col>
-         </b-row>
-      </div>
-   </MIJForm>
+      <table class="custom-table">
+         <thead>
+            <tr>
+               <td>Source</td>
+               <td>Compare With</td>
+               <td>Condition</td>
+               <td>Action</td>
+            </tr>
+         </thead>
+         <tbody>
+            <tr v-for="(rule, index) in getRules()">
+               <td>
+                  <SelectModuleBox :disabled="!rule.editing" class="mb-2" v-model="rule.sourceComponentTypeCode" placeholder="select component type" :module="$module.componentType" optionValue="code" label="Component Type" />
+                  <SelectBox :disabled="!rule.editing" ref="mainSpecKey" label="Component Spec" v-model="rule.sourceKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
+               </td>
+               <td>
+                  <SelectModuleBox :disabled="!rule.editing" class="mb-2" v-model="rule.targetComponentTypeCode" optionValue="code" :module="$module.componentType" label="Component Type" />
+                  <SelectBox :disabled="!rule.editing" ref="ruleSpecKey" label="Component Spec" v-model="rule.targetKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
+               </td>
+               <td>
+                  <SelectBox :disabled="!rule.editing" v-model="rule.condition" label="Rule" :dataSource="Object.keys($constant.conditionRule).map(condition=>{ return {label:$constant.conditionRule[condition], value: condition}})" optionLabel="label" optionValue="value" labelType="out" />
+               </td>
+               <td>
+                  <Button @click="deleteRule(index)" buttonType="danger" label="delete" class="p-0 mb-1"/>
+                  <Button @click="rule.editing = true" v-if="!rule.editing" label="Edit" class="p-0 mb-1"/>
+                  <Button @click="refresh()" buttonType="secondary" v-if="rule.editing && rule.id" label="Cancel" class="p-0 mb-1"/>
+                  <Button @click="save(rule)" label="Save" v-if="rule.editing" class="p-0 mb-1"/>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      
+      <Button class="mt-2" @click.prevent="addRule()" label="Add Compatibility Rule" style="height: 30px;"/>
+   </div>
 </template>
 <script>
 import module from "../../../constant/module";
@@ -53,19 +62,78 @@ export default {
          groupId,
          items
       }));
+
+
+      this.refresh()
    },
    methods: {
+      getRules(){
+         return this.rules.filter(data=>
+            (!this.filter.sourceComponentTypeCode || data.sourceComponentTypeCode == this.filter.sourceComponentTypeCode)
+            && (!this.filter.targetComponentTypeCode || data.targetComponentTypeCode == this.filter.targetComponentTypeCode)
+         )
+      },
+      async deleteRule(index) {
+         if(this.rules[index].id){
+            var confirm = await this.$dialog.Confirmation.confirm({
+               title: "Konfirmasi",
+               message: "Anda yakin akan menghapus data ini?",
+            });
+            if(!confirm) return
+            this.delete(this.rules[index].id)
+            .then((res)=>{
+               this.$showToast.success('Success delete rule')
+               this.refresh()
+            })
+            .catch((err)=>{
+               this.$showToast.error('Failed to delete rule',err)
+            })
+         }
+         else{
+            this.rules.splice(index, 1);
+            this.refresh()
+         }
+        
+      },
+      async refresh(){
+         this.rules = await this.getAll()
+      },
+      async save(rule){
+         if(rule.id){
+            this.update(rule)
+            .then(()=>{
+               this.$showToast.success('Success update')
+               this.refresh()
+            })
+            .catch((err)=>{
+               this.$showToast.error('Failed to update',err)
+            })
+         }
+         else{
+            await this.create(rule)
+            .then(()=>{
+               this.$showToast.success('Success create new rule')
+               this.refresh()
+            })
+            .catch((err)=>{
+               this.$showToast.error('Failed to create new rule',err)
+            })
+         }
+      },
       addRule(){
-         this.form.rules.push(
+         this.rules.push(
             { 
-               componentTypeCode: null, 
-               specKey: null, 
-               condition: null 
+               sourceComponentTypeCode: null, 
+               targetComponentTypeCode: null, 
+               sourceKey: null, 
+               targetKey: null, 
+               condition: null,
+               editing: true 
             },
          )
       },
       removeRule(rule){
-         this.form.rules = this.form.rules.filter(data=> data != rule)
+         this.rules = this.rules.filter(data=> data != rule)
       },
       doCreate() {
          return this.create(this.form);
@@ -73,7 +141,7 @@ export default {
       doUpdate() {
          return this.update(this.form);
       },
-      ...mapActions(module.compatibleRule.name, ["create", "getById", "update"]),
+      ...mapActions(module.compatibleRule.name, ["getAll","create", "getById", "update"]),
    },
    
    watch: {},
@@ -82,56 +150,20 @@ export default {
          formData: {
             module: this.$module.componentType,
          },
-         form: {
-            componentTypeCode: "Motherboard",
-            rules: [
-               { 
-                  componentTypeCode: "CPU", 
-                  mainSpecKey: "processor_socket", 
-                  specKey: "processor_socket", 
-                  condition: "equals" 
-               },
-               { 
-                  componentTypeCode: "CPU", 
-                  specKey: "generation", 
-                  condition: "one_of" 
-               },
-               { 
-                  componentTypeCode: "RAM", 
-                  specKey: "ram_type", 
-                  condition: "equals" 
-               },
-               { 
-                  componentTypeCode: "RAM", 
-                  specKey: "ram_speed", 
-                  condition: "max" },
-               { 
-                  componentTypeCode: "RAM", 
-                  specKey: "capacity", 
-                  condition: "max" 
-               },
-               { 
-                  componentTypeCode: "RAM", 
-                  specKey: "module_count", 
-                  condition: "max" 
-               },
-               { 
-                  componentTypeCode: "GPU", 
-                  specKey: "pci_version", 
-                  condition: "max" 
-               },
-               { 
-                  componentTypeCode: "Case", 
-                  specKey: "supported_form_factors", 
-                  condition: "one_of" 
-               },
-               { 
-                  componentTypeCode: "Storage", 
-                  specKey: "interface", 
-                  condition: "one_of" 
-               }
-            ]
+         filter:{
+            sourceComponentTypeCode: null,
+            targetComponentTypeCode: null,
          },
+         rules: [
+            { 
+               sourceComponentTypeCode: null, 
+               targetComponentTypeCode: null, 
+               sourceKey: null, 
+               targetKey: null, 
+               condition: null,
+               editing: true 
+            },
+         ],
          groupSpecs:[]
       };
    },
@@ -142,7 +174,7 @@ export default {
          this.form = Object.assign(this.form, tmpForm);
       }
       else if(this.$route.meta.formMode == this.$constant.formMode.create){
-         // this.form.rules=[
+         // this.rules=[
          //    {
          //       componentTypeCode:null,
          //       specKey:null,
@@ -156,6 +188,60 @@ export default {
 </script>
 
 <style>
+
+table.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+    font-size: 14px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+
+  table.custom-table th,
+  table.custom-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    text-align: left;
+    align-content: start !important;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: auto !important;
+  }
+
+  table.custom-table input, table.custom-table select{
+    border: 1px solid #dedede;
+    border-radius: 4px;
+  }
+
+  table.custom-table th {
+    background-color: #f7f7f7;
+    color: #333;
+    font-weight: bold;
+  }
+
+  table.custom-table tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  table.custom-table tbody tr{
+    background-color: #f1f1f1;
+  }
+
+  /* Responsive kecil */
+  @media (max-width: 600px) {
+    table.custom-table {
+      font-size: 12px;
+    }
+
+    table.custom-table th,
+    table.custom-table td {
+      padding: 8px;
+    }
+  }
+
 .rule-container{
    height: 57vh;
    overflow: auto;
@@ -170,10 +256,16 @@ export default {
 }
 .del-rule{
    position: absolute;
-   left: -12px;
-   top: -8px;
-   width: 6px !important;
-   height: 6px !important;
+   background: red;
+   color: white;
+   right: 0;
+   top: -10px;
+   border-radius: 8px;
+   font-size: 14px;
+   width: fit-content !important;
    cursor: pointer;
+}
+.compatible-rule-container{
+   background: white;
 }
 </style>

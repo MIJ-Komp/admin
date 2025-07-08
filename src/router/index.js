@@ -12,7 +12,7 @@ import ProductCategoryForm from "../views/Catalog/ProductCategory/Form.vue";
 import ComponentType from "../views/Catalog/ComponentType/List.vue";
 import ComponentTypeForm from "../views/Catalog/ComponentType/Form.vue";
 
-import CompatibleRule from "../views/Catalog/CompatibleRule/List.vue";
+// import CompatibleRule from "../views/Catalog/CompatibleRule/List.vue";
 import CompatibleRuleForm from "../views/Catalog/CompatibleRule/Form.vue";
 
 import Brand from "../views/Catalog/Brand/List.vue";
@@ -205,36 +205,12 @@ const routes = [
       //List
       path: `/${constant.router.compatibleRule}`,
       name: label.menu.compatibleRule,
-      component: CompatibleRule,
+      component: CompatibleRuleForm,
       meta: {
          module: module.compatibleRule,
          description: ``,
          keyword: "", // pemisah pakai koma
          formMode: null,
-      },
-   },
-   {
-      // Create
-      path: `/${constant.router.compatibleRule}/add`,
-      name: `${label.action.create} ${label.menu.compatibleRule}`,
-      component: CompatibleRuleForm,
-      meta: {
-         module: module.compatibleRule,
-         description: ``,
-         keyword: "", // pemisah pakai koma
-         formMode: constant.formMode.create,
-      },
-   },
-   {
-      //Update
-      path: `/${constant.router.compatibleRule}/update/:id`,
-      name: `${label.action.update} ${label.menu.compatibleRule}`,
-      component: CompatibleRuleForm,
-      meta: {
-         module: module.compatibleRule,
-         description: ``,
-         keyword: "", // pemisah pakai koma
-         formMode: constant.formMode.update,
       },
    },
    /*=====================================*/
