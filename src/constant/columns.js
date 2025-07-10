@@ -128,6 +128,13 @@ const columns = {
    ],
    product: [
       { headerName: "Name", field: "name" },
+      { headerName: "ComponentType", field: "componentType", 
+         valueFormatter: (params) => {
+            if(params.data){
+               return params.data?.componentType?.code;
+            }
+         },
+       },
       { headerName: "Description", field: "description" },
    ],
    productCategory: [
@@ -139,6 +146,7 @@ const columns = {
       { headerName: "Id", field: "id" },
       { headerName: "Name", field: "name" },
       { headerName: "Code", field: "code" },
+      { headerName: "Description", field: "description" },
    ],
    compatibleRule: [
       { headerName: "Id", field: "id" },

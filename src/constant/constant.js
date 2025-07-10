@@ -233,6 +233,7 @@ const constant = {
   { label: 'PCIe Version', value: 'motherboard_pci_version', groupId: 'MOTHERBOARD' },
   { label: 'Storage Interfaces', value: 'motherboard_storage_interfaces', groupId: 'MOTHERBOARD' },
   { label: 'Supported CPU Generations', value: 'motherboard_supported_generations', groupId: 'MOTHERBOARD' },
+  { label: 'Motherboard Ram Voltage', value: 'motherboard_ram_voltage', groupId: 'MOTHERBOARD' },
 
   // 🔹 RAM
   { label: 'RAM Type', value: 'ram_ram_type', groupId: 'RAM' },
@@ -285,6 +286,7 @@ const constant = {
       one_of: 'One Of',
       min:'Max',
       max: 'Min',
+      includes: 'Includes',
    }
 };
 export default constant;

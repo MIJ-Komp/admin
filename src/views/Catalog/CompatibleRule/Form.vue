@@ -2,33 +2,33 @@
    <div class="p-3 compatible-rule-container">
       <b-row>
          <b-col>
-            <SelectModuleBox class="mb-2" :required="false" v-model="filter.sourceComponentTypeCode" placeholder="filter component type" :module="$module.componentType" optionValue="code" label="Filter Source Component Type" />
+            <SelectModuleBox class="mb-2" :required="false" v-model="filter.sourceComponentTypeCode" placeholder="filter component type" :dataSource="componentTypes" optionValue="code" label="Filter Source Component Type" />
          </b-col>
           <b-col>
-            <SelectModuleBox class="mb-2" :required="false" v-model="filter.targetComponentTypeCode" placeholder="filter component type" :module="$module.componentType" optionValue="code" label="Filter Target Component Type" />
+            <SelectModuleBox class="mb-2" :required="false" v-model="filter.targetComponentTypeCode" placeholder="filter component type" :dataSource="componentTypes" optionValue="code" label="Filter Target Component Type" />
          </b-col>
       </b-row>
       <table class="custom-table">
          <thead>
             <tr>
                <td>Source</td>
-               <td>Compare With</td>
                <td>Condition</td>
+               <td>Compare With</td>
                <td>Action</td>
             </tr>
          </thead>
          <tbody>
             <tr v-for="(rule, index) in getRules()">
                <td>
-                  <SelectModuleBox :disabled="!rule.editing" class="mb-2" v-model="rule.sourceComponentTypeCode" placeholder="select component type" :module="$module.componentType" optionValue="code" label="Component Type" />
+                  <SelectBox :disabled="!rule.editing" class="mb-2" v-model="rule.sourceComponentTypeCode" placeholder="select component type" :dataSource="componentTypes" optionValue="code" label="Component Type" labelType="out"/>
                   <SelectBox :disabled="!rule.editing" ref="mainSpecKey" label="Component Spec" v-model="rule.sourceKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
                </td>
                <td>
-                  <SelectModuleBox :disabled="!rule.editing" class="mb-2" v-model="rule.targetComponentTypeCode" optionValue="code" :module="$module.componentType" label="Component Type" />
-                  <SelectBox :disabled="!rule.editing" ref="ruleSpecKey" label="Component Spec" v-model="rule.targetKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
+                  <SelectBox :disabled="!rule.editing" v-model="rule.condition" label="Condition" :dataSource="Object.keys($constant.conditionRule).map(condition=>{ return {label:$constant.conditionRule[condition], value: condition}})" optionLabel="label" optionValue="value" labelType="out" />
                </td>
                <td>
-                  <SelectBox :disabled="!rule.editing" v-model="rule.condition" label="Rule" :dataSource="Object.keys($constant.conditionRule).map(condition=>{ return {label:$constant.conditionRule[condition], value: condition}})" optionLabel="label" optionValue="value" labelType="out" />
+                  <SelectBox :disabled="!rule.editing" class="mb-2" v-model="rule.targetComponentTypeCode" optionValue="code" :dataSource="componentTypes" label="Component Type" labelType="out"/>
+                  <SelectBox :disabled="!rule.editing" ref="ruleSpecKey" label="Component Spec" v-model="rule.targetKey" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
                </td>
                <td>
                   <Button @click="deleteRule(index)" buttonType="danger" label="delete" class="p-0 mb-1"/>
@@ -96,9 +96,15 @@ export default {
         
       },
       async refresh(){
-         this.rules = await this.getAll()
+         this.componentTypes = await this.$store.dispatch(`${module.componentType.name}/getAll`)
+         this.rules = (await this.getAll()).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+         console.log(this.componentTypes)
       },
       async save(rule){
+         if(this.processing) return
+         this.processing = true
+         
          if(rule.id){
             this.update(rule)
             .then(()=>{
@@ -108,6 +114,7 @@ export default {
             .catch((err)=>{
                this.$showToast.error('Failed to update',err)
             })
+            .finally(()=> this.processing = false)
          }
          else{
             await this.create(rule)
@@ -118,6 +125,7 @@ export default {
             .catch((err)=>{
                this.$showToast.error('Failed to create new rule',err)
             })
+            .finally(()=> this.processing = false)
          }
       },
       addRule(){
@@ -142,11 +150,13 @@ export default {
          return this.update(this.form);
       },
       ...mapActions(module.compatibleRule.name, ["getAll","create", "getById", "update"]),
+      // ...mapActions(module.componentType.name, ["getAll"]),
    },
    
    watch: {},
    data() {
       return {
+         processing: false,
          formData: {
             module: this.$module.componentType,
          },
@@ -164,7 +174,8 @@ export default {
                editing: true 
             },
          ],
-         groupSpecs:[]
+         groupSpecs:[],
+         componentTypes:[]
       };
    },
    async mounted() {
