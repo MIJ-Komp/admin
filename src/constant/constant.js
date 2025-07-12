@@ -206,20 +206,20 @@ const constant = {
    ],
    specKeys: [
   // 🔹 PROCESSOR
-  { label: 'CPU Brand', value: 'processor_brand', groupId: 'PROCESSOR' },
-  { label: 'CPU Model', value: 'processor_model', groupId: 'PROCESSOR' },
-  { label: 'CPU Socket', value: 'processor_socket', groupId: 'PROCESSOR' },
-  { label: 'CPU Generation', value: 'processor_generation', groupId: 'PROCESSOR' },
-  { label: 'CPU Cores', value: 'processor_cores', groupId: 'PROCESSOR' },
-  { label: 'CPU Threads', value: 'processor_threads', groupId: 'PROCESSOR' },
-  { label: 'Base Clock Speed (GHz)', value: 'processor_base_clock', groupId: 'PROCESSOR' },
-  { label: 'Boost Clock Speed (GHz)', value: 'processor_boost_clock', groupId: 'PROCESSOR' },
-  { label: 'TDP (Watt)', value: 'processor_tdp_watt', groupId: 'PROCESSOR' },
-  { label: 'Supported RAM Type', value: 'processor_supported_ram_type', groupId: 'PROCESSOR' },
-  { label: 'Max Memory Supported (GB)', value: 'processor_max_memory', groupId: 'PROCESSOR' },
-  { label: 'PCIe Version Supported', value: 'processor_pcie_version', groupId: 'PROCESSOR' },
-  { label: 'Integrated Graphics', value: 'processor_integrated_graphics', groupId: 'PROCESSOR' },
-  { label: 'Supported Chipsets', value: 'processor_supported_chipsets', groupId: 'PROCESSOR' },
+  { label: 'CPU Brand', value: 'processor_brand', groupId: 'CPU' },
+  { label: 'CPU Model', value: 'processor_model', groupId: 'CPU' },
+  { label: 'CPU Socket', value: 'processor_socket', groupId: 'CPU' },
+  { label: 'CPU Generation', value: 'processor_generation', groupId: 'CPU' },
+  { label: 'CPU Cores', value: 'processor_cores', groupId: 'CPU' },
+  { label: 'CPU Threads', value: 'processor_threads', groupId: 'CPU' },
+  { label: 'Base Clock Speed (GHz)', value: 'processor_base_clock', groupId: 'CPU' },
+  { label: 'Boost Clock Speed (GHz)', value: 'processor_boost_clock', groupId: 'CPU' },
+  { label: 'TDP (Watt)', value: 'processor_tdp_watt', groupId: 'CPU' },
+  { label: 'Supported RAM Type', value: 'processor_supported_ram_type', groupId: 'CPU' },
+  { label: 'Max Memory Supported (GB)', value: 'processor_max_memory', groupId: 'CPU' },
+  { label: 'PCIe Version Supported', value: 'processor_pcie_version', groupId: 'CPU' },
+  { label: 'Integrated Graphics', value: 'processor_integrated_graphics', groupId: 'CPU' },
+  { label: 'Supported Chipsets', value: 'processor_supported_chipsets', groupId: 'CPU' },
 
   // 🔹 MOTHERBOARD
   { label: 'Motherboard Socket', value: 'motherboard_socket', groupId: 'MOTHERBOARD' },
@@ -260,15 +260,26 @@ const constant = {
   { label: 'Storage Capacity (GB)', value: 'storage_capacity', groupId: 'STORAGE' },
   { label: 'NVMe Version', value: 'storage_nvme_version', groupId: 'STORAGE' },
 
-  // 🔹 COOLER
-  { label: 'Supported Sockets', value: 'cooler_supported_sockets', groupId: 'COOLER' },
-  { label: 'Cooler Height (mm)', value: 'cooler_height_mm', groupId: 'COOLER' },
-  { label: 'Max TDP Supported (W)', value: 'cooler_max_tdp_supported', groupId: 'COOLER' },
+  // 🔹CPU Cooler
+  { label: 'Supported Sockets', value: 'CpuCooler_supported_sockets', groupId: 'CpuCooler' },
+  { label: 'CpuCooler Height (mm)', value: 'CpuCooler_height_mm', groupId: 'CpuCooler' },
+  { label: 'Max TDP Supported (W)', value: 'CpuCooler_max_tdp_supported', groupId: 'CpuCooler' },
+
+  // 🔹 CASE FAN
+{ label: 'Fan Size (mm)', value: 'casefan_size_mm', groupId: 'CASEFAN' },
+{ label: 'Fan Speed (RPM)', value: 'casefan_speed_rpm', groupId: 'CASEFAN' },
+{ label: 'Airflow (CFM)', value: 'casefan_airflow_cfm', groupId: 'CASEFAN' },
+{ label: 'Noise Level (dBA)', value: 'casefan_noise_dba', groupId: 'CASEFAN' },
+{ label: 'Connector Type', value: 'casefan_connector', groupId: 'CASEFAN' },
+{ label: 'RGB Lighting', value: 'casefan_rgb', groupId: 'CASEFAN' },
+{ label: 'Bearing Type', value: 'casefan_bearing_type', groupId: 'CASEFAN' },
+{ label: 'Rated Voltage (V)', value: 'casefan_voltage_v', groupId: 'CASEFAN' },
+{ label: 'Static Pressure (mmH₂O)', value: 'casefan_static_pressure', groupId: 'CASEFAN' },
 
   // 🔹 CASE
   { label: 'Supported Mobo Sizes', value: 'case_supported_form_factors', groupId: 'CASE' },
   { label: 'Max GPU Length (mm)', value: 'case_max_gpu_length', groupId: 'CASE' },
-  { label: 'Max Cooler Height (mm)', value: 'case_max_cooler_height', groupId: 'CASE' },
+  { label: 'Max CpuCooler Height (mm)', value: 'case_max_CpuCooler_height', groupId: 'CASE' },
   { label: 'PSU Form Factor', value: 'case_psu_form_factor', groupId: 'CASE' },
   { label: 'Drive Bay Sizes Supported', value: 'case_drive_bay_support', groupId: 'CASE' },
 

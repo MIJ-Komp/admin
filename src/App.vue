@@ -180,7 +180,6 @@ export default {
          }
          this.$registerGlobal("dialog", dialog);
          const showToast = createToast(this.$toast);
-         console.log(this.$toast)
          this.$registerGlobal("showToast", showToast);
       });
 

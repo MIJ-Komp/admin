@@ -17,18 +17,18 @@
       <b-col lg="4" md="6" cols="12" class="mt-3">
         <SelectModuleBox :required="false" :module="$module.brand" label="Brand" v-model="form.brandId" />
       </b-col>
-      <b-col lg="4" md="6" cols="12" class="mt-3">
-        <SelectModuleBox :module="$module.componentType" label="Component Type" v-model="form.componentTypeId" />
+      <b-col lg="4" md="6" cols="12" class="mt-3" v-if="form.productType != $constant.productType.group">
+        <SelectModuleBox :required="false" :module="$module.componentType" label="Component Type" v-model="form.componentTypeId" />
       </b-col>
       <b-col lg="4" md="6" cols="12" class="mt-3">
-        <SelectModuleBox :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId" />
+        <SelectModuleBox :required="false" :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId" />
       </b-col>
 
        <b-col lg="6" md="6" cols="12" class="mt-3">
-        <TextBox label="Youtube Url" type="name" v-model="form.videoUrl" />
+        <TextBox :required="false" label="Youtube Url" type="name" v-model="form.videoUrl" />
       </b-col>
       <b-col lg="6" md="6" cols="12" class="mt-3">
-        <TextBox label="Tags" type="name" v-model="form.tags" />
+        <TextBox :required="false" label="Tags" type="name" v-model="form.tags" />
       </b-col>
       <b-col cols="12" class="mt-3">
         <TextEditor :required="false" label="Deskripsi" v-model="form.description" />
@@ -83,8 +83,8 @@
     </div>
 
     <!-- Specs -->
-    <div style="border-top: 1px solid #dedede" class="mt-3 mb-3 pt-3 pb-3">
-      <SelectBox :required="false" label="Spec" @change="updateFormSpecs()" v-model="selectedSpecs" :multiSelect="true" :editable="true" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" />
+    <!-- <div style="border-top: 1px solid #dedede" class="mt-3 mb-3 pt-3 pb-3" v-if="form.productType != $constant.productType.group">
+      <SelectBox :required="false" label="Spec" @change="updateFormSpecs()" v-model="selectedSpecs" :multiSelect="true" :editable="true" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" /> -->
 
       <!-- <b-row class="ms-2">
         <b-col
@@ -110,7 +110,7 @@
           <Button class="ps-4 pe-4" @click.prevent="addMoreSpecs()" iconFa="fa fa-plus" buttonType="secondary" label="Spec" style="margin-right: 20px" />
         </b-col>
       </b-row> -->
-    </div>
+    <!-- </div> -->
 
     <!-- SKU Table -->
     <div class="mt-4">
@@ -275,7 +275,8 @@ export default {
          stock: null,
          stockAlert: null,
          name: null,
-         componentSpecs:[]
+         componentSpecs:[],
+         productGroupItems: []
       },
       combinationData:[],
       allProducts: [],
@@ -285,17 +286,17 @@ export default {
     };
   },
   async mounted(){
-    const groupedSpecKeys = this.$constant.specKeys.reduce((acc, curr) => {
-      if (!acc[curr.groupId]) {
-        acc[curr.groupId] = [];
-      }
-      acc[curr.groupId].push(curr);
-      return acc;
-    }, {});
-    this.groupSpecs = Object.entries(groupedSpecKeys).map(([groupId, items]) => ({
-      groupId,
-      items
-    }));
+    // const groupedSpecKeys = this.$constant.specKeys.reduce((acc, curr) => {
+    //   if (!acc[curr.groupId]) {
+    //     acc[curr.groupId] = [];
+    //   }
+    //   acc[curr.groupId].push(curr);
+    //   return acc;
+    // }, {});
+    // this.groupSpecs = Object.entries(groupedSpecKeys).map(([groupId, items]) => ({
+    //   groupId,
+    //   items
+    // }));
 
     this.allProducts = await this.getAll()
 
@@ -346,6 +347,18 @@ export default {
    }
   },
   watch:{
+  'form.componentTypeId':{
+      async handler(newVal) {
+        if(!newVal){
+          this.selectedSpecs = []
+          this.updateFormSpecs()
+          return
+        }
+        const componentType = await  this.getComponentTypeById(newVal)
+        this.selectedSpecs = this.$constant.specKeys.filter(data=> data.groupId.toLowerCase() == componentType.code.toLowerCase()).map(data=> data.value)
+        this.updateFormSpecs()
+      }
+  },
    variantCombinations: {
       handler(newVal) {
         console.log(newVal)
@@ -439,6 +452,7 @@ export default {
           sku.price = parseInt(sku?.price??0)
           sku.stock = parseInt(sku?.stock??0)
           sku.stockAlert = parseInt(sku?.stockAlert??0)
+          sku.isActive = true;
 
           sku.skuCom.forEach(skuCom => {
             params.productSkuVariants.push({
@@ -585,6 +599,7 @@ export default {
       this.form.specs = this.form.specs.filter((d) => d.id !== id);
     },
     ...mapActions(module.product.name, ['create', 'getById', 'update', 'getAll']),
+    ...mapActions(module.componentType.name, {getComponentTypeById :'getById'}),
   },
 };
 </script>
