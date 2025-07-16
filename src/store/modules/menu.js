@@ -25,8 +25,9 @@ const actions = {
     async getById({commit}, id){
         return await axios.get(`/admin/products/${id}`)
     },
-    async createMenuItem({commit}, menuId, data){
-        return await axios.post(`/admin/menus/${menuId}`, data)
+    async createMenuItem({commit}, data){
+        console.log(data)
+        return await axios.post(`/admin/menus/${data?.menuId}`, data)
     },
 };
 

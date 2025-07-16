@@ -18,7 +18,7 @@
             <Button :disabled="adding || (selectedMenuId && item.id != selectedMenuId)" @click="cancelEditCategory(category, index)" buttonType="danger" style="height: 30px !important;" :label="category.id? 'delete': 'cancel'"/>
           </b-col>
           <b-col cols="2" class="p-1">
-            <Button :disabled="adding || (selectedMenuId && item.id != selectedMenuId)" @click="editCategory(category, index)" buttonType="secondary" style="height: 30px !important;" :label="category.editing || !category.id ? 'save' : 'edit'"/>
+            <Button v-if="!category.id" :disabled="adding || (selectedMenuId && item.id != selectedMenuId)" @click="editCategory(category, index)" buttonType="secondary" style="height: 30px !important;" label="save"/>
           </b-col>
         </b-row>
       </b-col>
@@ -89,13 +89,25 @@ export default {
       editing: false
     }
   },
-  async mounted(){
-    this.editing = false
-    await this.$nextTick()
-    if(!this.item.id){
-      this.editing = true
+  watch:{
+    item: {
+         deep: true,
+         immediate: true,
+         handler(newVal) {
+            this.editing = false
+            if(newVal && !newVal.id){
+              this.editing = true
+            }
+         }
     }
   },
+  // async mounted(){
+  //   this.editing = false
+  //   await this.$nextTick()
+  //   if(!this.item.id){
+  //     this.editing = true
+  //   }
+  // },
   methods: {
     editMenu(){
       this.editing= true
@@ -109,25 +121,39 @@ export default {
             });
             if(!confirm) return
 
-            // this.delete(this.menus[index].id)
-            // .then((res)=>{
-            //    this.$showToast.success('Success delete menu')
-            //    this.refreshMenu()
-            // })
-            // .catch((err)=>{
-            //    this.$showToast.error('Failed to delete menu',err)
-            // })
+            this.deleteItem(category.id)
+            .then((res)=>{
+               this.$showToast.success('Success delete menu items category')
+               this.$emit('refresh')
+            })
+            .catch((err)=>{
+               this.$showToast.error('Failed to delete menu items category',err)
+            })
         }
         else{
             this.item.menuItems.splice(index, 1);
         }
     },
     editCategory(category, index){
-      if(!category.editing){
-        this.item.menuItems[index].editing = true
-        return
+      // if(!category.editing){
+      //   this.item.menuItems[index].editing = true
+      //   return
+      // }
+      // this.item.menuItems[index].editing = false
+      if(category.id){
+
       }
-      this.item.menuItems[index].editing = false
+      else{
+        this.createMenuItem(category)
+            .then((res)=>{
+               this.$showToast.success('Success add menu items category')
+               this.item.menuItems[index].editing = false
+               this.$emit('refresh')
+            })
+            .catch((err)=>{
+               this.$showToast.error('Failed to add menu items category',err)
+        })
+      }
     },
     addMenuItems(){
       this.item.menuItems.push(
@@ -149,8 +175,27 @@ export default {
         childs: []
       });
     },
-    deleteChild(index) {
-      this.item.childs.splice(index, 1);
+    async deleteChild(index) {
+      if(this.item.childs[index].id){
+            var confirm = await this.$dialog.Confirmation.confirm({
+               title: "Konfirmasi",
+               message: "Anda yakin akan menghapus data ini?",
+            });
+            if(!confirm) return
+            this.delete(this.item.childs[index].id)
+            .then((res)=>{
+               this.$showToast.success('Success delete menu')
+               this.$emit('refresh')
+            })
+            .catch((err)=>{
+               this.$showToast.error('Failed to delete menu',err)
+            })
+         }
+         else{
+            this.item.childs.splice(index, 1);
+            this.$emit('refresh')
+         }
+
     },
     async save(){
       if(!this.item.name){
@@ -175,7 +220,7 @@ export default {
           })
         }
     },
-    ...mapActions(module.menu.name, ['create', 'getById', 'update', 'getAll']),
+    ...mapActions(module.menu.name, ['create', 'getById', 'update', 'getAll', 'delete', 'createMenuItem', 'deleteItem']),
   },
   components: {
     // register self

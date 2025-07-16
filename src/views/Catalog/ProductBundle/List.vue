@@ -1,6 +1,7 @@
 <template>
    <ListPage
       :module="$module.productBundle"
+      :actions="actions"
    />
 </template>
 <script>
@@ -18,6 +19,15 @@ export default {
    },
    data() {
       return {
+         actions:[
+            {
+               label : 'Bulk Update Product Items',
+               buttonType: 'secondary',
+               click: ($event)=>{
+                  console.log($event)
+               }
+            }
+         ]
       };
    },
 };

@@ -8,6 +8,7 @@
                 :showCreate="showCreate"
                 :showDelete="showDelete"
                 :simpleAdd="simpleAdd"
+                :actions="actions"
                 :selectedItems="$refs.grid ? $refs.grid.selectedData() :[]"
             >
                 <template v-slot:buttons>
@@ -51,6 +52,7 @@ export default {
         }
     },
   props: {
+    actions:{default: ()=>[]},
     queryParams: {},
     showPopUp:{type: Boolean,default: false},
     simpleEdit:{type: Boolean,default: false},

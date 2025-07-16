@@ -42,6 +42,14 @@
                   @click="openCreateModule"
                />
          </b-col>
+         <b-col class="mt-2" cols="3" style="align-content: end;" v-for="action in actions">
+               <Button
+               style="white-space: nowrap; overflow: hidden;"
+                  :label="action.label"
+                  :buttonType="action.buttonType"
+                  @click="action.click"
+               />
+         </b-col>
          <slot name="buttons"></slot>
       </b-row>
    </div>
@@ -97,6 +105,7 @@ export default {
       },
    },
    props: {
+      actions:{default: ()=>[]},
       selectedItems: { default: null },
       canCreate: { type: Boolean, default: false },
       canUpdate: { type: Boolean, default: false },
