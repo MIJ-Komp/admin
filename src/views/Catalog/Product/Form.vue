@@ -21,14 +21,14 @@
         <SelectModuleBox :required="false" :module="$module.componentType" label="Component Type" v-model="form.componentTypeId" />
       </b-col>
       <b-col lg="4" md="6" cols="12" class="mt-3">
-        <SelectModuleBox :required="false" :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId" />
+        <SelectModuleBox :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId" />
       </b-col>
 
        <b-col lg="6" md="6" cols="12" class="mt-3">
         <TextBox :required="false" label="Youtube Url" type="name" v-model="form.videoUrl" />
       </b-col>
       <b-col lg="6" md="6" cols="12" class="mt-3">
-        <TextBox :required="false" label="Tags" type="name" v-model="form.tags" />
+        <TextBox :required="false" label="Tags (pisahkan dengan koma ','')" type="name" v-model="form.tags" />
       </b-col>
       <b-col cols="12" class="mt-3">
         <TextEditor :required="false" label="Deskripsi" v-model="form.description" />
@@ -147,11 +147,20 @@
 
                     <td style="min-width: 250px !important;" v-if="form.productType == $constant.productType.group">
                       <div>
-                        <div class="d-flex" v-for="product in defaultSku?.productGroupItems">
-                          <SelecModuleBox v-model="product.productId" style="max-width: calc(100% - 12px);"/>
-                          <Button buttonType="danger" iconFa="fa fa-trash" class="p-1" style="width: 12px !important;"/>
+                        <div class="flex-row jc-spaceBetween mb-2" v-for="(product, index) in defaultSku?.productGroupItems">
+                          <select @change="changeDefaultSkuProductgroupItems(index)" :value="product.productId" v-model="product.productId" style="width: 200px !important" placeholder="Select Product">
+                            <option :value="null">Select Product</option>
+                            <option :value="p.id" v-for="p in getProductFiltered(defaultSku?.productGroupItems.map(data=> data.productId), product.productId)">{{ p.name }}</option>
+                          </select>
+                          <select v-if="product.productId" :value="product.productSkuId" v-model="product.productSkuId" style="width: 200px !important" placeholder="Pilih variasi">
+                            <option :value="p.id" v-for="p in getProductById(product.productId)?.productSkus">{{ p.name }}</option>
+                          </select>
+                          <div class="flex-row">
+                            <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
+                            <i @click.stop.prevent="delDefaultSkuProductGroupItems(index)" class="text-danger fa fa-trash text-center" style="cursor: pointer; height: 30px; font-size: 18px; align-content: center;"></i>
+                          </div>
                         </div>
-                        <Button @click="addProductGroupItems" class="p-1" label="add product items"/>
+                        <Button @click.stop.prevent="addProductGroupItemsSku" class="p-1" label="add product items"/>
                       </div>
                     </td>
                      <td><input placeholder="Input SKU Name" v-model="defaultSku.name"></td>
@@ -203,12 +212,17 @@
               <td style="min-width: 300px !important;" v-if="form.productType == $constant.productType.group">
                 <div>
                   <div class="flex-row jc-spaceBetween mb-2" v-for="(product, index) in getSku(combo)?.productGroupItems">
-                    <select :value="product.productId" v-model="product.productId" style="width: 200px !important" placeholder="Select Product">
-                      <option :value="null">Select Product</option>
+                    <select @change="changeProductgroupItems(combo, index)" :value="product.productId" v-model="product.productId" style="width: 200px !important" placeholder="Pilih Produk">
+                      <option :value="null">pilih produk</option>
                       <option :value="p.id" v-for="p in getProductFiltered(getSku(combo)?.productGroupItems.map(data=> data.productId), product.productId)">{{ p.name }}</option>
                     </select>
-                    <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
-                    <i @click.stop.prevent="delProductGroupItems(combo, index)" class="text-danger fa fa-trash text-center" style="cursor: pointer; height: 30px; font-size: 18px; align-content: center;"></i>
+                    <select v-if="product.productId" :value="product.productSkuId" v-model="product.productSkuId" style="width: 200px !important" placeholder="Pilih variasi">
+                      <option :value="p.id" v-for="p in getProductById(product.productId)?.productSkus">{{ p.name }}</option>
+                    </select>
+                    <div class="flex-row">
+                      <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
+                      <i @click.stop.prevent="delProductGroupItems(combo, index)" class="text-danger fa fa-trash text-center" style="cursor: pointer; height: 30px; font-size: 18px; align-content: center;"></i>
+                    </div>
                   </div>
                   <Button @click.stop.prevent="addProductGroupItems(combo)" class="p-1" label="add product items"/>
                 </div>
@@ -262,12 +276,15 @@ export default {
         imageIds: [],
         brandId: null,
         isActive: true,
+        productCategoryId: null,
+        componentTypeId: null,
         isShowOnlyInMarketPlace: false,
         productVariantOptions: [],
         productVariantOptionValues: [],
         productSkus: [],
         productSkuVariants: [],
         specs: [],
+        tags: [],
         productType: this.$constant.productType.single
       },
       defaultSku:{
@@ -362,7 +379,7 @@ export default {
    variantCombinations: {
       handler(newVal) {
         console.log(newVal)
-         this.combinationData = newVal.map((combo) => {
+         this.combinationData = newVal.map((combo, index) => {
          const exist = this.combinationData.find(
             (data) => JSON.stringify(data.skuCom??[]) === JSON.stringify(combo)
          );
@@ -371,7 +388,7 @@ export default {
             price: exist?.price ?? null,
             stock: exist?.stock ?? null,
             stockAlert: exist?.stockAlert ?? null,
-            name: exist?.name ?? null,
+            name: exist?.name ?? `Variasi ${index + 1}`,
             skuCom: combo,
             productGroupItems: exist?.productGroupItems ?? [],
             componentSpecs: this.form.specs.map(data=> {
@@ -391,6 +408,27 @@ export default {
    }
   },
   methods: {
+    changeDefaultSkuProductgroupItems(index){
+      if (this.defaultSku.productGroupItems) {
+          const currentProduct = this.getProductById(this.defaultSku.productGroupItems[index]?.productId)
+          if(currentProduct && currentProduct.productSkus.length >= 1){
+            this.defaultSku.productGroupItems[index].productSkuId = currentProduct.productSkus[0].id;
+          }
+      }
+    },
+    changeProductgroupItems(combo, index){
+      const sku = this.getSku(combo);
+
+      if (sku && sku.productGroupItems) {
+          const currentProduct = this.getProductById(sku.productGroupItems[index]?.productId)
+          if(currentProduct && currentProduct.productSkus.length >= 1){
+            sku.productGroupItems[index].productSkuId = currentProduct.productSkus[0].id;
+          }
+      }
+    },
+    getProductById(id){
+      return this.allProducts.find(data=> data.id == id)
+    },
     getProductFiltered(selectedId, currentId){
         return this.allProducts
               .filter(data=> data.id == currentId || !selectedId.find(id => id && id == data.id))
@@ -402,11 +440,13 @@ export default {
           sku.productGroupItems.splice(index, 1);
       }
     },
+    delDefaultSkuProductGroupItems(index){
+      if (this.defaultSku.productGroupItems[index]) {
+          this.defaultSku.productGroupItems.splice(index, 1);
+      }
+    },
     checkProductGroupItems(combo, productId){
-      console.log(combo)
-      console.log(productId)
       const sku = this.getSku(combo);
-      console.log(sku)
       if (sku) {
         if(!sku.productGroupItems) sku.productGroupItems = []
         const currentProduct = sku.productGroupItems.find(data=> data.productId == productId)
@@ -424,10 +464,16 @@ export default {
         sku.productGroupItems.push({
           id: this.$helper.GenerateUUID(this.combinationData.flatMap(cm => cm.productGroupItems.map(ps => ps.id))),
           productId: null,
-          productSkuId: sku.id,
+          productSkuId: null,
           qty: 1
         })
       }
+    },
+    addProductGroupItemsSku(){
+      return this.defaultSku.productGroupItems.push({
+          productId: null,
+          qty: 1
+        })
     },
     updateFormSpecs(){
       this.form.specs = 
@@ -444,9 +490,11 @@ export default {
     generateModelRequest(){
       var params = JSON.parse(JSON.stringify(this.form))
       params.productSkus = JSON.parse(JSON.stringify(this.combinationData))
-
-
-
+      if(params.productType == this.$constant.productType.group){
+        params.componentTypeId = null
+        // params.productCategoryId = null
+        params.componentSpecs = []
+      }
       params.productSkuVariants= []
       params.productSkus.forEach(sku => {
           sku.price = parseInt(sku?.price??0)
@@ -481,7 +529,15 @@ export default {
          data.stock =  this.defaultSku.stock || data.stock
          data.stockAlert =  this.defaultSku.stockAlert || data.stockAlert
          data.name =  this.defaultSku.name || data.name
-         data.productGroupItems =  this.defaultSku.productGroupItems.length > 0 ? this.defaultSku.productGroupItems : data.productGroupItems
+         data.productGroupItems =  this.defaultSku.productGroupItems.length <= 0 ? data.productGroupItems :
+                      this.defaultSku.productGroupItems.map(data=>{
+                        return {
+                            id: this.$helper.GenerateUUID(this.combinationData.flatMap(cm => cm.productGroupItems.map(ps => ps.id))),
+                            productId : data.productId,
+                            productSkuId : data.productSkuId,
+                            qty: data.qty
+                        }
+                      })
          data.componentSpecs= this.form.specs.map(formSpec=> {
                var existDefaultSpec = this.getDefaultSpec(formSpec.specKey)
                var existSpec = data?.componentSpecs?.find(ps=> ps.specKey == formSpec.specKey)

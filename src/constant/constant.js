@@ -1,9 +1,9 @@
 
 const constant = {
-   // apiURL: "https://devapich.pasifiksgroup.com:8443",
+   apiURL: "http://51.79.255.146:5000/api",
    // apiURL: "https://12ab882d-51ca-45eb-8fc0-a6c7b2e215c3-00-1f1m8yy73c66d.sisko.replit.dev/api",
-   apiURL: "http://localhost:5000/api",
-   baseURL: "https://admin.cloudhomes.id",
+   // apiURL: "http://localhost:5000/api",
+   baseURL: "https://dev-admin.mijkomp.id",
    Label: {
       EN: {
          menu: {
