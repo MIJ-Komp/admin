@@ -28,6 +28,11 @@ import Menu from "../views/Catalog/Menu/List.vue";
 import constant from "../constant/constant";
 import helper from "../constant/helper";
 
+
+import Payment from "../views/Payment/List.vue";
+import PaymentForm from "../views/Payment/Form.vue";
+
+
 const label = helper.GetLabel();
 import module from "../constant/module";
 
@@ -281,6 +286,31 @@ const routes = [
       },
    },
    /* ================================== */
+     /* ========== Payment =========== */
+   {
+      //List
+      path: `/${constant.router.payment}`,
+      name: label.menu.payment,
+      component: Payment,
+      meta: {
+         module: module.payment,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: null,
+      },
+   },
+   {
+      // Create
+      path: `/${constant.router.payment}/update`,
+      name: `${label.action.create} ${label.menu.payment}`,
+      component: BrandForm,
+      meta: {
+         module: module.payment,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: constant.formMode.update,
+      },
+   },
 
 
    /* ========== Others =========== */
@@ -317,6 +347,7 @@ const routes = [
          formMode: constant.formMode.create,
       },
    },
+   
 ];
 
 /* =============================== */

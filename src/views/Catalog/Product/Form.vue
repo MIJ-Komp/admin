@@ -490,6 +490,8 @@ export default {
     generateModelRequest(){
       var params = JSON.parse(JSON.stringify(this.form))
       params.productSkus = JSON.parse(JSON.stringify(this.combinationData))
+      params.brandId = params.brandId && params.brandId.length > 0 && params.brandId != "" ? params.brandId : null
+      
       if(params.productType == this.$constant.productType.group){
         params.componentTypeId = null
         // params.productCategoryId = null

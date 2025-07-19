@@ -33,6 +33,11 @@ const module = {
       name: "brand",
       form: () => import("../views/Catalog/Brand/Form.vue"),
    },
+   payment: {
+      id: 4,
+      name: "payment",
+      form: () => import("../views/Payment/Form.vue"),
+   },
 
    // facility:   { id: 4, name: "facility" },
    product: {

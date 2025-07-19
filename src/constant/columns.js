@@ -156,6 +156,10 @@ const columns = {
       { headerName: "Id", field: "id" },
       { headerName: "Name", field: "name" },
    ],
+   payment: [
+      { headerName: "Id", field: "id" },
+      { headerName: "Name", field: "name" },
+   ],
    role: [
       { headerName: "Role Name", field: "Name" },
       {

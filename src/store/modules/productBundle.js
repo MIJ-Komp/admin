@@ -13,19 +13,8 @@ const actions = {
         const products = (await axios.get('/admin/products'))?.items
         return products.filter(data=> data.productType.code == constant.productType.group)
     },
-    async create({commit}, data){
-        if(data) data.Type = 1
-        return await axios.post('/facilities', data)
-    },
-    async delete({commit}, id){
-        return await axios.delete(`/facilities/${id}`)
-    },
-    async update({commit}, data){
-        if(data) data.Type = 1
-        return await axios.put(`/facilities/${data.id}`, data)
-    },
-    async getById({commit}, id){
-        return await axios.get(`/facilities/${id}`)
+    async changeComponent({commit}, data){
+        return await axios.put(`/admin/products/change-component`, data)
     }
 };
 

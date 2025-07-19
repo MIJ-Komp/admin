@@ -11,6 +11,7 @@ import user from "./modules/user";
 import componentType from "./modules/componentType";
 import compatibleRule from "./modules/compatibleRule";
 import brand from "./modules/brand.js";
+import payment from "./modules/payment.js";
 
 export default createStore({
    modules: {
@@ -24,6 +25,7 @@ export default createStore({
       user,
       componentType,
       compatibleRule,
-      brand
+      brand,
+      payment
    },
 });

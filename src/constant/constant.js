@@ -161,6 +161,7 @@ const constant = {
       productVariant: "/catalog/product-variant",
       menu: "/catalog/menu",
       brand: "/catalog/brand",
+      payment: "/payment",
 
 
       transaction: "/transactions",
