@@ -267,7 +267,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<!-- <style lang="scss">
 .p-inputtext {
    border: 0 !important;
 }
@@ -342,4 +342,4 @@ label.text-danger {
 .date-box .font-body {
    color: var(--grey-800);
 }
-</style>
+</style> -->

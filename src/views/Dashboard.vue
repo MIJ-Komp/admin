@@ -1,630 +1,336 @@
 <template>
-   <div>Ini adalah halaman dashboard</div>
+  <div class="dashboard-container">
+    <!-- Filter Section -->
+    <div class="filter-container">
+      <b-row>
+        <!-- <b-col lg="4">
+          <SelectModuleBox 
+            label="Kategori Produk" 
+            v-model="dataFilter.filterCategory"
+            :module="$module.productCategory"
+          />
+        </b-col> -->
+        <b-col lg="12">
+          <b-row>
+            <b-col md="6" class="mb-2">
+              <DateBox 
+               labelType="out"
+                label="Dari Tanggal" 
+                v-model="dataFilter.startDate"
+                :max="dataFilter.endDate"
+              />
+            </b-col>
+            <b-col md="6" class="mb-2">
+              <DateBox 
+               labelType="out"
+                label="Sampai Tanggal" 
+                v-model="dataFilter.endDate"
+                :min="dataFilter.startDate"
+              />
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </div>
+
+    <!-- Summary Cards -->
+    <b-row class="mb-4">
+      <b-col md="3" class="mb-2" v-for="(card, index) in summaryCards" :key="index">
+        <div class="content-container summary-card" :class="card.class">
+          <div class="card-icon">
+            <i :class="card.icon"></i>
+          </div>
+          <div class="card-content">
+            <h6>{{ card.title }}</h6>
+            <h4 v-if="card.isCurrency">Rp {{ formatCurrency(card.value) }}</h4>
+            <h4 v-else>{{ card.value }}</h4>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+
+    <!-- Stock Alert & Best Selling Products -->
+    <b-row>
+      <b-col lg="6" class="mb-2">
+        <div class="content-container table-card">
+          <div class="card-header">
+            <h6>Stok Menipis</h6>
+            <b-badge variant="warning" pill>{{ dashboardData.stockAlert.length }}</b-badge>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nama Produk</th>
+                  <th>Stok</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in dashboardData.stockAlert" 
+                    :key="item.id"
+                    class="table-row-animate">
+                  <td>{{ item.name }}</td>
+                  <td>
+                    <b-badge variant="danger">{{ item.stock }}</b-badge>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </b-col>
+      <b-col lg="6" class="mb-2">
+        <div class="content-container table-card">
+          <div class="card-header">
+            <h6>Produk Terlaris</h6>
+            <b-badge variant="success" pill>{{ dashboardData.bestSellingProduct.length }}</b-badge>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nama Produk</th>
+                  <th>Terjual</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in dashboardData.bestSellingProduct" 
+                    :key="item.id"
+                    class="table-row-animate">
+                  <td>{{ item.name }}</td>
+                  <td>
+                    <b-badge variant="success">{{ item.sold }}</b-badge>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+  </div>
 </template>
+
 <script>
-import { onBeforeMount, ref } from "vue";
-import { AgGridVue } from "ag-grid-vue3";
-import "ag-grid-enterprise";
-// import "ag-grid-community/styles/ag-grid.css";
-// import "ag-grid-community/styles/ag-theme-quartz.css";
-import moment from "moment";
-import module from "../constant/module";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
+import module from '../constant/module';
+
 export default {
-   components: {
-      AgGridVue,
-   },
-   data() {
-      return {
-         roomAvailabilityChart: {
-            labels: [""],
-            datasets: [
-               {
-                  type: "bar",
-                  label: "Occupied",
-                  backgroundColor: "#1256FD",
-                  data: [],
-               },
-               {
-                  type: "bar",
-                  label: "Available",
-                  backgroundColor: "#A1C8FF",
-                  data: [],
-               },
-               {
-                  type: "bar",
-                  label: "Booked",
-                  backgroundColor: "#0A3D99",
-                  data: [],
-               },
-               {
-                  type: "bar",
-                  label: "Not Ready",
-                  backgroundColor: "#FFD700",
-                  data: [],
-               },
-            ],
-         },
-         bookingStateChart: {
-            labels: [],
-            datasets: [
-               {
-                  type: "bar",
-                  label: "New Booking",
-                  backgroundColor: "#A1C8FF",
-                  data: [],
-               },
-               {
-                  type: "bar",
-                  label: "Check out",
-                  backgroundColor: "#FFD700",
-                  borderRadius: 10,
-                  data: [],
-               },
-               {
-                  type: "bar",
-                  label: "Check in",
-                  backgroundColor: "#0A3D99",
-                  borderRadius: 10,
-                  data: [],
-               },
-            ],
-         },
-         topAddOnChart: {
-            labels: [],
-            datasets: [
-               {
-                  data: [],
-                  backgroundColor: [
-                     "#1256DF",
-                     "#A1C8FF",
-                     "#0A3D99",
-                     "#FFD700",
-                     "#F1485B",
-                  ],
-                  hoverBackgroundColor: [
-                     "#1256DF",
-                     "#A1C8FF",
-                     "#0A3D99",
-                     "#FFD700",
-                     "#F1485B",
-                  ],
-               },
-            ],
-         },
-         revenueFilterYear: new Date().getFullYear() - 1,
-         revenueFilterProperty: "",
-         revenueChart: {
-            labels: [
-               "January",
-               "February",
-               "March",
-               "April",
-               "May",
-               "June",
-               "July",
-               "August",
-               "September",
-               "October",
-               "November",
-               "December",
-            ],
-            datasets: [
-               {
-                  label: "This Year",
-                  backgroundColor: "#0A3D99",
-                  borderColor: "#0A3D99",
-                  data: [],
-               },
-               {
-                  label: "2023",
-                  backgroundColor: "#FFD700",
-                  borderColor: "#FFD700",
-                  data: [],
-               },
-            ],
-         },
-         dataFilter: {
-            filterProperty: "",
-            Date: null,
-         },
-         bookingHistoryList: [],
-         recentActivityList: [],
-         nowData: {
-            WeeklyData: [],
-         },
-         roomAvailabilityData: {
-            Available: 0,
-            Occupied: 0,
-            Booked: 0,
-            NotReady: 0,
-         },
-         totalRevenue: 0,
-         topProperties: [],
-         revenueState: [],
-         propertyList: [],
-         topAddOns: [],
-      };
-   },
-   watch: {
+  data() {
+    return {
       dataFilter: {
-         deep: true,
-         handler() {
-            this.changeTopAddOnsData();
-            this.changeBookingStateData();
-            this.changeTotalRevenue();
-            this.changeRoomAvailabilityData();
-         },
-      },
-   },
-   async mounted() {
-      this.propertyList = await this.getAll();
-      this.recentActivityList = await this.getRecentActivities();
-      this.bookingHistoryList = await this.getBookingHistory();
-      this.changeRoomAvailabilityData();
-      this.changeBookingStateData();
-      this.changeTotalRevenue();
-      this.topProperties = await this.getTopProperty();
-      this.changeRevenueFilterData();
-      this.changeTopAddOnsData();
-   },
-   setup() {
-      const defaultColDef = ref({
-         flex: 1,
-         minWidth: 150,
-         suppressSizeToFit: true,
-      });
-      onBeforeMount(() => {
-         autoGroupColumnDef.value = {
-            minWidth: 150,
-         };
-         rowGroupPanelShow.value = "always";
-      });
-
-      const autoGroupColumnDef = ref(null);
-      const rowGroupPanelShow = ref(null);
-      return {
-         defaultColDef,
-         autoGroupColumnDef,
-         rowGroupPanelShow,
-      };
-   },
-   computed: {
-      computedColumns() {
-         return [
-            { headerName: "Booking ID", field: "Code" },
-            { headerName: "Nama Pemesan", field: "User" },
-            { headerName: "Kode Kamar", field: "BookDetail.Room.Code" },
-            { headerName: "Properti", field: "BookDetail.Room.Property.Name" },
-            {
-               headerName: "Check-in",
-               field: "BookDetail.CheckIn",
-               valueFormatter: (data) => {
-                  return moment(data.value).format("DD MMM YYYY");
-               },
-            },
-            {
-               headerName: "Check-out",
-               field: "BookDetail.CheckOut",
-               valueFormatter: (data) => {
-                  return moment(data.value).format("DD MMM YYYY");
-               },
-            },
-            {
-               headerName: "Status",
-               field: "Status",
-               valueFormatter: (data) => {
-                  switch (data.value) {
-                     case 1:
-                        return "Cart";
-                     case 2:
-                        return "Pending";
-                     case 3:
-                        return "Expired";
-                     case 4:
-                        return "Paid";
-                     default:
-                        return "Failed";
-                  }
-               },
-            },
-         ];
-      },
-      CheckInCount() {
-         if (this.nowData.WeeklyData.length == 0) {
-            return 0;
-         }
-
-         return this.nowData.WeeklyData.find(
-            (r) => new Date(r.date).getDate() == new Date().getDate()
-         ).data.CheckIn;
-      },
-      CheckOutCount() {
-         if (this.nowData.WeeklyData.length == 0) {
-            return 0;
-         }
-
-         return this.nowData.WeeklyData.find(
-            (r) => new Date(r.date).getDate() == new Date().getDate()
-         ).data.CheckOut;
-      },
-   },
-   methods: {
-      // ...mapActions(module.data.name, ["getImage"]),
-      // ...mapActions(module.property.name, ["getAll"]),
-      // ...mapActions(module.dashboard.name, [
-      //    "getRecentActivities",
-      //    "getBookingHistory",
-      //    "getNowData",
-      //    "getRoomAvailability",
-      //    "getTotalRevenue",
-      //    "getTopProperty",
-      //    "getRevenueState",
-      //    "getTopAddOns",
-      // ]),
-      formatCurrency(money) {
-         if (!money) {
-            return "0";
-         }
-         return money.toLocaleString("id-ID");
-      },
-      getTime(time) {
-         if (
-            moment(time).format("DD MM YYYY") ==
-            moment(new Date()).format("DD MM YYYY")
-         ) {
-            return moment(time).format("HH:mm");
-         }
-
-         return moment(time).format("DD MMM YYYY HH:mm");
-      },
-      getAvailableYear() {
-         const startYear = 2021;
-         const currentYear = new Date().getFullYear();
-         return Array.from(
-            { length: currentYear - startYear },
-            (_, i) => startYear + i
-         );
-      },
-      getPropertyImage(imageId) {
-         if (imageId) {
-            return this.getImage(imageId);
-         }
-
-         return "./favicon.webp";
-      },
-      openManualBooking() {
-         this.$router.push({
-            path: this.$constant.router.manualBooking,
-         });
-      },
-      async changeTotalRevenue() {
-         this.totalRevenue = await this.getTotalRevenue(this.dataFilter);
-      },
-      async changeRoomAvailabilityData() {
-         this.roomAvailabilityData = await this.getRoomAvailability(
-            this.dataFilter
-         );
-         this.roomAvailabilityChart.datasets[0].data[0] =
-            this.roomAvailabilityData.Occupied;
-         this.roomAvailabilityChart.datasets[1].data[0] =
-            this.roomAvailabilityData.Available;
-         this.roomAvailabilityChart.datasets[2].data[0] =
-            this.roomAvailabilityData.Booked;
-         this.roomAvailabilityChart.datasets[3].data[0] =
-            this.roomAvailabilityData.NotReady;
-      },
-      async changeBookingStateData() {
-         this.nowData = await this.getNowData(this.dataFilter);
-         const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-         this.bookingStateChart = ref({
-            labels: this.nowData.WeeklyData.map((item) => {
-               const date = new Date(item.date);
-               return daysOfWeek[date.getUTCDay()];
-            }),
-            datasets: [
-               {
-                  type: "bar",
-                  label: "New Booking",
-                  backgroundColor: "#A1C8FF",
-                  data: this.nowData.WeeklyData.map(
-                     (item) => item.data.NewBooking
-                  ),
-               },
-               {
-                  type: "bar",
-                  label: "Check Out",
-                  backgroundColor: "#FFD700",
-                  data: this.nowData.WeeklyData.map(
-                     (item) => item.data.CheckOut
-                  ),
-               },
-               {
-                  type: "bar",
-                  label: "Check In",
-                  backgroundColor: "#0A3D99",
-                  data: this.nowData.WeeklyData.map(
-                     (item) => item.data.CheckIn
-                  ),
-               },
-            ],
-         });
-      },
-      async changeTopAddOnsData() {
-         this.topAddOns = await this.getTopAddOns(this.dataFilter);
-
-         this.topAddOnChart.labels = this.topAddOns.map((r) => r.RoomAddOn);
-         this.topAddOnChart.datasets[0].data = this.topAddOns.map(
-            (r) => r.Total
-         );
-      },
-      async changeRevenueFilterData() {
-         const filterData = {
-            filterYear: this.revenueFilterYear,
-            filterProperty: this.revenueFilterProperty,
-         };
-         this.revenueChart.datasets[1].label = this.revenueFilterYear;
-         this.revenueState = await this.getRevenueState(filterData);
-
-         const thisYearMonthArray = Array(12).fill(0);
-         this.revenueState.ThisYearRevenue.forEach(
-            ({ Month, TotalRevenue }) => {
-               thisYearMonthArray[Month - 1] = TotalRevenue;
-            }
-         );
-
-         const filterYearMonthArray = Array(12).fill(0);
-         this.revenueState.FilteredYearRevenue.forEach(
-            ({ Month, TotalRevenue }) => {
-               filterYearMonthArray[Month - 1] = TotalRevenue;
-            }
-         );
-
-         this.revenueChart.datasets[0].data = thisYearMonthArray;
-         this.revenueChart.datasets[1].data = filterYearMonthArray;
-      },
-      setStackedVerticalChartoption() {
-         const documentStyle = getComputedStyle(document.documentElement);
-         const textColor = documentStyle.getPropertyValue("--p-text-color");
-         const textColorSecondary = documentStyle.getPropertyValue(
-            "--p-text-muted-color"
-         );
-         const surfaceBorder = documentStyle.getPropertyValue(
-            "--p-content-border-color"
-         );
-
-         return {
-            maintainAspectRatio: false,
-            aspectRatio: 0.8,
-            plugins: {
-               tooltips: {
-                  mode: "index",
-                  intersect: false,
-               },
-               legend: {
-                  position: "top",
-                  labels: {
-                     color: textColor,
-                  },
-               },
-            },
-            scales: {
-               x: {
-                  stacked: true,
-                  ticks: {
-                     color: textColorSecondary,
-                  },
-                  grid: {
-                     color: surfaceBorder,
-                  },
-               },
-               y: {
-                  stacked: true,
-                  ticks: {
-                     color: textColorSecondary,
-                  },
-                  grid: {
-                     color: surfaceBorder,
-                  },
-               },
-            },
-         };
-      },
-      setStackedHorizontalChartOption() {
-         const documentStyle = getComputedStyle(document.documentElement);
-         const textColor = documentStyle.getPropertyValue("--p-text-color");
-         const textColorSecondary = documentStyle.getPropertyValue(
-            "--p-text-muted-color"
-         );
-         const surfaceBorder = documentStyle.getPropertyValue(
-            "--p-content-border-color"
-         );
-
-         return {
-            indexAxis: "y",
-            maintainAspectRatio: false,
-            aspectRatio: 0.8,
-            plugins: {
-               tooltips: {
-                  mode: "index",
-                  intersect: false,
-               },
-               legend: {
-                  position: "bottom",
-                  labels: {
-                     color: textColor,
-                  },
-               },
-            },
-            scales: {
-               x: {
-                  stacked: true,
-                  ticks: {
-                     color: textColorSecondary,
-                  },
-                  grid: {
-                     color: surfaceBorder,
-                  },
-               },
-               y: {
-                  stacked: true,
-                  ticks: {
-                     color: textColorSecondary,
-                  },
-                  grid: {
-                     color: surfaceBorder,
-                  },
-               },
-            },
-         };
-      },
-      setSideBySideBarOption() {
-         const documentStyle = getComputedStyle(document.documentElement);
-         const textColor = documentStyle.getPropertyValue("--p-text-color");
-         const textColorSecondary = documentStyle.getPropertyValue(
-            "--p-text-muted-color"
-         );
-         const surfaceBorder = documentStyle.getPropertyValue(
-            "--p-content-border-color"
-         );
-
-         return {
-            maintainAspectRatio: false,
-            aspectRatio: 0.8,
-            plugins: {
-               legend: {
-                  labels: {
-                     color: textColor,
-                  },
-               },
-            },
-            scales: {
-               x: {
-                  ticks: {
-                     color: textColorSecondary,
-                     font: {
-                        weight: 500,
-                     },
-                  },
-                  grid: {
-                     display: false,
-                     drawBorder: false,
-                  },
-               },
-               y: {
-                  ticks: {
-                     color: textColorSecondary,
-                  },
-                  grid: {
-                     color: surfaceBorder,
-                     drawBorder: false,
-                  },
-               },
-            },
-         };
-      },
-      setDoughnutChartOption() {
-         const documentStyle = getComputedStyle(document.documentElement);
-         const textColor = documentStyle.getPropertyValue("--p-text-color");
-
-         return {
-            plugins: {
-               legend: {
-                  position: "right",
-                  labels: {
-                     color: textColor,
-                  },
-               },
-            },
-         };
-      },
-   },
+      //   filterCategory: null,
+        startDate: this.getFirstDayOfMonth(),
+        endDate: this.getLastDayOfMonth()
+      }
+    };
+  },
+  computed: {
+    ...mapState(module.dashboard.name, {
+      dashboardData: state => ({
+        totalSales: state.totalSales,
+        totalOrder: state.totalOrder,
+        totalPendingOrder: state.totalPendingOrder,
+        totalActiveProduct: state.totalActiveProduct,
+        stockAlert: state.stockAlert,
+        bestSellingProduct: state.bestSellingProduct
+      })
+    }),
+    summaryCards() {
+      return [
+        {
+          title: 'Total Penjualan',
+          value: this.dashboardData.totalSales,
+          icon: 'fas fa-money-bill-wave',
+          class: 'sales-card',
+          isCurrency: true
+        },
+        {
+          title: 'Total Order',
+          value: this.dashboardData.totalOrder,
+          icon: 'fas fa-shopping-cart',
+          class: 'order-card',
+          isCurrency: false
+        },
+        {
+          title: 'Order Pending',
+          value: this.dashboardData.totalPendingOrder,
+          icon: 'fas fa-clock',
+          class: 'pending-card',
+          isCurrency: false
+        },
+        {
+          title: 'Produk Aktif',
+          value: this.dashboardData.totalActiveProduct,
+          icon: 'fas fa-box',
+          class: 'product-card',
+          isCurrency: false
+        }
+      ];
+    }
+  },
+  methods: {
+    ...mapActions(module.dashboard.name, ['getDashboardData']),
+    formatCurrency(money) {
+      if (!money) return '0';
+      return money.toLocaleString('id-ID');
+    },
+    getFirstDayOfMonth() {
+      const date = new Date();
+      return new Date(date.getFullYear(), date.getMonth(), 1);
+    },
+    getLastDayOfMonth() {
+      const date = new Date();
+      return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    },
+    async fetchDashboardData() {
+      await this.getDashboardData(this.dataFilter);
+    }
+  },
+  async mounted() {
+    await this.fetchDashboardData();
+  },
+  watch: {
+    dataFilter: {
+      deep: true,
+      async handler() {
+        await this.fetchDashboardData();
+      }
+    }
+  }
 };
 </script>
+
 <style scoped>
 .dashboard-container {
-   display: flex;
-   flex-direction: column;
-   overflow: scroll;
-   max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  max-height: 100vh;
+  padding: 16px;
 }
 
 .filter-container {
-   max-width: 100vw;
-   padding: 20px 24px;
-   background: white;
-   border-radius: 8px;
-   flex-shrink: 1;
-   margin-bottom: 16px;
-}
-
-.dashboard-container .card {
-   padding: 10px;
-   height: 100%;
-}
-
-.body-container {
-   display: flex;
-   flex-direction: column;
-   border-radius: 16px;
-   padding: 16px;
-   background-color: white;
+  max-width: 100%;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
 }
 
 .content-container {
-   display: flex;
-   flex-direction: column;
-   padding: 16px;
-   border-radius: 8px;
-   border: 1px solid var(--grey-800);
-   background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
 
-.circle-indicator {
-   min-width: 8px;
-   max-width: 8px;
-   min-height: 8px;
-   max-height: 8px;
-   border-radius: 4px;
-   background-color: var(--blue-500);
-   margin-right: 16px;
-   margin-top: 16px;
-}
-.line-indicator {
-   width: 1px;
-   height: calc(100% + 20px);
-   top: 20px;
-   left: 3.5px;
-   background-color: var(--blue-500);
-   position: absolute;
-}
-.scrollable {
-   overflow: scroll;
-   max-height: 328px;
-   min-height: 328px;
-   height: 100%;
+.summary-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24px;
+  transform: translateY(0);
+  transition: all 0.3s ease;
 }
 
-.recent-activity-header {
-   font-size: 12px;
-   color: var(--blue-500);
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.recent-activity-time {
-   font-size: 12px;
-   color: var(--grey-800);
+.card-icon {
+  font-size: 2rem;
+  margin-right: 16px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
 }
-.property-font {
-   font-size: 12px;
+
+.sales-card .card-icon { background-color: rgba(76, 175, 80, 0.1); color: #4CAF50; }
+.order-card .card-icon { background-color: rgba(33, 150, 243, 0.1); color: #2196F3; }
+.pending-card .card-icon { background-color: rgba(255, 152, 0, 0.1); color: #FF9800; }
+.product-card .card-icon { background-color: rgba(156, 39, 176, 0.1); color: #9C27B0; }
+
+.card-content {
+  flex-grow: 1;
 }
-.property-image {
-   min-width: 28px;
-   max-width: 28px;
-   min-height: 28px;
-   max-height: 28px;
-   border-radius: 50%;
-   margin: 0 8px;
-   object-fit: cover;
+
+.card-content h6 {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.card-content h4 {
+  margin: 8px 0 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.table-card {
+  margin-bottom: 24px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.table th {
+  border-top: none;
+  font-weight: 600;
+  color: #666;
+  padding: 12px 16px;
+}
+
+.table td {
+  padding: 16px;
+  vertical-align: middle;
+  border-top: 1px solid #eee;
+}
+
+.table-row-animate {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+  
+  .summary-card {
+    margin-bottom: 16px;
+  }
 }
 </style>

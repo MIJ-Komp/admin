@@ -301,9 +301,9 @@ const routes = [
    },
    {
       // Create
-      path: `/${constant.router.payment}/update`,
+      path: `/${constant.router.payment}/update/:id`,
       name: `${label.action.create} ${label.menu.payment}`,
-      component: BrandForm,
+      component: PaymentForm,
       meta: {
          module: module.payment,
          description: ``,

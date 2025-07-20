@@ -1,123 +1,70 @@
 <template>
-  <MIJForm 
-    :formData="formData" 
-    :createAction="doCreate" :updateAction="doUpdate" :showCancel="showCancel" @cancel="$emit('cancel')">
-    <!-- Basic Inputs -->
-    <b-row>
-      <b-col cols="12">
-        <FileInput label="Photo" v-model="form.imageIds" :multiple="true" />
-      </b-col>
-      <b-col lg="8" md="8" cols="12" class="mt-3">
-        <TextBox label="Nama Produk" type="name" v-model="form.name" />
-      </b-col>
-      <b-col lg="4" md="4" cols="12" style="align-self: center;" class="mt-3">
-        <Switch label="show Only in Marketplace?" v-model="form.isShowOnlyInMarketPlace" />
-      </b-col>
+  <MIJForm :formData="formData" :createAction="doCreate" :updateAction="doUpdate" :showCancel="showCancel" @cancel="$emit('cancel')">
+    <!-- Basic Info Section -->
+    <div class="card p-2 mb-4">
+      <h5 class="mb-3">Informasi Dasar</h5>
+      <b-row>
+        <b-col cols="12" md="6">
+          <Switch class="mb-2" label="Tampilkan hanya di Marketplace?" v-model="form.isShowOnlyInMarketPlace" />
+          <TextBox class="mb-2"label="Nama Produk" type="name" v-model="form.name" />
+          <SelectModuleBox v-if="form.productType != $constant.productType.group" class="mb-2" :required="false" :module="$module.componentType" label="Tipe Komponen" v-model="form.componentTypeId" />
+          <SelectModuleBox class="mb-2" :module="$module.productCategory" label="Kategori Produk" v-model="form.productCategoryId" />
+          <SelectModuleBox class="mb-2" :required="false" :module="$module.brand" label="Brand" v-model="form.brandId" />
+          <TextBox class="mb-2" :required="false" placeholder="https://www.youtube.com/watch?v=ID_VIDEO" label="URL Youtube (Hanya ID video)" type="url" v-model="form.videoUrl" />
+          <TextBox class="mb-2" :required="false" label="Tags" placeholder="Pisahkan dengan koma (,)" type="text" v-model="form.tags" />
 
-      <b-col lg="4" md="6" cols="12" class="mt-3">
-        <SelectModuleBox :required="false" :module="$module.brand" label="Brand" v-model="form.brandId" />
-      </b-col>
-      <b-col lg="4" md="6" cols="12" class="mt-3" v-if="form.productType != $constant.productType.group">
-        <SelectModuleBox :required="false" :module="$module.componentType" label="Component Type" v-model="form.componentTypeId" />
-      </b-col>
-      <b-col lg="4" md="6" cols="12" class="mt-3">
-        <SelectModuleBox :module="$module.productCategory" label="Product Category" v-model="form.productCategoryId" />
-      </b-col>
+        </b-col>
+        <b-col cols="12" md="6" class="mb-3">
+          <FileInput v-model="form.imageIds" :multiple="true" style="width: 100% !important;"/>
+        </b-col>
+        <b-col cols="12" class="mt-3">
+          <TextEditor :required="false" label="Deskripsi" v-model="form.description" />
+        </b-col>
+      </b-row>
+    </div>
 
-       <b-col lg="6" md="6" cols="12" class="mt-3">
-        <TextBox :required="false" label="Youtube Url" type="name" v-model="form.videoUrl" />
-      </b-col>
-      <b-col lg="6" md="6" cols="12" class="mt-3">
-        <TextBox :required="false" label="Tags (pisahkan dengan koma ','')" type="name" v-model="form.tags" />
-      </b-col>
-      <b-col cols="12" class="mt-3">
-        <TextEditor :required="false" label="Deskripsi" v-model="form.description" />
-      </b-col>
-    </b-row>
-
-    <!-- Variants -->
-    <div class="mt-3">
-      <div style="display: flex; justify-content: space-between">
-        <div>Variants :</div>
-        <Button @click.prevent="" class="p-2" label="Import variant" style="width: 200px !important" />
+    <!-- Variants Section -->
+    <div class="card p-2 mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Varian Produk</h5>
+        <!-- <Button @click.prevent="" class="p-2" label="Import Varian" style="width: 200px !important" /> -->
       </div>
 
-      <div
-        class="ms-3 mt-3 variant-container"
-        v-for="(variant, i) in form.productVariantOptions"
-        :key="variant.id"
-        style="position: relative"
-      >
-        <TextBox style="width: 300px" :label="`Variant ${i + 1}`" placeholder="Color, Size, etc.." v-model="variant.name" />
-        <i @click="removeVariant(variant.id)" class="fa fa-times del-variant" />
+      <div v-for="(variant, i) in form.productVariantOptions" :key="variant.id" class="variant-section mb-4">
+        <div class="d-flex align-items-center gap-1">
+          <TextBox style="width: 300px" :label="`Varian ${i + 1}`" placeholder="Warna, Ukuran, dll..." v-model="variant.name" />
+          <Button style="height: 30px !important; width: fit-content !important;" @click="removeVariant(variant.id)" buttonType="danger" class="mt-4 p-2 mb-2" iconFa="fa fa-times" />
+        </div>
 
-        <div class="mt-3">Option :</div>
+        <div class="mt-1">Opsi:</div>
         <b-row class="ms-2">
-          <b-col
-            class="mt-2"
-            cols="12"
-            lg="3"
-            md="4"
-            sm="4"
-            v-for="(option, j) in getVariantOptionValues(variant.id)"
-            :key="option.id"
-            style="position: relative"
-          >
-            <TextBox placeholder="Red, Green, XL..." v-model="option.name" />
-            <i
-              v-if="j !== 0 || getVariantOptionValues(variant.id).length > 1"
-              @click="removeOption(option.id)"
-              style="top: -6px; right: 6px"
-              class="fa fa-times del-variant-values"
-            />
+          <b-col v-for="(option, j) in getVariantOptionValues(variant.id)" :key="option.id" class="mt-2 p-1" cols="12" lg="3" md="4" sm="4">
+            <div class="d-flex gap-1">
+              <TextBox  placeholder="Merah, Hijau, XL..." v-model="option.name" />
+              <Button v-if="j !== 0 || getVariantOptionValues(variant.id).length > 1" @click="removeOption(option.id)" buttonType="danger" iconFa="fa fa-times" class="p-1 mb-2" style="height: 30px !important; width: fit-content !important;"/>
+            </div>
           </b-col>
-          <b-col cols="6" lg="3" md="4" sm="4" class="flex-row addVariantButton mt-2" >
-            <Button class="ps-4 pe-4" @click.prevent="addMoreVariantOption(variant.id)" iconFa="fa fa-plus" buttonType="secondary" label="Add more" style="margin-right: 20px" />
+          <b-col cols="auto" class="mt-2 p-1">
+            <Button style="height: 30px;" @click.prevent="addMoreVariantOption(variant.id)" buttonType="secondary" class="ps-3 pe-3" label="Tambah Opsi" />
           </b-col>
         </b-row>
       </div>
 
-      <b-col cols="12" lg="3" md="3" class="flex-row addVariantButton mt-3 ms-2">
-        <Button class="ps-4 pe-4" @click.prevent="addMoreVariant()" iconFa="fa fa-plus" buttonType="secondary" label="variant" style="margin-right: 20px" />
-      </b-col>
+      <div style="display: flex; justify-content: end;">
+        <Button class="p-2 ps-4 pe-4" style="width: fit-content !important;" @click.prevent="addMoreVariant()" iconFa="fa fa-plus"  label="Tambah Varian" />
+      </div>
     </div>
 
-    <!-- Specs -->
-    <!-- <div style="border-top: 1px solid #dedede" class="mt-3 mb-3 pt-3 pb-3" v-if="form.productType != $constant.productType.group">
-      <SelectBox :required="false" label="Spec" @change="updateFormSpecs()" v-model="selectedSpecs" :multiSelect="true" :editable="true" :dataSource="groupSpecs" optionGroupLabel="groupId" optionGroupChildren="items" optionLabel="label" optionValue="value" labelType="out" /> -->
-
-      <!-- <b-row class="ms-2">
-        <b-col
-          cols="12"
-          lg="3"
-          md="4"
-          sm="4"
-          class="mt-3"
-          v-for="spec in form.specs"
-          :key="spec.id"
-          style="position: relative"
-        >
-          <i @click="removeSpecs(spec.id)" class="fa fa-times del-variant-values" style="top: -6px; right: 6px" />
-        </b-col>
-        <b-col
-          cols="6"
-          lg="3"
-          md="4"
-          sm="4"
-          class="flex-row addVariantButton mt-3"
-          v-if="form.specs.length === 0 || (form.specs.at(-1)?.specKey && $constant.specKeys.filter(a => !form.specs.map(data => data.specKey).includes(a.value)).length > 0)"
-        >
-          <Button class="ps-4 pe-4" @click.prevent="addMoreSpecs()" iconFa="fa fa-plus" buttonType="secondary" label="Spec" style="margin-right: 20px" />
-        </b-col>
-      </b-row> -->
-    <!-- </div> -->
-
-    <!-- SKU Table -->
-    <div class="mt-4">
-      <div class="table-container">
-        <div>Bulk SKU Editor:</div>
-         <div class="mt-2 pb-3" style="width: fit-content; border-bottom: 1px solid #dedede;">
-            <table class="custom-table mt-3" id="skuModel">
+    <!-- SKU Section -->
+    <div class="card p-2">
+      <h5 class="mb-4">Pengaturan SKU</h5>
+      
+      <!-- Bulk Editor -->
+      <div class="mb-4 pb-3 border-bottom">
+        <div class="mt-2 pb-3 bulk-sku-container" style="overflow: auto; border-bottom: 1px solid #dedede;">
+          <div @click="showBulk = !showBulk" style="cursor: pointer; background: white;" class="pe-2 ps-2">Bulk SKU Editor: <span class="ms-2 fs-4"><i :class="!showBulk ? 'fa fa-angle-down' : 'fa fa-angle-up'"></i></span></div>
+           
+          <table class="custom-table mt-3 p-2" id="skuModel" v-if="showBulk">
               <thead>
               <tr>
                 <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
@@ -160,7 +107,7 @@
                             <i @click.stop.prevent="delDefaultSkuProductGroupItems(index)" class="text-danger fa fa-trash text-center" style="cursor: pointer; height: 30px; font-size: 18px; align-content: center;"></i>
                           </div>
                         </div>
-                        <Button @click.stop.prevent="addProductGroupItemsSku" class="p-1" label="add product items"/>
+                        <Button @click.stop.prevent="addProductGroupItemsSku" class="p-2" label="add product items"/>
                       </div>
                     </td>
                      <td><input placeholder="Input SKU Name" v-model="defaultSku.name"></td>
@@ -180,85 +127,88 @@
                </tbody>
 
             </table>
-            <Button class="mt-2 pt-1 pb-1 ps-4 pe-4" @click.prevent="applyToAllSku" buttonType="secondary" label="👇 Apply to All 👇" style="width: 170px !important;"/>
-         </div>
-        <div>SKU:</div>
-        <table class="custom-table mt-3">
-          <thead>
-            <tr>
-              <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
-                <td v-if="variant.name?.trim() && getVariantOptionValues(variant.id).filter(data=> data.name?.trim()).length > 0" style="place-items: center;">
-                  <div>{{ variant.name }}</div>
-                  <div style="font-size: 10px;">(variant {{ i+1 }})</div>
-                  </td>
-              </template>
-              <td v-if="form.productType == $constant.productType.group">Product Items</td>
-              <td>SKU Name</td>
-              <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
-              <td>Price</td>
-              <td>Stock</td>
-              <td>Stock Alert</td>
-              <!-- <td>Kode</td> -->
-            </tr>
-          </thead>
-          <tbody id="variantTableBody">
-            <tr v-for="(combo, rowIndex) in variantCombinations" :key="rowIndex">
-              <template v-for="(item, colIndex) in combo">
-                  <td v-if="rowspanMap[`${rowIndex}-${colIndex}`] > 0"
-                     :rowspan="rowspanMap[`${rowIndex}-${colIndex}`]">
-                     {{ item.name }}
-                  </td>
-               </template>
-              <td style="min-width: 300px !important;" v-if="form.productType == $constant.productType.group">
-                <div>
-                  <div class="flex-row jc-spaceBetween mb-2" v-for="(product, index) in getSku(combo)?.productGroupItems">
-                    <select @change="changeProductgroupItems(combo, index)" :value="product.productId" v-model="product.productId" style="width: 200px !important" placeholder="Pilih Produk">
-                      <option :value="null">pilih produk</option>
-                      <option :value="p.id" v-for="p in getProductFiltered(getSku(combo)?.productGroupItems.map(data=> data.productId), product.productId)">{{ p.name }}</option>
-                    </select>
-                    <select v-if="product.productId" :value="product.productSkuId" v-model="product.productSkuId" style="width: 200px !important" placeholder="Pilih variasi">
-                      <option :value="p.id" v-for="p in getProductById(product.productId)?.productSkus">{{ p.name }}</option>
-                    </select>
-                    <div class="flex-row">
-                      <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
-                      <i @click.stop.prevent="delProductGroupItems(combo, index)" class="text-danger fa fa-trash text-center" style="cursor: pointer; height: 30px; font-size: 18px; align-content: center;"></i>
+            <div v-if="showBulk" class="p-2">
+              <Button  class="mt-2 pt-1 pb-1 ps-4 pe-4" @click.prevent="applyToAllSku" buttonType="secondary" label="👇 Apply to All 👇" style="width: 170px !important;"/>
+            </div>
+          </div>
+        <div class="mt-2">SKU:</div>
+         <div class="pb-3" style="overflow: auto; border-bottom: 1px solid #dedede;">
+          <table class="custom-table mt-3">
+            <thead>
+              <tr>
+                <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
+                  <td v-if="variant.name?.trim() && getVariantOptionValues(variant.id).filter(data=> data.name?.trim()).length > 0" style="place-items: center;">
+                    <div>{{ variant.name }}</div>
+                    <div style="font-size: 10px;">(variant {{ i+1 }})</div>
+                    </td>
+                </template>
+                <td v-if="form.productType == $constant.productType.group">Product Items</td>
+                <td>SKU Name</td>
+                <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
+                <td>Price</td>
+                <td>Stock</td>
+                <td>Stock Alert</td>
+                <!-- <td>Kode</td> -->
+              </tr>
+            </thead>
+            <tbody id="variantTableBody">
+              <tr v-for="(combo, rowIndex) in variantCombinations" :key="rowIndex">
+                <template v-for="(item, colIndex) in combo">
+                    <td v-if="rowspanMap[`${rowIndex}-${colIndex}`] > 0"
+                      :rowspan="rowspanMap[`${rowIndex}-${colIndex}`]">
+                      {{ item.name }}
+                    </td>
+                </template>
+                <td style="min-width: 300px !important;" v-if="form.productType == $constant.productType.group">
+                  <div>
+                    <div class="flex-row jc-spaceBetween mb-2" v-for="(product, index) in getSku(combo)?.productGroupItems">
+                      <select @change="changeProductgroupItems(combo, index)" :value="product.productId" v-model="product.productId" style="width: 200px !important" placeholder="Pilih Produk">
+                        <option :value="null">pilih produk</option>
+                        <option :value="p.id" v-for="p in getProductFiltered(getSku(combo)?.productGroupItems.map(data=> data.productId), product.productId)">{{ p.name }}</option>
+                      </select>
+                      <select v-if="product.productId" :value="product.productSkuId" v-model="product.productSkuId" style="width: 200px !important" placeholder="Pilih variasi">
+                        <option :value="p.id" v-for="p in getProductById(product.productId)?.productSkus">{{ p.name }}</option>
+                      </select>
+                      <div class="flex-row">
+                        <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
+                        <i @click.stop.prevent="delProductGroupItems(combo, index)" class="text-danger fa fa-trash text-center" style="cursor: pointer; height: 30px; font-size: 18px; align-content: center;"></i>
+                      </div>
                     </div>
+                    <Button @click.stop.prevent="addProductGroupItems(combo)" class="p-2" label="add product items"/>
                   </div>
-                  <Button @click.stop.prevent="addProductGroupItems(combo)" class="p-1" label="add product items"/>
-                </div>
-              </td>
-                <td>
-                  <input placeholder="Input SKU Name" :value="getSku(combo)?.name"
-                     @change="updateSku(combo, 'name', $event.target.value)">
                 </td>
-               
-                <td style="width: auto;" v-if="form.specs.filter(data=> data).length > 0">
-                  <template v-for="(spec, specIndex) in form.specs" :key="spec.id">
-                  <div class="flex-row mb-2" v-if="spec.specKey?.trim()">
-                    <div style="text-wrap-mode: nowrap; min-width: 50%;">{{ spec.label }}</div> 
-                    <input type="text" placeholder="input..." class="ms-2"
-                      :value="getProductSpec(combo, spec.specKey)?.specValue"
-                      @change="updateProductSpec(combo, spec.specKey, $event.target.value)"/>
-                  </div>
-                  </template>
-                </td>
-               <!-- tambahkan kolom input lainnya di sini -->
-                <td><input type="number" placeholder="Input Price" :value="getSku(combo)?.price"
-                     @change="updateSku(combo, 'price', $event.target.value)"></td>
-               <td><input placeholder="Input Stock" :value="getSku(combo)?.stock"
-                     @change="updateSku(combo, 'stock', $event.target.value)"></td>
-               <td><input placeholder="Input Stock Alert" :value="getSku(combo)?.stockAlert"
-                     @change="updateSku(combo, 'stockAlert', $event.target.value)"></td>
-               <!-- <td><input placeholder="Input Kode" :value="getSku(combo)?.code" -->
-                     <!-- @change="updateSku(combo, 'code', $event.target.value)"></td> -->
-            </tr>
-          </tbody>
-        </table>
+                  <td>
+                    <input placeholder="Input SKU Name" :value="getSku(combo)?.name"
+                      @change="updateSku(combo, 'name', $event.target.value)">
+                  </td>
+                
+                  <td style="width: auto;" v-if="form.specs.filter(data=> data).length > 0">
+                    <template v-for="(spec, specIndex) in form.specs" :key="spec.id">
+                    <div class="flex-row mb-2" v-if="spec.specKey?.trim()">
+                      <div style="text-wrap-mode: nowrap; min-width: 50%;">{{ spec.label }}</div> 
+                      <input type="text" placeholder="input..." class="ms-2"
+                        :value="getProductSpec(combo, spec.specKey)?.specValue"
+                        @change="updateProductSpec(combo, spec.specKey, $event.target.value)"/>
+                    </div>
+                    </template>
+                  </td>
+                <!-- tambahkan kolom input lainnya di sini -->
+                  <td><input type="number" placeholder="Input Price" :value="getSku(combo)?.price"
+                      @change="updateSku(combo, 'price', $event.target.value)"></td>
+                <td><input placeholder="Input Stock" :value="getSku(combo)?.stock"
+                      @change="updateSku(combo, 'stock', $event.target.value)"></td>
+                <td><input placeholder="Input Stock Alert" :value="getSku(combo)?.stockAlert"
+                      @change="updateSku(combo, 'stockAlert', $event.target.value)"></td>
+                <!-- <td><input placeholder="Input Kode" :value="getSku(combo)?.code" -->
+                      <!-- @change="updateSku(combo, 'code', $event.target.value)"></td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </MIJForm>
 </template>
-
 <script>
 import { mapActions } from 'vuex';
 import module from '../../../constant/module';
@@ -269,6 +219,7 @@ export default {
   },
   data() {
     return {
+      showBulk: false,
       formData: { module: this.$module.product },
       form: {
         name: null,
@@ -296,6 +247,7 @@ export default {
          productGroupItems: []
       },
       combinationData:[],
+      tmpCombinationData:[],
       allProducts: [],
       groupSpecs:[],
       selectedSpecs:[],
@@ -328,13 +280,18 @@ export default {
       this.form.componentTypeId = this.form.componentType?.id
       this.form.productType = this.form.productType?.name
 
-      this.combinationData = this.form.productSkus
+      this.tmpCombinationData = JSON.parse(JSON.stringify(this.form.productSkus))
 
-      if(this.form.productSkus.length > 0 && this.form.productSkus[0].componentSpecs.length > 0)
+      if(this.form.productSkus.length > 0 && this.form.productSkus[0].componentSpecs.length > 0){
         this.form.specs = this.form.productSkus[0].componentSpecs
         this.selectedSpecs = this.form.specs.map(data=> data.specKey)
         this.updateFormSpecs()
       }
+      setTimeout(() => {
+        console.log(this.form)
+        console.log(this.combinationData)
+      }, 2000);
+    }
 
     if(this.$route.meta.module.name == module.productBundle.name){
       this.form.productType = this.$constant.productType.group
@@ -377,34 +334,46 @@ export default {
       }
   },
    variantCombinations: {
+      immediate: true,
+      deep: true,
       handler(newVal) {
         console.log(newVal)
-         this.combinationData = newVal.map((combo, index) => {
-         const exist = this.combinationData.find(
-            (data) => JSON.stringify(data.skuCom??[]) === JSON.stringify(combo)
-         );
-         return {
-            id: exist?.id ?? this.$helper.GenerateUUID(this.combinationData.map(cm => cm.id)),
-            price: exist?.price ?? null,
-            stock: exist?.stock ?? null,
-            stockAlert: exist?.stockAlert ?? null,
-            name: exist?.name ?? `Variasi ${index + 1}`,
-            skuCom: combo,
-            productGroupItems: exist?.productGroupItems ?? [],
-            componentSpecs: this.form.specs.map(data=> {
-               var existSpec = exist?.componentSpecs?.find(ps=> ps.specKey == data.specKey)
-               return {
-                  id: existSpec?.id ??  this.$helper.GenerateUUID(this.combinationData.flatMap(cm => cm.componentSpecs.map(ps => ps.id))),
-                  specKey : existSpec?.specKey ?? data.specKey,
-                  specValue : existSpec?.specValue ?? null,
-               }
-         })
-         };
-         });
+         if(this.tmpCombinationData.length > 0){
+          this.combinationData = this.tmpCombinationData.map((data, index) => {
+              return {
+                ...data,
+                skuCom: newVal[index] || [] // Tambahkan skuCom dari variantCombinations baru
+              }
+          });
+
+          this.tmpCombinationData = []
+         }
+         else{
+          this.combinationData = newVal.map((combo, index) => {
+            const exist = this.combinationData.find(
+                (data) => JSON.stringify(data.skuCom??[]) === JSON.stringify(combo)
+            );
+            return {
+                id: exist?.id ?? this.$helper.GenerateUUID(this.combinationData.map(cm => cm.id)),
+                price: exist?.price ?? null,
+                stock: exist?.stock ?? null,
+                stockAlert: exist?.stockAlert ?? null,
+                name: exist?.name ?? `Variasi ${index + 1}`,
+                skuCom: combo,
+                productGroupItems: exist?.productGroupItems ?? [],
+                componentSpecs: this.form.specs.map(data=> {
+                  var existSpec = exist?.componentSpecs?.find(ps=> ps.specKey == data.specKey)
+                  return {
+                      id: existSpec?.id ??  this.$helper.GenerateUUID(this.combinationData.flatMap(cm => cm.componentSpecs.map(ps => ps.id))),
+                      specKey : existSpec?.specKey ?? data.specKey,
+                      specValue : existSpec?.specValue ?? null,
+                  }
+            })
+            };
+          });
+          }
         console.log(this.combinationData)
       },
-      immediate: true,
-      deep: true
    }
   },
   methods: {
@@ -575,6 +544,7 @@ export default {
   },
   updateProductSpec(combo, specKey, value){
     const sku = this.getSku(combo);
+
     if (sku) {
       var specIndex = sku.componentSpecs.findIndex(data=> data.specKey == specKey)
       if(specIndex >= 0){
@@ -661,116 +631,49 @@ export default {
   },
 };
 </script>
-<style>
-th.highlight-col,
-td.highlight-col {
-  border-left: 3px solid red !important;
-  border-right: 3px solid red !important;
+<style scoped>
+.bulk-sku-container{
+  background: #dedede;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  /* padding: 8px; */
+  
+  
 }
-.table-container{
-   width: 100%;
-   overflow: auto;
-}
-.addVariantButton button{
- height: 30px;
-}
-.icon-container {
-   display: grid;
-   gap: 16px;
-   grid-template-columns: repeat(auto-fit, 58px);
-   margin-top: 12px;
-   padding: 10px;
-}
-.icon-container .icon {
-   cursor: pointer;
-}
-.icon-container .icon:hover {
-   transform: scale(1.05);
-}
-.icon-container .selected {
-   border: 2px solid var(--blue-500);
-}
-.variant-container{
-   background: var(--grey-400);
-   border-radius: 4px;
-   border: 0.5px solid var(--grey-600);
-   padding: 8px;
-}
-thead tr{
-   background: var(--primary-color);
-   color: white;
-}
-tr input{
-  padding: 2px;
-}
-.del-variant-values, .del-variant{
-   background: red;
-   color: white;
-   border-radius: 50%;
-   width: 12px;
-   font-size: 10px;
-   position: absolute;
-   right: 10px;
-   top: 10px;
-   cursor: pointer;
-   height: 12px;
-   text-align: center;
-}
-.del-variant{
-   top: -6px;
-   right: -6px;
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-table.custom-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: sans-serif;
-    font-size: 14px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  }
+.variant-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 6px;
+}
 
-  table.custom-table th,
-  table.custom-table td {
-    padding: 12px 16px;
-    border: 1px solid #ddd;
-    text-align: left;
-    align-content: start !important;
-    overflow-wrap: break-word;
-    overflow: hidden;
-    width: 150px !important;
-    min-width: 150px !important;
-    max-width: auto !important;
-  }
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  table.custom-table input, table.custom-table select{
-    border: 1px solid #dedede;
-    border-radius: 4px;
-  }
+.custom-table th,
+.custom-table td {
+  padding: 12px;
+  border: 1px solid #dee2e6;
+}
 
-  table.custom-table th {
-    background-color: #f7f7f7;
-    color: #333;
-    font-weight: bold;
-  }
+.custom-table thead {
+  background: #f8f9fa;
+}
 
-  table.custom-table tr:nth-child(even) {
-    background-color: #fafafa;
-  }
+.custom-table tbody tr:hover {
+  background: #f8f9fa;
+}
 
-  table.custom-table tbody tr{
-    background-color: #f1f1f1;
-  }
-
-  /* Responsive kecil */
-  @media (max-width: 600px) {
-    table.custom-table {
-      font-size: 12px;
-    }
-
-    table.custom-table th,
-    table.custom-table td {
-      padding: 8px;
-    }
-  }
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 </style>

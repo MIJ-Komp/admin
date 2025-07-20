@@ -239,6 +239,9 @@ export default {
    /* height: 100vh; */
    width: calc(100% - 220px);
 }
+.mij-content-container.login{
+   width: 100% !important;
+}
 .mij-content {
    overflow: auto;
    height: 100%;

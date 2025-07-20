@@ -29,7 +29,7 @@ const constant = {
             brand: "Brand",
 
             //payment
-            payment: "Payment",
+            payment: "Order",
             paymentType: "Payment Type",
             paymentMethod: "Payment Method",
             paymentHistory: "Payment History",
@@ -161,7 +161,7 @@ const constant = {
       productVariant: "/catalog/product-variant",
       menu: "/catalog/menu",
       brand: "/catalog/brand",
-      payment: "/payment",
+      payment: "/order",
 
 
       transaction: "/transactions",

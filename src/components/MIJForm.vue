@@ -23,7 +23,7 @@
                <div class="d-flex">
                   <Button class="ps-4 pe-4" @click.prevent="cancel"  buttonType="danger" label="cancel" style="margin-right: 20px;" 
                   v-if="showCancel || ($route && $route.meta && $route.meta.formMode === $constant.formMode.update)"/>
-                  <Button class="ps-4 pe-4" type="submit" buttonType="primary" label="Save" :isLoading="process" />
+                  <Button v-if="showSave" class="ps-4 pe-4" type="submit" buttonType="primary" label="Save" :isLoading="process" />
                </div>
             </b-col>
          </div>
@@ -58,6 +58,7 @@ export default {
    },
    props: {
       showCancel:{type: Boolean, default: false},
+      showSave:{type: Boolean, default: true},
       formData: {
          type: Object,
          required: true,

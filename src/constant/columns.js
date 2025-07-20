@@ -157,8 +157,52 @@ const columns = {
       { headerName: "Name", field: "name" },
    ],
    payment: [
-      { headerName: "Id", field: "id" },
-      { headerName: "Name", field: "name" },
+      { headerName: "Code", field: "code" },
+      {
+         headerName: "No Resi",
+         valueFormatter: (params) => {if(params.data){return params.data.shippingInfo.trackingNumber ?? 'Belum Tersedia';}},
+      },
+      {
+         headerName: "Payment Status",
+         valueFormatter: (params) => {if(params.data){return params.data.status.name;}},
+      },
+      {
+         headerName: "Customer Name",
+         valueFormatter: (params) => {if(params.data){return params.data.customerInfo.name;}},
+      },
+      {
+         headerName: "Customer Phone",
+         valueFormatter: (params) => {if(params.data){return params.data.customerInfo.phoneNumber;}},
+      },
+      {
+         headerName: "Customer Email",
+         valueFormatter: (params) => {if(params.data){return params.data.customerInfo.email;}},
+      },
+      {
+         headerName: "Customer Notes",
+         valueFormatter: (params) => {if(params.data){return params.data.shippingInfo.notes ?? '-';}},
+      },
+      {
+         headerName: "Total Price",
+         valueFormatter: (params) => {if(params.data){return `Rp ${helper.ConvertNumberFormat(params.data.orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0) ?? 0)}`}},
+      },
+      {  headerName: "Total Paid", field: "totalPaid"},
+      {
+         headerName: "Paid At",
+         valueFormatter: (params) => {if(params.data.paidAt){return moment(params.data.paidAt).format("DD MMM yyyy HH:mm")}}
+      },
+      {
+         headerName: "Order Items",
+         valueFormatter: (params) => {if(params.data){return `${params.data.orderItems.length} items` ;}},
+      },
+      {
+         headerName: "Province",
+         valueFormatter: (params) => {if(params.data){return params.data.shippingInfo.province || '-';}},
+      },
+      {
+         headerName: "City",
+         valueFormatter: (params) => {if(params.data){return params.data.shippingInfo.city || '-';}},
+      },
    ],
    role: [
       { headerName: "Role Name", field: "Name" },
