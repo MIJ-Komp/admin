@@ -49,6 +49,10 @@ const constant = {
             occupiedRoom: "Occupied Room",
 
             referral: "Referral",
+            salesReport: "Sales Report",
+            orderReport: "Order Report",
+            productReport: "Product Report",
+            stockReport: "Stock Report",
          },
          searchBar: {
             label: "What are you looking for?",
@@ -162,6 +166,10 @@ const constant = {
       menu: "/catalog/menu",
       brand: "/catalog/brand",
       payment: "/order",
+      salesReport: "/sales-report",
+      orderReport: "/payment-report",
+      // productReport: "/product-report",
+      // stockReport: "/stock-report",
 
 
       transaction: "/transactions",

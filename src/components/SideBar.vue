@@ -142,10 +142,10 @@ export default {
                ],
             },
             {
-                     icon: this.$assets.icons.catalog,
-                     label: this.$label.menu.menu,
-                     path: this.$constant.router.menu,
-                     visible: true //await this.hasViewRole(accessModule.module.addOn.Id)
+               icon: this.$assets.icons.catalog,
+               label: this.$label.menu.menu,
+               path: this.$constant.router.menu,
+               visible: true //await this.hasViewRole(accessModule.module.addOn.Id)
             },
             {
                icon: this.$assets.icons.payment,
@@ -155,10 +155,17 @@ export default {
             },
             {
                icon: this.$assets.icons.report,
-               label: this.$label.menu.report,
-               path: this.$constant.router.report,
-               visible: await this.hasViewRole(accessModule.module.report.Id)
-            },
+               label: 'Report',
+               visible: true,
+               items: [
+                  {
+                     // icon: this.$assets.icons.plus,
+                     label: this.$label.menu.orderReport,
+                     path: this.$constant.router.orderReport,
+                     visible: true
+                  },
+               ]
+            }
          ]
   },
    watch: {
@@ -230,8 +237,7 @@ export default {
                return "active";
             }
             else if(!menu.isOpenItem && menu.items && menu.items.find(data=> 
-               this.path?.includes(data.path
-                  .replace("/", "")
+               this.path?.includes(data.path.replace("/", "")
                   .trim()
                   .toLocaleLowerCase())
             )){

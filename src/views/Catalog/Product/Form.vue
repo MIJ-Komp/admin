@@ -74,7 +74,7 @@
                     </td>
                 </template>
                 <td v-if="form.productType == $constant.productType.group">Product Items</td>
-                <td>SKU Name</td>
+                <td>SKU</td>
                 
                 <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
                 <td>Price</td>
@@ -100,7 +100,7 @@
                             <option :value="p.id" v-for="p in getProductFiltered(defaultSku?.productGroupItems.map(data=> data.productId), product.productId)">{{ p.name }}</option>
                           </select>
                           <select v-if="product.productId" :value="product.productSkuId" v-model="product.productSkuId" style="width: 200px !important" placeholder="Pilih variasi">
-                            <option :value="p.id" v-for="p in getProductById(product.productId)?.productSkus">{{ p.name }}</option>
+                            <option :value="sku.id" v-for="sku in getProductById(product.productId)?.productSkus">{{ getSkuName(sku) }}</option>
                           </select>
                           <div class="flex-row">
                             <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
@@ -167,7 +167,7 @@
                         <option :value="p.id" v-for="p in getProductFiltered(getSku(combo)?.productGroupItems.map(data=> data.productId), product.productId)">{{ p.name }}</option>
                       </select>
                       <select v-if="product.productId" :value="product.productSkuId" v-model="product.productSkuId" style="width: 200px !important" placeholder="Pilih variasi">
-                        <option :value="p.id" v-for="p in getProductById(product.productId)?.productSkus">{{ p.name }}</option>
+                        <option :value="sku.id" v-for="sku in getProductById(product.productId)?.productSkus">{{ getSkuName(sku) }}</option>
                       </select>
                       <div class="flex-row">
                         <input v-model="product.qty" placeholder="Qty" type="number" style="width: 80px; border: 1px solid #dedede;" class="mx-1"/>
@@ -276,8 +276,8 @@ export default {
       const tmpForm = await this.getById(this.$route.params.id);
       this.form = Object.assign(this.form, tmpForm);
       this.form.productCategoryId = this.form.productCategory?.id
-      this.form.brandId = this.form.brand?.id
-      this.form.componentTypeId = this.form.componentType?.id
+      this.form.brandId = this.form.brand?.id || null
+      this.form.componentTypeId = this.form.componentType?.id || null
       this.form.productType = this.form.productType?.name
 
       this.tmpCombinationData = JSON.parse(JSON.stringify(this.form.productSkus))
@@ -353,6 +353,7 @@ export default {
             const exist = this.combinationData.find(
                 (data) => JSON.stringify(data.skuCom??[]) === JSON.stringify(combo)
             );
+            console.log(combo)
             return {
                 id: exist?.id ?? this.$helper.GenerateUUID(this.combinationData.map(cm => cm.id)),
                 price: exist?.price ?? null,
@@ -377,6 +378,16 @@ export default {
    }
   },
   methods: {
+    getSkuName(sku){
+      const product = this.getProductById(sku.productId)
+
+      if(!product?.productSkuVariants || product?.productSkuVariants.length <=0){
+        return sku.name
+      }
+      return product?.productSkuVariants?.filter(data=> data.productSkuId == sku.id)
+            .map(ps=> product.productVariantOptionValues.find(p=> p.id == ps.productVariantOptionValueId)?.name)
+            .join('/')
+    },
     changeDefaultSkuProductgroupItems(index){
       if (this.defaultSku.productGroupItems) {
           const currentProduct = this.getProductById(this.defaultSku.productGroupItems[index]?.productId)

@@ -32,6 +32,12 @@ import helper from "../constant/helper";
 import Payment from "../views/Payment/List.vue";
 import PaymentForm from "../views/Payment/Form.vue";
 
+import SalesReport from "../views/Reports/SalesReport.vue";
+import OrderReport from "../views/Reports/OrderReport.vue";
+import ProductReport from "../views/Reports/ProductReport.vue";
+import StockReport from "../views/Reports/StockReport.vue";
+
+
 
 const label = helper.GetLabel();
 import module from "../constant/module";
@@ -311,7 +317,55 @@ const routes = [
          formMode: constant.formMode.update,
       },
    },
-
+   //Reportss
+   {
+      //List
+      path: `/${constant.router.salesReport}`,
+      name: label.menu.salesReport,
+      component: SalesReport,
+      meta: {
+         module: module.report,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: null,
+      },
+   },
+   {
+      //List
+      path: `/${constant.router.orderReport}`,
+      name: label.menu.orderReport,
+      component: OrderReport,
+      meta: {
+         module: module.report,
+         description: ``,
+         keyword: "", // pemisah pakai koma
+         formMode: null,
+      },
+   },
+   // {
+   //    //List
+   //    path: `/${constant.router.productReport}`,
+   //    name: label.menu.productReport,
+   //    component: ProductReport,
+   //    meta: {
+   //       module: module.report,
+   //       description: ``,
+   //       keyword: "", // pemisah pakai koma
+   //       formMode: null,
+   //    },
+   // },
+   // {
+   //    //List
+   //    path: `/${constant.router.stockReport}`,
+   //    name: label.menu.stockReport,
+   //    component: StockReport,
+   //    meta: {
+   //       module: module.report,
+   //       description: ``,
+   //       keyword: "", // pemisah pakai koma
+   //       formMode: null,
+   //    },
+   // },
 
    /* ========== Others =========== */
    {

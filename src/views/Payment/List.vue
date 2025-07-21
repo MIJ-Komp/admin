@@ -61,7 +61,7 @@
 
    <!-- Dialog Update Payment Status -->
    <Dialog
-         header="Update Payment Status"
+         header="Update Order Status"
          v-model:visible="visiblePayment"
          :style="{ width: '40vw' }"
          :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
@@ -172,7 +172,7 @@ export default {
                 }
             },
             {
-                label: 'Update Payment Status', 
+                label: 'Update Order Status', 
                 action: (data) => {
                   currentOrder.value = data
                   paymentForm.value = {

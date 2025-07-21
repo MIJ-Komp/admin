@@ -13,6 +13,7 @@ import compatibleRule from "./modules/compatibleRule";
 import brand from "./modules/brand.js";
 import payment from "./modules/payment.js";
 import dashboard from "./modules/dashboard.js";
+import reports from "./modules/reports.js";
 
 export default createStore({
    modules: {
@@ -28,6 +29,7 @@ export default createStore({
       compatibleRule,
       brand,
       payment,
-      dashboard
+      dashboard,
+      reports
    },
 });

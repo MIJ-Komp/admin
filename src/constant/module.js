@@ -51,6 +51,12 @@ const module = {
       form: async () => import("../views/Catalog/Product/Form.vue"),
    },
 
+   report: {
+      id: 7,
+      name: "report",
+      // form: async () => import("../views/Catalog/Product/Form.vue"),
+   },
+
    menu: {
       id: 7,
       name: "menu",

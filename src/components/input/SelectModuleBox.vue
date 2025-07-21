@@ -164,7 +164,7 @@ export default {
                   `${this.module.name}/getAll`,
                   this.queryParams
                );
-               console.log(sourceData)
+               // console.log(sourceData)
                const newData = this.sourceData
                   .filter(
                      (data) =>
