@@ -1,9 +1,9 @@
 
 const constant = {
-   apiURL: "http://51.79.255.146:5000/api",
+   apiURL: "https://sandbox-api.mijkomp.id/api",
    // apiURL: "https://12ab882d-51ca-45eb-8fc0-a6c7b2e215c3-00-1f1m8yy73c66d.sisko.replit.dev/api",
    // apiURL: "http://localhost:5000/api",
-   baseURL: "https://dev-admin.mijkomp.id",
+   baseURL: "https://sandbox-admin.mijkomp.id",
    Label: {
       EN: {
          menu: {
@@ -307,6 +307,31 @@ const constant = {
       min:'Max',
       max: 'Min',
       includes: 'Includes',
-   }
+   },
+
+   categoryMap : {
+  Motherboard: { name: 'Komponen Desktop & Laptop/Motherboard', code: '825736' },
+  Processor: { name: 'Komponen Desktop & Laptop/Prosesor', code: '825608' },
+  'Memory (RAM)': { name: 'Komponen Desktop & Laptop/RAM', code: '826120' },
+  'Graphics Card (GPU)': { name: 'Komponen Desktop & Laptop/Graphic Card', code: '825864' },
+  'Power Supply (PSU)': { name: 'Komponen Desktop & Laptop/Unit Catu Daya', code: '825992' },
+  'Storage (SSD/HDD)': { name: 'Penyimpanan Data & Software/Hard Drive', code: '828296' },
+  'CPU Cooler': { name: 'Komponen Desktop & Laptop/Kipas & Heatsink', code: '825480' },
+  'PC Case': { name: 'Komponen Desktop & Laptop/Casing PC', code: '826376' },
+  'Case Fan': { name: 'Komponen Desktop & Laptop/Kipas & Heatsink', code: '825480' },
+  'Thermal Paste': { name: 'Komponen Desktop & Laptop/Kipas & Heatsink', code: '825480' },
+  'Optical Drive': { name: 'Komponen Desktop & Laptop/Drive Optik', code: '826504' },
+  'Sound Card': { name: 'Komponen Desktop & Laptop/Sound Card', code: '826632' },
+  'Network Card': { name: 'Komponen Network/Adaptor Wireless & Network Card', code: '829576' },
+  Monitor: { name: 'Komponen Desktop & Laptop/Monitor', code: '601783' },
+  Keyboard: { name: 'Periferal & Aksesoris/Keyboard & Mouse', code: '601760' },
+  Mouse: { name: 'Periferal & Aksesoris/Keyboard & Mouse', code: '601760' },
+  Speaker: { name: 'Periferal & Aksesoris/Webcam', code: '827144' },
+  Headset: { name: 'Periferal & Aksesoris/Webcam', code: '827144' },
+  'Expansion Card': { name: 'Komponen Desktop & Laptop/Sound Card', code: '826632' },
+  'M.2 Heatsink': { name: 'Komponen Desktop & Laptop/Kipas & Heatsink', code: '825480' },
+  'RGB Controller': { name: 'Periferal & Aksesoris/USB Hub & Card Reader', code: '827016' },
+  'Mounting Bracket': { name: 'Komponen Desktop & Laptop/Casing PC', code: '826376' },
+}
 };
 export default constant;

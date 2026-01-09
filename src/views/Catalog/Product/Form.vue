@@ -15,7 +15,7 @@
 
         </b-col>
         <b-col cols="12" md="6" class="mb-3">
-          <FileInput v-model="form.imageIds" :multiple="true" style="width: 100% !important;"/>
+          <FileInput v-model="form.imageIds" :value="form.imageIds" :required="true" :multiple="true" style="width: 100% !important;"/>
         </b-col>
         <b-col cols="12" class="mt-3">
           <TextEditor :required="false" label="Deskripsi" v-model="form.description" />
@@ -26,32 +26,32 @@
     <!-- Variants Section -->
     <div class="card p-2 mb-4">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">Varian Produk</h5>
+        <h6 class="mb-0">Varian Produk</h6>
         <!-- <Button @click.prevent="" class="p-2" label="Import Varian" style="width: 200px !important" /> -->
       </div>
 
-      <div v-for="(variant, i) in form.productVariantOptions" :key="variant.id" class="variant-section mb-4">
+      <div v-for="(variant, i) in form.productVariantOptions" :key="variant.id" class="variant-section mb-2">
         <div class="d-flex align-items-center gap-1">
-          <TextBox style="width: 300px" :label="`Varian ${i + 1}`" placeholder="Warna, Ukuran, dll..." v-model="variant.name" />
-          <Button style="height: 30px !important; width: fit-content !important;" @click="removeVariant(variant.id)" buttonType="danger" class="mt-4 p-2 mb-2" iconFa="fa fa-times" />
+          <TextBox style="width: 300px" :label="`Varian ${i == 0 ? 'Utama' : 'Sekunder'}`" placeholder="Warna, Ukuran, dll..." v-model="variant.name" />
+          <Button v-if="i != 0" style="height: 30px !important; width: fit-content !important;" @click="removeVariant(variant.id)" buttonType="danger" class="mt-4 p-2 mb-2" iconFa="fa fa-times" />
         </div>
 
-        <div class="mt-1">Opsi:</div>
+        <div class="mt-1 font-small">Opsi:</div>
         <b-row class="ms-2">
-          <b-col v-for="(option, j) in getVariantOptionValues(variant.id)" :key="option.id" class="mt-2 p-1" cols="12" lg="3" md="4" sm="4">
+          <b-col v-for="(option, j) in getVariantOptionValues(variant.id)" :key="option.id" class="mt-2 p-0 ms-3" cols="12" lg="3" md="4" sm="4" style="width: auto;">
             <div class="d-flex gap-1">
               <TextBox  placeholder="Merah, Hijau, XL..." v-model="option.name" />
               <Button v-if="j !== 0 || getVariantOptionValues(variant.id).length > 1" @click="removeOption(option.id)" buttonType="danger" iconFa="fa fa-times" class="p-1 mb-2" style="height: 30px !important; width: fit-content !important;"/>
             </div>
           </b-col>
-          <b-col cols="auto" class="mt-2 p-1">
-            <Button style="height: 30px;" @click.prevent="addMoreVariantOption(variant.id)" buttonType="secondary" class="ps-3 pe-3" label="Tambah Opsi" />
+          <b-col cols="auto" class="mt-2 p-0 ms-2">
+            <Button style="height: 30px;" @click.prevent="addMoreVariantOption(variant.id)" buttonType="secondary" class="ps-2 pe-2" label="Tambah Opsi" />
           </b-col>
         </b-row>
       </div>
 
       <div style="display: flex; justify-content: end;">
-        <Button class="p-2 ps-4 pe-4" style="width: fit-content !important;" @click.prevent="addMoreVariant()" iconFa="fa fa-plus"  label="Tambah Varian" />
+        <Button class="p-2 ps-4 pe-4" v-if="form.productVariantOptions.length <= 1" style="width: fit-content !important;" @click.prevent="addMoreVariant()" iconFa="fa fa-plus"  :label="`Tambah Varian ${form.productVariantOptions.length == 1 ? 'Sekunder':''}`" />
       </div>
     </div>
 
@@ -70,7 +70,7 @@
                 <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
                   <td v-if="variant.name?.trim() && getVariantOptionValues(variant.id).filter(data=> data.name?.trim()).length > 0" style="place-items: center;">
                     <div>{{ variant.name }}</div>
-                    <div style="font-size: 10px;">(variant {{ i+1 }})</div>
+                    <div style="font-size: 10px;">(Variant {{ i == 0 ? 'utama' : 'sekunder' }})</div>
                     </td>
                 </template>
                 <td v-if="form.productType == $constant.productType.group">Product Items</td>
@@ -78,6 +78,7 @@
                 
                 <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
                 <td>Price</td>
+                <td>Weight(gr)</td>
                 <td>Stock</td>
                 <td>Stock Alert</td>
                 <!-- <td>Kode</td> -->
@@ -88,7 +89,7 @@
                     <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
                         <td v-if="variant.name?.trim() && getVariantOptionValues(variant.id).filter(data=> data.name?.trim()).length > 0" style="place-items: center;">
                            <div>{{ variant.name }}</div>
-                           <div style="font-size: 10px;">(variant {{ i+1 }})</div>
+                           <div style="font-size: 10px;">(variant {{ i == 0 ? 'utama' : 'sekunder' }})</div>
                            </td>
                      </template>
 
@@ -120,6 +121,7 @@
                         </template>
                       </td>
                      <td><input placeholder="Input Price" type="number" v-model="defaultSku.price"></td>
+                     <td><input placeholder="Input Weight(gr)" type="number" v-model="defaultSku.weight"></td>
                      <td><input placeholder="Input Stock" v-model="defaultSku.stock"></td>
                      <td><input placeholder="Input Stock Alert" v-model="defaultSku.stockAlert"></td>
                      <!-- <td><input placeholder="Input Kode" v-model="defaultSku.code"></td> -->
@@ -139,13 +141,14 @@
                 <template v-for="(variant, i) in form.productVariantOptions" :key="variant.id">
                   <td v-if="variant.name?.trim() && getVariantOptionValues(variant.id).filter(data=> data.name?.trim()).length > 0" style="place-items: center;">
                     <div>{{ variant.name }}</div>
-                    <div style="font-size: 10px;">(variant {{ i+1 }})</div>
+                    <div style="font-size: 10px;">(variant {{ i == 0 ? 'utama' : 'sekunder' }})</div>
                     </td>
                 </template>
                 <td v-if="form.productType == $constant.productType.group">Product Items</td>
                 <td>SKU Name</td>
                 <td v-if="form.specs.filter(data=> data).length > 0">Spec</td>
                 <td>Price</td>
+                <td>Weight(gr)</td>
                 <td>Stock</td>
                 <td>Stock Alert</td>
                 <!-- <td>Kode</td> -->
@@ -193,8 +196,10 @@
                     </template>
                   </td>
                 <!-- tambahkan kolom input lainnya di sini -->
-                  <td><input type="number" placeholder="Input Price" :value="getSku(combo)?.price"
-                      @change="updateSku(combo, 'price', $event.target.value)"></td>
+                <td><input type="number" placeholder="Input Price" :value="getSku(combo)?.price"
+                    @change="updateSku(combo, 'price', $event.target.value)"></td>
+                <td><input type="number" placeholder="Input Weight(gr)" :value="getSku(combo)?.weight"
+                    @change="updateSku(combo, 'weight', $event.target.value)"></td>
                 <td><input placeholder="Input Stock" :value="getSku(combo)?.stock"
                       @change="updateSku(combo, 'stock', $event.target.value)"></td>
                 <td><input placeholder="Input Stock Alert" :value="getSku(combo)?.stockAlert"
@@ -240,6 +245,7 @@ export default {
       },
       defaultSku:{
          price: null,
+         weight: null,
          stock: null,
          stockAlert: null,
          name: null,
@@ -357,6 +363,7 @@ export default {
             return {
                 id: exist?.id ?? this.$helper.GenerateUUID(this.combinationData.map(cm => cm.id)),
                 price: exist?.price ?? null,
+                weight: exist?.weight ?? null,
                 stock: exist?.stock ?? null,
                 stockAlert: exist?.stockAlert ?? null,
                 name: exist?.name ?? `Variasi ${index + 1}`,
@@ -470,8 +477,7 @@ export default {
     generateModelRequest(){
       var params = JSON.parse(JSON.stringify(this.form))
       params.productSkus = JSON.parse(JSON.stringify(this.combinationData))
-      params.brandId = params.brandId && params.brandId.length > 0 && params.brandId != "" ? params.brandId : null
-      
+      params.brandId = !this.$helper.IsEmpty(params.brandId) ? params.brandId : null
       if(params.productType == this.$constant.productType.group){
         params.componentTypeId = null
         // params.productCategoryId = null
@@ -480,6 +486,7 @@ export default {
       params.productSkuVariants= []
       params.productSkus.forEach(sku => {
           sku.price = parseInt(sku?.price??0)
+          sku.weight = parseInt(sku?.weight??0)
           sku.stock = parseInt(sku?.stock??0)
           sku.stockAlert = parseInt(sku?.stockAlert??0)
           sku.isActive = true;
@@ -498,16 +505,24 @@ export default {
       return params
     },
    doCreate(){
+      if(this.form.imageIds.length <= 0){
+         return Promise.reject("Please upload at least one image for the product.")
+      }
       var params = this.generateModelRequest()
       return this.create(params);
    },
    doUpdate(){
+     if(this.form.imageIds.length <= 0){
+         this.$showToast.error("Please upload at least one image for the product.")
+         return Promise.reject("Please upload at least one image for the product.")
+      }
       var params = this.generateModelRequest()
       return this.update(params);
    },
    applyToAllSku(){
       this.combinationData.forEach(data=>{
          data.price =  this.defaultSku.price || data.price
+         data.weight =  this.defaultSku.weight || data.weight
          data.stock =  this.defaultSku.stock || data.stock
          data.stockAlert =  this.defaultSku.stockAlert || data.stockAlert
          data.name =  this.defaultSku.name || data.name
@@ -538,8 +553,8 @@ export default {
                return existSpec
             })
       })
-   },
-   getSku(combo) {
+  },
+  getSku(combo) {
     return this.combinationData.find(data => JSON.stringify(data.skuCom) === JSON.stringify(combo));
   },
   updateSku(combo, key, value) {
@@ -658,8 +673,8 @@ export default {
 }
 
 .variant-section {
-  background: #f8f9fa;
-  padding: 1.5rem;
+  background: #f3f7fc;
+  padding: 8px;
   border-radius: 6px;
 }
 

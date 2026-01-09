@@ -16,9 +16,9 @@
             />
          </b-col>
 
-         <b-col cols="12">
+         <!-- <b-col cols="12">
             <SelectModuleBox :required="false" :module="$module.productCategory" label="Parent Category" v-model="form.parentId"/>
-         </b-col>
+         </b-col> -->
          
          <!-- <b-col cols="12">
           <TextArea :required="false" label="Deskripsi">

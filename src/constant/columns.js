@@ -2,9 +2,17 @@ import { TTLockRecordStatus } from "./enums/TTLockRecordStatus";
 import helper from './helper.js'
 import moment from 'moment'
 
+function htmlToPlainText(html) {
+  if (!html) return ''
+  const div = document.createElement('div')
+  div.innerHTML = html
+  // textContent = buang semua tag, sisain text
+  return div.textContent || div.innerText || ''
+}
+
 const columns = {
    addOn: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       {
          headerName: "Price",
          field: "Price",
@@ -27,7 +35,7 @@ const columns = {
    ],
    productVariant: [
       { headerName: "Id", field: "id" },
-      { headerName: "Name", field: "name" },
+      { headerName: "Nama", field: "name" },
    ],
    deviceGateway: [
       { headerName: "Nama", field: "name" },
@@ -35,7 +43,7 @@ const columns = {
    ],
    deviceLock: [
       { headerName: "Device Name", field: "Alias" },
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Lock Id", field: "TTLockId" },
    ],
    paymentMethod: [
@@ -44,7 +52,7 @@ const columns = {
       { headerName: "Posisi", field: "Posisi" },
       { headerName: "Akti", field: "IsActive" },
    ],
-   paymentType: [{ headerName: "Name", field: "name" }],
+   paymentType: [{ headerName: "Nama", field: "name" }],
    paymentHistory: [
       { headerName: "Status", field: "StatusText" },
       { headerName: "Booking ID", field: "Id" },
@@ -127,34 +135,49 @@ const columns = {
       // { headerName: "Created By", field: "CreatedByName" },
    ],
    product: [
-      { headerName: "Name", field: "name" },
-      { headerName: "ComponentType", field: "componentType", 
-         valueFormatter: (params) => {
-            if(params.data){
-               return params.data?.componentType?.code;
-            }
-         },
-       },
-      { headerName: "Description", field: "description" },
+      { headerName: "Nama", field: "name" },
+      { headerName: "Tipe Komponen", field: "componentType.code"}, 
+      { headerName: "Kategori", field: "productCategory.name"},
+      { headerName: "Jumlah Variasi", 
+          valueFormatter: (params) => {
+               return params.data?.productSkus.length;
+         }
+      }, 
+      { headerName: "Description", valueFormatter: (params) => {
+               return htmlToPlainText(params.data?.description);
+         } },
+   ],
+   productBundle: [
+      { headerName: "Nama", field: "name" },
+      { headerName: "Tipe Komponen", field: "componentType.code"}, 
+      { headerName: "Kategori", field: "productCategory.name"},
+      { headerName: "Jumlah Variasi", 
+          valueFormatter: (params) => {
+               return params.data?.productSkus.length;
+         }
+      }, 
+      { headerName: "Description", valueFormatter: (params) => {
+               return htmlToPlainText(params.data?.description);
+         }  },
    ],
    productCategory: [
       { headerName: "Id", field: "id" },
-      { headerName: "Name", field: "name" },
+      { headerName: "Nama", field: "name" },
       { headerName: "ParentId", field: "parentId" },
    ],
    componentType: [
       { headerName: "Id", field: "id" },
-      { headerName: "Name", field: "name" },
+      { headerName: "Nama", field: "name" },
       { headerName: "Code", field: "code" },
       { headerName: "Description", field: "description" },
    ],
    compatibleRule: [
       { headerName: "Id", field: "id" },
-      { headerName: "Name", field: "name" },
+      { headerName: "Nama", field: "name" },
    ],
    brand: [
       { headerName: "Id", field: "id" },
-      { headerName: "Name", field: "name" },
+      { headerName: "Nama", field: "name" },
    ],
    payment: [
       { headerName: "Code", field: "code" },
@@ -212,12 +235,8 @@ const columns = {
          cellStyle: { "text-align": "center" },
       },
    ],
-   productBundle: [
-      { headerName: "Name", field: "name" },
-      { headerName: "Description", field: "description" },
-   ],
    user: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Email", field: "Email" },
       { headerName: "Phone Number", field: "PhoneNumber" },
       // { headerName: "Role", field:'role'  },
@@ -225,7 +244,7 @@ const columns = {
       // { headerName: "Status", field:'sttaus'  },
    ],
    member: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Email", field: "Email" },
       { headerName: "Phone Number", field: "PhoneNumber" },
       { headerName: "Birth Date", field: "BirthDate" },
@@ -234,19 +253,19 @@ const columns = {
    ],
 
    roomTypePrice: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Property", field: "PropertyName" },
       { headerName: "Nama pada Website", field: "AliasName" },
       { headerName: "Jumlah Kamar", field: "AmountRoom" },
    ],
    roomTypeNoPrice: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Property", field: "PropertyName" },
       { headerName: "Jumlah Kamar", field: "AmountRoom" },
    ],
 
    roomNoPrice: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Kode Kamar", field: "Code" },
 
       { headerName: "Property", field: "PropertyName" },
@@ -267,7 +286,7 @@ const columns = {
       },
    ],
    roomPrice: [
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Kode Kamar", field: "Code" },
       { headerName: "Property", field: "PropertyName" },
       { headerName: "Room Type", field: "RoomTypeName" },
@@ -378,7 +397,7 @@ const columns = {
       }
    ],
    generatePin:[
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Interval Generate(day)", field: "GenerateEvery" },
       { headerName: "Generate Pada", field: "GenerateOn" },
       { headerName: "Role Name", field: "RoleName" },
@@ -388,7 +407,7 @@ const columns = {
       { headerName: "End Time", field: "EndTime" },
    ],
    manualPin:[
-      { headerName: "Name", field: "Name" },
+      { headerName: "Nama", field: "Name" },
       { headerName: "Room", field: "RoomName" },
       { headerName: "PIN", field: "PIN" },
       { headerName: "Start Date", field: "StartDate" },

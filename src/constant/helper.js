@@ -24,7 +24,7 @@ function GenerateUUID(exist) {
 }
 function IsEmpty(str) {
    if(!str) return true
-   return !str.trim();
+   return !str.toString().trim();
 }
 
 function UpperCaseFirstChar(string) {

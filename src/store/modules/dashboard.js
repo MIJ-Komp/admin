@@ -1,5 +1,6 @@
 import axios from '../axios'
-import moment from 'moment/moment';
+import moment from 'moment';
+
 const state = {
    totalSales: 0,
    totalOrder: 0,
@@ -24,9 +25,9 @@ const actions = {
    async getDashboardData({ commit }, params) {
       const response = await axios.get('/admin/dashboard', { 
          params: {
-            fromDate: params?.startDate ? moment(params?.startDate).format("yyyy-MM-DD") : null,
-            toDate: params?.endDate ? moment(params?.endDate).format("yyyy-MM-DD") : null,
-            // filterCategory: params?.filterCategory
+            fromDate: moment(params?.startDate).format('YYYY-MM-DD'),
+            toDate: moment(params?.endDate).format('YYYY-MM-DD'),
+            filterCategory: params?.filterCategory
          }
       });
       commit('setDashboardData', response);

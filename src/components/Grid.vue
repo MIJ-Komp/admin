@@ -218,7 +218,7 @@ export default {
                // });
                this.columns.push({
                   headerName: "Last Modified On",
-                  field: "updatedAt",
+                  field: "modifiedAt",
                   valueFormatter: (params) => {
                      if (params.data) {
                         return params.data.UpdatedOn

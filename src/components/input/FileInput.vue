@@ -108,12 +108,12 @@ export default {
       value: {
          handler() {
             setTimeout(() => {
-               this.currentId = this.value.map((v) => v.ImageId);
-
+               this.currentId = this.value.map((v) => v);
+               
                this.fileList = this.value.map((v) => ({
-                  id: v.ImageId,
-                  name: v.Image.FileName,
-                  preview: v.Image ? `${constant.apiURL}/images/${v.Image.FileName}` : `${constant.apiURL}/image/${v.ImageId}`,
+                  id: v,
+                  name: v,
+                  preview: `${constant.apiURL}/files?id=${v}`,
                }));
             }, 100);
          },
@@ -127,7 +127,7 @@ export default {
                         {
                            // id: v.ImageId,
                            // name: v.Image.FileName,
-                           preview: `${constant.apiURL}/image/${this.currentId}`,
+                           preview: `${constant.apiURL}/files?id=${this.currentId}`,
                         }
                      ]
                   }, 100);
