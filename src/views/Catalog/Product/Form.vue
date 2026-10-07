@@ -1,5 +1,5 @@
 <template>
-  <MIJForm :formData="formData" :createAction="doCreate" :updateAction="doUpdate" :showCancel="showCancel" @cancel="$emit('cancel')">
+  <MIJForm :formData="formData" :createAction="doCreate" :updateAction="doUpdate" :showCancel="showCancel" :formMode="formMode" @cancel="$emit('cancel')">
     <!-- Basic Info Section -->
     <div class="card p-2 mb-4">
       <h5 class="mb-3">Informasi Dasar</h5>
@@ -33,7 +33,7 @@
       <div v-for="(variant, i) in form.productVariantOptions" :key="variant.id" class="variant-section mb-2">
         <div class="d-flex align-items-center gap-1">
           <TextBox style="width: 300px" :label="`Varian ${i == 0 ? 'Utama' : 'Sekunder'}`" placeholder="Warna, Ukuran, dll..." v-model="variant.name" />
-          <Button v-if="i != 0" style="height: 30px !important; width: fit-content !important;" @click="removeVariant(variant.id)" buttonType="danger" class="mt-4 p-2 mb-2" iconFa="fa fa-times" />
+          <Button style="height: 30px !important; width: fit-content !important;" @click="removeVariant(variant.id)" buttonType="danger" class="mt-4 p-2 mb-2" iconFa="fa fa-times" />
         </div>
 
         <div class="mt-1 font-small">Opsi:</div>
@@ -221,6 +221,10 @@ import module from '../../../constant/module';
 export default {
   props: {
     showCancel: { type: Boolean, default: false },
+    formMode: {
+         type: [String, Number],
+         default: null
+      }
   },
   data() {
     return {

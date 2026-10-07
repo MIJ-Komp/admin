@@ -4,6 +4,7 @@
       :createAction="doCreate"
       :updateAction="doUpdate"
       :showCancel="showCancel"
+      :formMode="formMode"
       @cancel="$emit('cancel')">
         <b-row>
             <b-col sm="6" class="mt-4">
@@ -230,6 +231,10 @@ export default {
   },
   props: {
       showCancel: { type: Boolean, default: false },
+        formMode: {
+             type: [String, Number],
+             default: null
+        }
    },
   methods: {
     checkedAllProperties(){

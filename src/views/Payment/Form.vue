@@ -3,6 +3,7 @@
       :formData="formData"
       :showCancel="showCancel"
       :showSave="false"
+      :formMode="formMode"
       @cancel="$emit('cancel')"
       class="ps-4 pe-4"
       v-if="currentOrder"
@@ -69,6 +70,10 @@ import { mapActions } from "vuex";
 export default {
    props: {
       showCancel: { type: Boolean, default: false },
+      formMode: {
+         type: [String, Number],
+         default: null
+      }
    },
    methods: {
       ...mapActions(module.payment.name, ["create", "getById", "update"]),

@@ -142,7 +142,7 @@
          :style="{ width: '70vw' }"
          :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
       >
-         <component :is="formModal" :showCancel="true" @cancel="doCancel" />
+         <component :is="formModal" :showCancel="true" @cancel="doCancel" :formMode="$constant.formMode.create" />
       </Dialog>
    </div>
 </template>

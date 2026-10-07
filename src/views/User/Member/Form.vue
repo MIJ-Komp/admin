@@ -3,6 +3,7 @@
    :formData="formData"
    :createAction="doCreate"
    :updateAction="doUpdate"
+   :formMode="formMode"
    :showCancel="showCancel"
    @cancel="$emit('cancel')"
    >
@@ -44,6 +45,10 @@ import module from "../../../constant/module";
 export default {
    props: {
       showCancel: { type: Boolean, default: false },
+      formMode: {
+         type: [String, Number],
+         default: null
+      }
    },
    methods: {
       doCreate() {

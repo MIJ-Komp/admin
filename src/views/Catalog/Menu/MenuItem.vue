@@ -90,16 +90,7 @@ export default {
     }
   },
   watch:{
-    item: {
-         deep: true,
-         immediate: true,
-         handler(newVal) {
-            this.editing = false
-            if(newVal && !newVal.id){
-              this.editing = true
-            }
-         }
-    }
+    
   },
   // async mounted(){
   //   this.editing = false
@@ -207,7 +198,14 @@ export default {
         return
       }
         if(this.item.id){
-
+          this.update(this.item)
+          .then((res)=>{
+             this.$showToast.success('Success update menu')
+            this.cancelEdit()
+          })
+          .catch((err)=>{
+            this.$showToast.error('Failed to update menu',err)
+          })
         }
         else{
           this.create(this.item)

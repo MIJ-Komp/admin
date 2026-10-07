@@ -22,7 +22,7 @@
             <b-col cols="auto">
                <div class="d-flex">
                   <Button class="ps-4 pe-4" @click.prevent="cancel"  buttonType="danger" label="cancel" style="margin-right: 20px;" 
-                  v-if="showCancel || ($route && $route.meta && $route.meta.formMode === $constant.formMode.update)"/>
+                  v-if="showCancel || (this.modeForm === this.$constant.formMode.update)"/>
                   <Button v-if="showSave" class="ps-4 pe-4" type="submit" buttonType="primary" label="Save" :isLoading="process" />
                </div>
             </b-col>
@@ -85,29 +85,38 @@ export default {
             // // console.log('No Delete Action')
          },
       },
+      formMode: {
+         type: [String, Number],
+         default: null
+      }
    },
-   computed: {
-      mode() {
-         if (this.$route && this.$route.meta && this.$route.meta.formMode) {
-            return this.$route.meta.formMode == this.$constant.formMode.create
-               ? this.$label.action.create
-               : this.$route.meta.formMode == this.$constant.formMode.update
-               ? this.$label.action.update
-               : null;
-         }
-         return null;
-      },
-      formTitle() {
-         return "";
-      },
+computed: {
+   modeForm() {
+      return this.formMode || (this.$route && this.$route.meta ? this.$route.meta.formMode : null);
    },
+   mode() {
+      if (this.modeForm) {
+         return this.modeForm == this.$constant.formMode.create
+            ? this.$label.action.create
+            : this.modeForm == this.$constant.formMode.update
+            ? this.$label.action.update
+            : null;
+      }
+
+      return null;
+   },
+
+   formTitle() {
+      return "";
+   },
+},
    methods: {
       cancel(){
          if(this.showCancel){
             this.$emit('cancel')
             return
          }
-         else if(this.$route.meta.formMode === this.$constant.formMode.update){
+         else if(this.modeForm === this.$constant.formMode.update){
             if (this.redirect) {
                this.$router.push({
                   path: this.redirect,
@@ -151,7 +160,7 @@ export default {
             }
          }
 
-         if (this.$route.meta.formMode === this.$constant.formMode.update) {
+         if (this.modeForm === this.$constant.formMode.update) {
             this.updateAction()
                .then((response) => {
                   this.$showToast.success(

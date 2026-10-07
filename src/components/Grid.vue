@@ -221,8 +221,8 @@ export default {
                   field: "modifiedAt",
                   valueFormatter: (params) => {
                      if (params.data) {
-                        return params.data.UpdatedOn
-                           ? this.$moment(params.data.updatedAt).format(
+                        return params.data.modifiedAt
+                           ? this.$moment(params.data.modifiedAt).format(
                                 "DD MMM yyyy HH:mm:ss"
                              )
                            : "-";

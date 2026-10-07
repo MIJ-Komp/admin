@@ -4,6 +4,7 @@
    :createAction="doCreate"
    :updateAction="doUpdate"
    :showCancel="showCancel"
+   :formMode="formMode"
    @cancel="$emit('cancel')"
    >
       <b-row>
@@ -44,6 +45,10 @@ import module from "../../../constant/module";
 export default {
    props: {
       showCancel: { type: Boolean, default: false },
+      formMode: {
+         type: [String, Number],
+         default: null
+      }
    },
    methods: {
       doCreate() {

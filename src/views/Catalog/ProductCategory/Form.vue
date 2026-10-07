@@ -4,6 +4,7 @@
       :createAction="doCreate"
       :updateAction="doUpdate"
       :showCancel="showCancel"
+      :formMode="formMode"
       @cancel="$emit('cancel')"
    >
       <b-row>
@@ -34,6 +35,10 @@ import { mapActions } from "vuex";
 export default {
    props: {
       showCancel: { type: Boolean, default: false },
+      formMode: {
+         type: [String, Number],
+         default: null
+      }
    },
    methods: {
       doCreate() {

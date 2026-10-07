@@ -20,10 +20,10 @@ const actions = {
         return await axios.delete(`/admin/menus/${id}`)
     },
     async update({commit}, data){
-        return await axios.put(`/admin/products/${data.id}`, data)
+        return await axios.put(`/admin/menus/${data.id}`, data)
     },
     async getById({commit}, id){
-        return await axios.get(`/admin/products/${id}`)
+        return await axios.get(`/admin/menus/${id}`)
     },
     async createMenuItem({commit}, data){
         console.log(data)

@@ -96,7 +96,7 @@ export default {
                     var error = null
                     for (let i = 0; i < selectedData.length; i++) {
                         try{
-                            const request = await this.$store.dispatch(`${this.module.name}/delete`, selectedData[i].Id)
+                            const request = await this.$store.dispatch(`${this.module.name}/delete`, selectedData[i].Id || selectedData[i].id)
                             success += 1
                         }
                         catch(err){
